@@ -1,0 +1,63 @@
+
+# Beskrivande statistik
+Utifrån ett datamaterial innehållande många observationer kan man ibland behöva sammanfatta informationen för att kunna förmedla eller analysera materialet vidare. Här följer några grundläggande funktioner som finns i R som kan användas för att underlätta beräkningarna av dessa.
+
+## Matematiska funktioner
+Som tidigare exempel redan tagit upp i [tidigare kapitel](#basic_R) finns det redan skapade funktioner i R som kan utföra de matematiska beräkningar som vi behöver för beskrivande mått.  
+  
+  - `mean()` - beräknar *medelvärdet* av en variabel,
+  - `sd()` - beräknar *standardavvikelsen* av en variabel,
+  - `var()` - beräknar *variansen* av en variabel,
+  - `sum()` - beräknar *summan* av en variabel,
+  - `length()` - beräknar *längden/antalet* av en variabel,
+  - `min()` - anger det *minsta värdet* av en variabel, 
+  - `max()` - anger det *största värdet* av en variabel,
+  - `median()` - beräknar *medianen* av en variabel,
+  - `quantile()` - beräknar angivna *percentiler* av en variabel.
+  
+För att med `quantile()`-funktionen beräkna fram den första och tredje kvartilen måste argumentet `probs = c(25, 75)` anges tillsammans med variabeln som dessa ska beräknas från.
+
+Just för beskrivande statistik kan man istället för att enskilt beräkna alla ovanstående mått, använda funktionen `summary()`. Denna funktion anger minsta och största värde, första och tredje kvartilen, samt medelvärde och median.
+
+## Fördelningar 
+Vi kan också vilja sammanfatta material i form av en fördelning, en förteckning över *vilka värden* och *hur ofta* de förekommer i variabeln. Tidigare kapitel har presenterat hur vi kan visualisera fördelningar i olika sorters diagram, stapeldiagram eller histogram, för olika sorters variabler, men vi kan också vilja använda någon av de generella fördelningarna för att beräkna sannolikheter eller andelar för en population.
+
+### Normalfördelningen
+Med R kommer vi kunna beräkna matematiskt (integrera) ytan under kurvan för olika värden istället för att vara begränsad till den standardiserade normalfördelningstabellen. Funktionerna som vi kommer vilja använda här är:
+
+#### Beräkna sannolikheter från givna värden
+Funktionen `pnorm()` används för att beräkna andelar eller sannolikheter för givna utfall som vi är intresserade av. 
+
+```{r}
+
+pnorm(q = 1.96, mean = 0, sd = 1, lower.tail = TRUE)
+
+```
+
+I exemplet ovan anger vi att vi vill beräkna uttrycket $Pr(X \le 1.96)$ där $X \sim N(\mu = 0, \sigma = 1)$. Argumentet `lower.tail` som kan vara antingen `TRUE` eller `FALSE` anger vilket håll uttrycket ska beräknas. 
+
+Om vi istället är intresserad av området till höger om $1.96$, $Pr(X > 1.96)$ behöver vi ändra i funktionen till:
+
+```{r}
+
+pnorm(q = 1.96, mean = 0, sd = 1, lower.tail = FALSE)
+
+```
+
+Här kan vi alltså ange vilken normalfördelning som helst genom att ändra värden på argumenten `mean` och `sd`. Det som vi måste hålla reda på är vilken sida av fördelningen som är av intresse och ange värdet för `lower.tail` utefter. *Det är också med dessa funktioner som p-värden kan räknas ut.*
+
+#### Beräkna värden från givna sannolikheter
+Funktionen `qnorm()` används när vi vill beräkna värden (tabellvärden) utifrån givna sannolikheter.
+
+```{r}
+
+qnorm(p = 0.025, mean = 0, sd = 1, lower.tail = TRUE)
+
+```
+
+I ovan exempel beräknar vi vilket värde ($z$) från den standardiserade normalfördelningen som uppfyller uttrycket $Pr(Z\le z) = 0.025$.
+
+Om vi istället är intresserade av ytor på den högra sidan av fördelningen kan vi likt tidigare ange `lower.tail = FALSE` och då få ett uttryck likt $Pr(Z > z) = 0.025$ istället.
+
+Det är på detta sätt som tabellvärden beräknas fram till hypotesprövningar och intervallskattningar. Sannolikheten som vi är intresserade av blir då den angivna signifikansnivån.
+  

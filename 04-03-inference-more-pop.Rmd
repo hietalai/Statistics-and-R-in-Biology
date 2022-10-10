@@ -1,0 +1,146 @@
+
+## Jämförelse mellan fler än två grupper
+När vi vill jämföra fler än två grupper behöver vi använda oss utav andra metoder för att detta ska ske korrekt. Dessa metoder kallas för ANOVA som betyder ANalysis Of VAriance och tittar specifikt på skillnader i varianserna inom och mellan grupperna. Om en sådan jämförelse visar på att skillnader finns är det av intresse att identifiera mellan vilka specifika grupper som skillnader råder. Då fler än två grupper ska jämföras fungerar inte de tidigare metoderna utan vi måste nu titta på *multipla jämförelser* för att undersöka detta. Vi kommer även titta på fall där kravet om normalfördelning inte uppfylls och frågan måste besvaras med icke-parametriska metoder.
+
+Vi kan även tillämpa ANOVA vid tillfällen då vi har flera faktorer som vi anser påverka mätvariabeln. Vi behöver endast använda *ett* test som samtidigt kan testa för skillnader mellan olika nivåer av respektive faktor samt ifall faktorerna verkar interagera med varandra.
+
+### Envägs-ANOVA
+När vi vid tidigare metoder kontrollerade kraven som metoderna har var riskerna vid ett antagande om uppfyllda krav inte så stora. När vi ska använda oss av ANOVA-metoder **måste** följande krav vara uppfyllda, annars kommer slutsatserna som tas inte alls överensstämma med sanningen.
+
+1. Oberoende måste råda **både** *inom* gruppernas observationer och *mellan* grupperna.
+
+2. Mätvariabeln för alla grupper måste verka vara normalfördelad *med lika varians*.
+
+Dessa krav är dock svårt att bedöma och inom denna kurs avgränsar vi oss endast till att veta att dessa krav finns, men kontrollerar dem inte.
+
+Notera att det finns metoder som inte antar lika varians men dessa tas inte upp i denna kurs.
+
+#### F-test
+Ett F-test är en form av hypotesprövning där fler än två medelvärden jämförs. Detta betyder att samma fem*stegsprocess som presenterats tidigare i kursen kan användas. Notera att steg 1 om antaganden inte kommer fokuseras på.
+
+Hypoteserna som testas måste här visa att vi dels undersöker medelvärden, samt att vi undersöker ifall det råder en skillnad mellan dessa $k$ grupper. 
+
+\begin{align*}
+
+H_0 &: \mu_1 = \mu_2 = ... = \mu_k \\
+H_a &: \text{Minst två av } \mu_i \text{ i } H_0 \text{ är olika}
+
+\end{align*}
+
+Alla värden som vi behöver för att kunna ta ett beslut om att förkasta eller inte förkasta den angivna $H_0$ tar vi från en ANOVA-tabell. Funktionen som används i R för att skapa denna tabell är `aov()`.
+
+##### Datastruktur
+Innan vi kan gå in på funktionen måste vi strukturera data på ett sätt som möjliggör analys. Vi kommer nu använda den struktur som vi har sett tidigare med en kolumn som indikerar på mätvariabelns värde för varje observation och en grupperingskolumn som anger vilken faktornivå som varje observation tillhör. 
+
+Exempelvis kan data se ut som följer:
+  
+  ```{r insects, echo = FALSE, eval = TRUE}
+
+kable(InsectSprays[sort(sample(1:nrow(InsectSprays), size = 10)),], format = "html", caption = "Urval av observerade antalet insekter som hittas på områden som behandlas med olika bekämpningsmedel (spray)", row.names = FALSE) %>%
+  kable_styling(position = "center", full_width = FALSE)
+
+```
+
+#### `aov()`
+
+Funktionen har följande argument:
+  
+  - `formula` - anger strukturen av modellen med strukturen `mätvariabel ~ grupperingsvariabel`,
+- `data` - anger vilket datamaterial som ska analyseras.
+
+Om vi bara skulle köra funktionen likt vi har gjort vid tidigare metoder, kommer vi få en väldigt begränsad utskrift. Istället bör vi spara objektet som funktionen skapar till en ny variabel och använda andra funktioner för att hitta mer detaljerad information. I exemplet nedan sparas ANOVA-analysen i objektet `anova_insect`.
+
+```{r}
+
+anova_insect <- aov(formula = count ~ spray, data = InsectSprays)
+
+```
+
+För att få ut en ANOVA-tabell används funktionen `summary()`. Det är en funktion som sammanfattar olika objekt på olika sätt, och från `aov()` resulterar det i en ANOVA-tabell likt nedan.
+
+```{r}
+
+summary(anova_insect)
+
+```
+
+Tabellen ser annorlunda ut jämfört med det som vi sett tidigare i SPSS, där den största skillnaden är att en rad för TOTAL saknas i R. Den är egentligen inte viktig då all information som behöver användas för F-testet finns ändå.
+
+I utskriften har vi frihetsgraderna (`Df`), kvadratsummorna SS (`Sum Sq`), medelkvadratsummorna MS (`Mean Sq`), F-testvariabeln (`F-value`) och p-värdet (`Pr(>F)`). 
+
+Notera att R använder sig av vetenskaplig notation vilket innebär att `e` motsvarar den matematiska beräkningen `10 upphöjt till`. I tabellen ovan anges p-värdet som <2e-16 vilket egentligen blir $2\cdot 10^{\text{-}16} = 0.0000000000000002$.
+
+#### Multipla jämförelser
+Om vi i F-testet kan förkasta $H_0$ till förmån för mothypotesen vet vi att det finns en skillnad mellan minst två medelvärden, men inte vilka. Det är nu intressant att göra jämförelser för att bedöma mellan vilka av de $k$ grupper, medelvärdena skiljer sig åt. Denna bedömning görs med metoder som kallas multipla jämförelser som parvist jämför alla grupper med en sammanlagd konfidensgrad.
+
+Dessa jämförelser beräknas i R med ett nytt paket, nämligen `multcomp`. Glöm inte att installera paketet genom `install.packages("multcomp")` och ladda in paketet genom `require(multcomp)`.
+
+#### Tukey-test
+Om vi är intresserade av att jämföra alla grupper i vår faktor (även kallad alla faktornivåer) bör vi beräkna **Tukey**-test. Funktionen för dessa beräkningar i R är `TukeyHSD()`. 
+
+Det enda argument som behöver anges är `x` där vi anger det ANOVA-objekt som skapades innan. Vi kan också ändra familje-konfidensen (alltså den konfidensgrad som sammanlagt gäller) med argumentet `conf.level`.
+
+```{r}
+
+TukeyHSD(x = anova_insect)
+
+```
+
+Utskriften visar alla jämförelser i kolumnen längst till vänster och de efterföljande kolumnerna innehåller differensen i stickprovet, beräknade konfidensintervall, samt p-värdet för testet.
+
+#### Dunnett-test
+Om vi har en kontrollgrupp som en av grupperna och vi har ett intresse av att *endast* jämföra alla andra grupper med denna kontrollgrupp bör vi beräkna **Dunnett**-test. Funktionen för detta test, `glht()`, är lite rörig så vi delar upp den i två steg.
+
+Funktionen kräver två argument:
+  
+  - `model` - anger det ANOVA-objekt som beräknats sedan tidigare,
+- `linfct` - anger vilken typ utav funktion (jämförelse) som ska beräknas.
+
+I `linfct` behöver vi ange `mcp(grupperingsvariabeln = "Dunnett")` där `mcp` står för *m*ultiple *c*om*p*arison. 
+
+För att få information som kan användas för att bedöma ifall jämförelsen är signifikant måste vi använda `summary()` på objektet som skapas från denna funktion och det kan göras med hjälp av `%>%` (som ett alternativ till det vi gjorde med `aov()`).
+
+Notera att kontrollgruppen antas vara den första gruppen som finns i materialet. För att ändra denna ordning kan funktionen `relevel(x = grupperingsvariabel, ref = "kontrollgrupp")` användas.
+
+```{r}
+
+glht(model = anova_insect, linfct = mcp(spray = "Dunnett")) %>%
+  summary()
+
+```
+
+Utkskriften innehåller i kolumnerna (från vänster till höger) vilka grupper som jämförs, skillnaden i mätvärden, medelfelet, testvariabeln, och till sist p-värdet.
+
+### Icke-parametrisk metod
+Om vi inte kan anta att materialet är normalfördelad kan vi istället för ett F-test beräkna ett icke-parametriskt test, som vi kallar för **Kruskal-Wallis**-test.
+
+Hypoteserna benämner vi med ord, inte någon parameter, och de kan se ut som följer:
+  
+  \begin{align*}
+
+H_0 &: \text{Det finns inga skillnader mellan grupperna} \\
+H_a &: \text{Det finns skillnader mellan grupperna}
+
+\end{align*}
+
+Funktionen som används för detta test är `kruskal.test()` och argumenten är samma som vi använde för F-testet tidigare, `formula` och `data`.
+
+```{r}
+
+kruskal.test(formula = count ~ spray, data = InsectSprays)
+
+```
+
+Från utskriften kan vi läsa ut ett p-värde (`p-value`) som sedan kan jämföras med signifikansnivån och ta ett beslut.
+
+### Tvåvägs-ANOVA
+
+```{r}
+
+anova_model <- aov(formula = len ~ supp * dose, data = ToothGrowth)
+
+summary(anova_model)
+
+```
+
+

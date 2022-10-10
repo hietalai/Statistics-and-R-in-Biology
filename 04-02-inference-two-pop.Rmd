@@ -1,0 +1,128 @@
+
+## Inferens i två populationer
+
+För detta kapitel kommer exemplen använda sig av det inbyggda materialet `PlantGrowth`. Materialet innehåller information om skörden, mätt i den torkade vikten av växten, uppdelad på tre olika grupper, en kontroll och två olika behandlingar. Vi kommer i detta kapitel endast fokusera på de observationer som hör till de olika behandlingarna men kommer titta närmare på alla tre grupper senare. Ett nytt datamaterial innehållande bara de två behandlingarna skapas och döps till `TreatmentPlantGrowth`
+
+Datamaterialet ser ut som följer:
+  
+  ```{r, plant, echo=FALSE, eval = TRUE}
+
+TreatmentPlantGrowth <- PlantGrowth %>% filter(group != "ctrl")
+
+PlantGrowth %>% filter(group != "ctrl") %>% kable(format = "html", caption = "Observerade skördar från växter med olika behandling") %>%
+  kable_styling(position = "center", full_width = FALSE)
+
+```
+
+
+### Medelvärden, \large $\mu$
+När vi vill jämföra medelvärden i **två** grupper behöver vi utöka de krav som gäller för metoderna:
+  
+  - Oberoende *inom* vardera stickprov
+- Kan uppfyllas genom att OSU har skett
+- Oberoende *mellan* stickproven
+- Om det har genomförts två separata OSU uppfylls detta
+- Om grupperna inte anses påverka varandras mätvärden kan detta antas
+- Stickprovsmedelvärdet, $\bar{X}$, måste kunna anses vara normalfördelad **för båda grupperna**
+  - Kan uppfyllas med hjälp av Centrala Gränsvärdessatsen (CGS) om stickprovet är *nog stort*, där tumregeln är $n > 30$. CGS säger att ett medelvärde (eller summa) av lika fördelade variabler kommer vara approximativt normalfördelad i detta fall.
+- Om antalet i en grupp är litet måste istället mätvariabeln, $X$, som är av intresse anses vara normalfördelad. Detta innebär att den transformation som sker till medelvärdet också kommer vara normalfördelad.
+
+#### t.test()
+Likt för en population kommer funktionen `t.test()` användas för hypotesprövningar och konfidensintervall för jämförelser av två gruppers medelvärden. Vi lägger då till två ytterligare argument till dem som vi tidigare använt:
+  
+  - `y` - anger den andra variabeln som vi vill jämföra med `x`,
+- `var.equal` - anger om vi antar att variansen i de två grupperna anses lika (`TRUE`) eller ej (`FALSE`).
+
+I vårt exempeldata i \@ref(tab:plant) ser vi dock att vi har alla mätvärden i samma variabel, `weight`, och grupptillhörigheten i den andra variabeln, `group`. Detta innebär att vi måste ange variablerna på ett annat sätt i funktionen än `x` och `y`. Detta görs med två andra argument:
+  
+  - `formula` - anger med formen `mätvariabel ~ gruppvariabel` hur mätvärden ska grupperas och testas,
+- `data` - anger datamaterialet där variablerna finns.
+
+I följande kod testar vi huruvida medelvikten på skörden från de två behandlingarna skiljer sig åt. 
+
+Notera att vi här gör ett antagande att vikten av en skörd antas vara normalfördelad då vi endast har `r sum(TreatmentPlantGrowth$group == "trt1")` observationer från varje grupp och CGS kan inte tillämpas. Om vikten av en skörd är normalfördelad kommer också medelvärdet vara det.
+
+Vi gör också ett antagande om att variansen i mätvariabeln (vikt) hos de båda behandlingarna anses vara lika genom `var.equal = TRUE`. Detta antagande måste dock kunna motiveras.
+
+```{r}
+
+t.test(formula = weight ~ group,
+       data = TreatmentPlantGrowth,
+       alternative = "two.sided",
+       mu = 0,
+       var.equal = TRUE,
+       conf.level = 0.95)
+
+```
+
+När två grupper jämförs liknar utskriften mycket det som kom från ett enkelt t-test. Vi får samma information om testvariabel, frihetsgrader och p-värde, en indikation på vilket test det är som har utförts, och ett tillhörande konfidensintervall för skillnaden.
+
+#### Parvisa observationer
+Om vi har samma enhet som mäts under två tidpunkter, eller om enheterna i de olika grupperna påverkar varandra på något sätt kommer inte kravet på oberoende **mellan** grupperna uppfyllas.
+
+I ett exempel (taget från http://www.sthda.com/english/wiki/paired-samples-t-test-in-r) mäts vikten av möss före och efter en okänd behandling. Materialet ser ut som följer:
+  
+  ```{r mice, echo = FALSE}
+
+kable(mice_data, format = "html", caption = "Observerade vikter av möss före och efter en okänd behandling") %>%
+  kable_styling(position = "center", full_width = FALSE)
+
+```
+
+För att kunna utföra en jämförelse av dessa två gruppernas medelvärden måste vi först beräkna en differens mellan varje parvisa observation och sedan genomföra inferens för en population med hypoteser som ändå stämmer överens med undersökningen eller frågeställningen som man vill besvara. Som tur är kan `t.test()` beräkna detta automatiskt genom att ange ett nytt argument `paired = TRUE` i funktionen.
+
+```{r}
+
+t.test(x = mice_data$before,
+       y = mice_data$after,
+       paired = TRUE)
+
+```
+
+
+I utskriften ändras egentligen bara titeln av utskriften gentemot utskriften från det föregående testet av oberoende grupper. Det är dock värt att notera att frihetsgraderna för testet beräknas korrekt utifrån att endast en grupp med differenser testas. Konfidensintervall finns också med i utskriften likt tidigare.
+
+### Icke-parametriska test
+Med biologiska data är det vanligt att endast ett fåtal observationer kan samlas in som innebär att inte Centrala Gränsvärdessatsen kan tillämpas för att uppfylla antagandet om en normalfördelad stickprovsstatistika. Vi kan i vissa fall inte heller motivera ett antagande om att mätvariabeln är normalfördelad och måste då frångå metoder som baserar sig på denna fördelning. 
+
+#### Mann-Whitney test
+Om vi vill jämföra två stycken **oberoende** grupper kan ett Mann-Whitney-test användas där det enda kravet som måste uppfyllas är just dem om oberoende stickprov. Notera att de kontrolleras på samma sätt som för tidigare tester. 
+
+Lite missledande i R är att detta test kallas för `wilcox.test()`. Argumenten som används i denna funktion är:
+  
+  - `x` - anger första variabeln,
+- `y` - anger andra variabeln,
+- `alternative` - anger vilken sorts mothypotes som ska undersökas,
+- `conf.level` - anger konfidensgraden för testet
+- `exact` - om ett exakt p-värde ska beräknas (det vill vi inte)
+- `correct` - om kontinuitetskorrektion ska användas vid normalapproximeringen av p-värdet
+
+Vi kan också ange grupperna som ska jämföras med `formula = mätvariabel ~ gruppvariabel` och `data = datamaterial` likt exemplet nedan.
+
+```{r}
+
+wilcox.test(formula = weight ~ group,
+            data = TreatmentPlantGrowth,
+            alternative = "two.sided",
+            conf.level = 0.95,
+            exact = FALSE,
+            correct = FALSE)
+
+```
+
+Utskriften för detta test är inte lika informationsrik som dem som vi sett tidigare, men det är fortfarande p-värdet som vi är intresserade för beslutsfattande. 
+
+#### Wilcoxon test
+Vid parvisa tester av två **beroende** grupper där kravet om en normalfördelad statistika inte uppfylls kan ett Wilcoxon test beräknas istället. I R använder vi samma funktion som innan men måste här ange argumentet `paired = TRUE` för att funktionen ska utföra korrekt test.
+
+```{r}
+
+wilcox.test(x = mice_data$before,
+            y = mice_data$after,
+            paired = TRUE,
+            alternative = "two.sided",
+            conf.level = 0.95,
+            exact = FALSE,
+            correct = FALSE)
+
+```
