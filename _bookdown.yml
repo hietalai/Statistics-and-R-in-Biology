@@ -1,0 +1,7 @@
+delete_merged_file: true
+language:
+  label:
+    fig: "Figur "
+    tab: "Tabell "
+  ui:
+    chapter_name: "Kapitel "
