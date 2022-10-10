@@ -1,0 +1,63 @@
+--- 
+title: "Statistisk analys av biologisk data i R"
+author: "Isak Hietala"
+date: "`r Sys.Date()`"
+site: bookdown::bookdown_site
+documentclass: book
+bibliography: [book.bib, packages.bib]
+# url: your book url like https://bookdown.org/yihui/bookdown
+# cover-image: path to the social sharing image like images/cover.jpg
+description: |
+  This is a minimal example of using the bookdown package to write a book.
+  set in the _output.yml file.
+  The HTML output format for this example is bookdown::gitbook,
+link-citations: yes
+github-repo: rstudio/bookdown-demo
+---
+
+<style>
+.math {
+  font-size: small;
+}
+</style>
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, fig.height = 2, fig.align = "center", fig.width = 6, eval = TRUE)
+
+
+require(ggplot2)
+require(grid)
+require(gridExtra)
+require(RColorBrewer)
+require(dplyr)
+require(tidyr)
+require(stringr)
+require(xtable)
+require(GGally)
+require(kableExtra)
+require(shiny)
+require(palmerpenguins)
+
+require(multcomp)
+
+data(iris)
+
+data(penguins)
+
+data("PlantGrowth")
+
+data("InsectSprays")
+
+data("ToothGrowth")
+
+### Example data for paired tests (taken from http://www.sthda.com/english/wiki/paired-samples-t-test-in-r)
+# Weight of the mice before treatment
+before <-c(200.1, 190.9, 192.7, 213, 241.4, 196.9, 172.2, 185.5, 205.2, 193.7)
+# Weight of the mice after treatment
+after <-c(392.9, 393.2, 345.1, 393, 434, 427.9, 422, 383.9, 392.3, 352.2)
+# Create a data frame
+mice_data <- data.frame(before, after)
+
+source("hietala_theme.R")
+
+```
