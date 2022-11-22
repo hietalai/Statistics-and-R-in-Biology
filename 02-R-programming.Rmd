@@ -1,0 +1,94 @@
+# Statistiska programvaror
+Det finns många olika sätt att genomföra statistisk dataanalys och för att underlätta arbetet kan vi använda en statistisk programvara. I detta underlag kommer fokus ligga på programmeringsspråket R. Fördelen med att använda ett open-source-programmeringsspråk är flexibiliteten i vad vi kan göra, alltifrån databearbetning och visualisering till djupgående analyser och undersökningar, och möjligheten att skapa något eget. Med hjälp utav det visuella gränssnittet RStudio öppnas ännu fler möjligheter för rapportskrivning och byggandet av applikationer eller hemsidor, allt med användning utav R som grund.
+
+R använder sig utav `paket` med `funktioner` som vi kan använda för att genomföra operationer. Vi kan se på funktionerna som olika verktyg, till exempel om vi vill slå in en spik i en bräda bör vi använda en hammare, och paketen som olika verktygslådor som ibland är fokuserat på att genomföra en viss form utav arbete. Eftersom R är ett s.k. open-source program, kan vem som helst skapa funktioner och paket för allmänheten och ibland finns det ett behov av att ladda ner nya paket (köpa in nya verktygslådor) för att genomföra en viss sorts analys. När vi installerar R för första gången får vi tillgång till en stor mängd olika paket, men vi har möjligheten att utöka dessa väldigt enkelt. 
+
+R använder sig utav datorns RAM-minne som kan motsvara en form av korttidsminne. När vi programmerar kan vi spara objekt där som kan användas senare men en viktig egenskap av kortidsminnet är att den rensas när vi stänger ner programmet. Nästa gång vi startar upp programmet kommer vi vanligtvis inte kunna se de objekt som vi skapat i en tidigare session. Om vi vill använda objekt mellan sessioner kan vi spara ner information till datorns hårddisk, eller dess långtidsminne, på några olika sätt. 
+
+Följ instruktionerna [här](https://posit.co/download/rstudio-desktop/) för att installera både R som språk och RStudio som gränssnitt på din dator. Detta underlat är skapad med `r R.version.string`. 
+
+## Starta RStudio
+När vi startar RStudio för första gången, delas programmet in i tre olika områden eller fönster. Börja alltid med att öppna eller skapa ett dokument där kod sparas, genom **File** -> **New file** -> **R Script** eller kortkommandot *Ctrl*/*Command* + *Shift* + *N*. När detta dokument öppnas, delas RStudio in i fyra olika fönster. Filer i R har ändelsen `.R` men är i grunden en textfil och kan öppnas i alla enkla texthanterare, t.ex. Notepad, om vi vill redigera koden utanför gränssnittet. 
+
+Det övre vänstra fönstret innehåller nu den R-fil som skapats. Här kan vi skriva kod som sedan sparas om vi sparar dokumentet. Det rekommenderas starkt att alltid skriva kod i ett dokument för att ha möjligheten att återanvända och redigera koden på ett lätt sätt. 
+
+Det nedre vänstra fönstret innehåller en `konsol`. Här visas all kod som vi kör och tillhörande utskrifter men vi kan också skriva kod direkt i konsollen. Skillnaden är att vi inte sparar dessa funktioner någonstans och det är mycket svårare att återanvända och redigera kod som endast skrivits i konsollen.
+
+I det nedre högra fönstret kan vi se filer från datorn, visualiseringar som skapas med kod, få en översikt av de paket som vi har tillgängliga, samt få hjälp om olika funktioner i deras dokumentation. Paket i R har inbyggda hjälpfiler som kan hjälpa oss att förstå vad en funktion kan göra, vad som krävs för att använda funktionen, och vad funktionen producerar för resultat. 
+
+Det övre högra fönstret innehåller en översikt av alla objekt som vi skapar under en session och som R har i korttidsminnet. Vi kan klicka på objekt för att se ytterligare detaljer om dess innehåll.
+
+### Grundläggande programmering i R {#basic_R}
+Det första som vi bör göra när vi startar en ny session i R, och har öppnat ett nytt R Script, är att ange en `arbetsmapp` (*working directory*). Det är ett sätt för oss att ge en genväg till R när den ska arbeta med information från datorns hårddisk. Till exempel kan vi ha filer med datamaterial inuti denna mapp som R kan lättare importera och om vi sparar vårt R Script, kommer det sparas i denna mapp. 
+
+För att hitta sökvägen till mappen på din dator som du sparat ner alla dina filer, behöver du öppna upp mappen i ditt operativssystems filhanterare och följa någon av följande instruktioner [instruktioner för Windows](https://www.top-password.com/blog/tag/how-to-find-file-path-windows-10/) / [instruktioner för Mac](http://osxdaily.com/2013/06/19/copy-file-folder-path-mac-os-x/). Kopiera denna sökväg och använd sedan funktionen `setwd()` för att R ska riktas mot rätt mapp på datorn. **Notera att alla `\` måste bytas ut med antingen `\\` eller `/` för att R ska kunna läsa av sökvägen korrekt.**
+
+```{r, eval = FALSE}
+## Anger en arbetsmapp på datorn med alla filer som ska användas 
+setwd("C:/Users/MIN ANVÄNDARE/MAPPENS NAMN")
+
+```
+
+R använder sig utav s.k. *paket* med redan skapade funktioner som du kan använda dig utav för att förenkla din programmering. För att dessa funktioner ska kunna användas i din session måste du säga till R att paketet ska laddas upp i sessionen. Du kan tänka det som att du vid din arbetsbänk plockar fram en verktygslåda innehållande de verktyg som du kommer vilja använda under ditt arbete. Om du inte har verktygslådan bredvid dig kommer det bli svårt att använda något av verktygen. Laddningen av paketen kan göras med antingen funktionen `library()` eller `require()`. 
+
+Om du har en ny installation av R på datorn måste du först installera paketen på datorn (ladda ner alla filer som behövs från internet). Det är inte svårare än att använda funktionen `install.packages()` med paketets namn inuti `""` enligt koden nedan. **Detta behöver endast göras en gång för nya installationer av R!**
+
+```{r, eval = FALSE}
+## Om paketen inte finns på datorn måste de installeras. KÖRS ENDAST EN GÅNG!
+install.packages("ggplot2")
+install.packages("RColorBrewer")
+
+## Laddar paketen innehållande de funktioner som vi vill använda
+require(ggplot2)
+require(RColorBrewer)
+
+```
+
+Termen *funktion* har använts frekvent tidigare i texten och kan behöva förtydligas. En funktion är strukturerad på följande sätt:
+\newline
+
+`funktionens_namn(*argument* som styr vad funktionen gör, separerade med kommatecken)`
+
+\newline
+
+Argumentens värden anges med `=` till skillnad från "vanlig" kodning där `<-` anges för att tilldela värden. En funktion börjar med en `(` och slutar men en `)`. Detta betyder att man kan skriva en funktion på både en eller flera rader. Notera att R dock måste ha någon form utav indikation att funktionen fortsätter, t.ex. ett `,` för att ange att flera argument tillkommer eller ett `+` för att koppla ihop flera funktioner, likt som kommer presenteras nedan för `ggplot2`-paketet.
+
+För att lägga till värden i R som *variabler* för sedan kan användas för vidare analys kan nedan kod göras:
+```{r, eval = FALSE}
+## Siffror anges bara som de är
+valfritt_nummer <- 3
+
+## För att man ska ange text måste de omfattas av " " för att R ska läsa de som text
+valfri_text <- "Hello world!"
+
+## En vektor med värden
+A <- c(3, 5, 3, 7)
+
+B <- c(1, 3, 2, 4)
+
+## En matris med värden
+A_2 <- matrix(A, nrow = 2)
+
+## Matematiska beräkningar kan sedan utföras med tidigare skapade variabler.
+C <- A + B
+
+D <- A * B
+
+procent <- D / sum(D) * 100
+
+## En vektor med textstränger
+ord <- c("Apelsin", "Banan", "Citron")
+
+```
+
+### Ladda in material
+För att kunna arbeta med datamaterial som du samlat in från någon annanstans används någon av `read.___()`-funktionerna. Det vanligaste sättet att göra det är genom att skapa en kommaseparerad fil via exempelvis Excel och sedan importera den till R via `read.csv2()`. **Se till att kolumn- och decimalseparatorn anges enligt det format som filen har med `sep = `, och `dec = `.** Ett tips är att öppna *.csv*-filen i **Notepad++** eller annan enkel ordbehandlare för att se vilka symboler som används.
+
+```{r, eval = FALSE}
+
+## Laddar in datamaterial
+bil <- read.csv2("data_om_bilar.csv", dec = ".")
+elev <- read.csv2("data_om_elever.csv", dec = ".")
+
+```
+

@@ -8,7 +8,7 @@ När vi endast är intresserade av att undersöka en population (eller grupp).
 ### Medelvärden, \large $\mu$
 För inferens över medelvärden har vi följande krav som måste uppfyllas:
   
-  - Oberoende stickprov
+- Oberoende stickprov
 - Kan uppfyllas genom att ett Obundet Slumpmässigt Urval (OSU) har skett 
 - Stickprovsmedelvärdet, $\bar{X}$, måste kunna anses vara normalfördelad
 - Kan uppfyllas med hjälp av Centrala Gränsvärdessatsen (CGS) om stickprovet är *nog stort*, där tumregeln är $n > 30$. CGS säger att ett medelvärde (eller summa) av lika fördelade variabler kommer vara approximativt normalfördelad i detta fall.
@@ -16,27 +16,27 @@ För inferens över medelvärden har vi följande krav som måste uppfyllas:
 
 
 #### Hypotesprövningar
-Vid en hypotesprövning av ett medelvärde utgår vi från den femstegsprocess som diskuterats under föreläsningarna. I följande exempel kommer vi titta på variabeln `Sepal.Length` från \@ref(tab:iris).
+Vid en hypotesprövning av ett medelvärde utgår vi från den femstegsprocess som diskuterats under föreläsningarna. I följande exempel kommer vi titta på variabeln `Sepal.Length` från \@ref(tab:penguins).
 
 När vi formulerar våra hypoteser gäller det att transformera vad det är vi vill undersöka till matematiska uttryck. Vi behöver också se till att vi använder rätt matematisk symbol i mothypotesen för att testet ska genomföras på rätt sätt. Till skillnad från i SPSS kan vi i R styra vilken sorts mothypotes som vi vill undersöka. 
 
 Vi använder oss utav funktionen `t.test()` som har följande argument som är av intresse:
   
-  - `x` - anger vilken variabel som vi vill undersöka,
+- `x` - anger vilken variabel som vi vill undersöka,
 - `alternative` - anger vilken sorts mothypotes som ska testas där värdena `"two.sided"`, `"less"` eller `"greater"`,
 - `mu` - anger det värde som vi vill testa, motsvarande $\mu_0$ i föreläsningarna,
 - `conf.level` - anger konfidensgraden för testet, angivet i decimalform.
 
 Exempelvis skulle vi vara intresserade av att undersöka ifall genomsnittslängden av blommornas foderblad (`Sepal.Length` från iris-data)  överstiger 5 cm. Vi ställer då upp hypoteser enligt:
   
-  \begin{align}
+\begin{align}
 H_0: \mu \le 5 \\
 H_a: \mu > 5
 \end{align}
 
 Med en signifikansnivå på 5 procent blir funktionen som vi skriver i R som följer:
   
-  ```{r}
+```{r}
 
 t.test(x = iris$Sepal.Length, 
        alternative = "greater",
@@ -49,7 +49,7 @@ I utskriften ser vi väldigt mycket information och, här ser vi en nackdel med 
 
 Följande information kan utläsas ur de olika raderna:
   
-  - På första raden får vi information om vilken variabel som testet är gjort på. 
+- På första raden får vi information om vilken variabel som testet är gjort på. 
 - På andra raden får vi information från testet där `t` är den beräknade testvariabeln, `df` är frihetsgraderna i t-fördelningen, och `p-value` är p-värdet av testet. 
 - På tredje raden får vi information om vilken sorts mothypotes som har undersökts. 
 - På fjärde och femte raden fås ett beräknat konfidensintervall som skulle kunna användas för att besvara mothypotesen. I detta fall då vi har en mothypotes som är angiven som $>$, beräknas ett nedåt begränsat intervall. 
@@ -62,12 +62,12 @@ För intervallskattningar för ett medelvärde kan samma funktion som för hypot
 
 Ett tips för att bedöma detta är att titta på formuleringen som används i $H_a$ och byta ut värdet som testas med den gräns som vi beräknar. Exempelvis skulle mothypotesen, "mindre än 5" ($H_a: \mu < 5$), resultera i ett uppåt begränsat intervall enligt:
   
-  $$ 
+$$ 
   \mu < \bar{x} + t_{\alpha(1); n-1} \cdot \frac{s}{\sqrt{n}}
 $$
   som med R-kod beräknas med:
   
-  ```{r}
+```{r}
 
 t.test(x = iris$Sepal.Length, 
        alternative = "less",

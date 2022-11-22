@@ -5,7 +5,7 @@ För detta kapitel kommer exemplen använda sig av det inbyggda materialet `Plan
 
 Datamaterialet ser ut som följer:
   
-  ```{r, plant, echo=FALSE, eval = TRUE}
+```{r, plant, echo=FALSE, eval = TRUE}
 
 TreatmentPlantGrowth <- PlantGrowth %>% filter(group != "ctrl")
 
@@ -18,7 +18,7 @@ PlantGrowth %>% filter(group != "ctrl") %>% kable(format = "html", caption = "Ob
 ### Medelvärden, \large $\mu$
 När vi vill jämföra medelvärden i **två** grupper behöver vi utöka de krav som gäller för metoderna:
   
-  - Oberoende *inom* vardera stickprov
+- Oberoende *inom* vardera stickprov
 - Kan uppfyllas genom att OSU har skett
 - Oberoende *mellan* stickproven
 - Om det har genomförts två separata OSU uppfylls detta
@@ -30,12 +30,12 @@ När vi vill jämföra medelvärden i **två** grupper behöver vi utöka de kra
 #### t.test()
 Likt för en population kommer funktionen `t.test()` användas för hypotesprövningar och konfidensintervall för jämförelser av två gruppers medelvärden. Vi lägger då till två ytterligare argument till dem som vi tidigare använt:
   
-  - `y` - anger den andra variabeln som vi vill jämföra med `x`,
+- `y` - anger den andra variabeln som vi vill jämföra med `x`,
 - `var.equal` - anger om vi antar att variansen i de två grupperna anses lika (`TRUE`) eller ej (`FALSE`).
 
 I vårt exempeldata i \@ref(tab:plant) ser vi dock att vi har alla mätvärden i samma variabel, `weight`, och grupptillhörigheten i den andra variabeln, `group`. Detta innebär att vi måste ange variablerna på ett annat sätt i funktionen än `x` och `y`. Detta görs med två andra argument:
   
-  - `formula` - anger med formen `mätvariabel ~ gruppvariabel` hur mätvärden ska grupperas och testas,
+- `formula` - anger med formen `mätvariabel ~ gruppvariabel` hur mätvärden ska grupperas och testas,
 - `data` - anger datamaterialet där variablerna finns.
 
 I följande kod testar vi huruvida medelvikten på skörden från de två behandlingarna skiljer sig åt. 
@@ -62,7 +62,7 @@ Om vi har samma enhet som mäts under två tidpunkter, eller om enheterna i de o
 
 I ett exempel (taget från http://www.sthda.com/english/wiki/paired-samples-t-test-in-r) mäts vikten av möss före och efter en okänd behandling. Materialet ser ut som följer:
   
-  ```{r mice, echo = FALSE}
+```{r mice, echo = FALSE}
 
 kable(mice_data, format = "html", caption = "Observerade vikter av möss före och efter en okänd behandling") %>%
   kable_styling(position = "center", full_width = FALSE)
@@ -90,7 +90,7 @@ Om vi vill jämföra två stycken **oberoende** grupper kan ett Mann-Whitney-tes
 
 Lite missledande i R är att detta test kallas för `wilcox.test()`. Argumenten som används i denna funktion är:
   
-  - `x` - anger första variabeln,
+- `x` - anger första variabeln,
 - `y` - anger andra variabeln,
 - `alternative` - anger vilken sorts mothypotes som ska undersökas,
 - `conf.level` - anger konfidensgraden för testet

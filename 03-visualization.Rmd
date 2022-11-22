@@ -25,13 +25,11 @@ Vilken typ av variabel som ska visualiseras påverkar huruvida ett diagram är t
 
 ```{r echo = FALSE, fig.cap = "Exempel på stapeldiagram för en kvalitativ (t.vä.) och kvantitativ (t.hö.) variabel", fig.width = 8}
 
-data(iris)
-
-p1 <- ggplot(iris) + aes(x = Species) + geom_bar(width = 0.6) +
+p1 <- ggplot(penguins) + aes(x = species) + geom_bar(width = 0.6) +
   labs(y = "Antal", x = "Art")
 
-p2 <- ggplot(iris) + aes(x = Petal.Length) + geom_bar() +
-  labs(y = "Antal", x = "Bladlängd")
+p2 <- ggplot(penguins) + aes(x = bill_length_mm) + geom_bar() +
+  labs(y = "Antal", x = "Näbblängd")
 
 grid.arrange(p1, p2, nrow = 1)
 
@@ -41,11 +39,11 @@ Ritytan innehåller den information som ska förmedlas och bör därför få ta 
 
 ```{r echo = FALSE, fig.cap = "Exempel på diagram med majoriteten rityta (t.vä.) och för liten rityta (t.hö.)", fig.width = 8}
 
-p1 <- ggplot(iris) + aes(x = Species) + geom_bar(width = 0.6) +
+p1 <- ggplot(penguins) + aes(x = species) + geom_bar(width = 0.6) +
   labs(y = "Antal", x = "Art")
 
-p2 <- ggplot(iris) + aes(x = Species) + geom_bar(width = 0.6) +
-  labs(y = "Antalet blommor av olika arter", x = "Art")
+p2 <- ggplot(penguins) + aes(x = species) + geom_bar(width = 0.6) +
+  labs(y = "Antalet pingviner av olika arter", x = "Art")
 
 grid.arrange(p1, p2, nrow = 1)
 
@@ -55,7 +53,7 @@ Stödlinjer bör finnas för att underlätta utläsningen av information långt 
 
 ```{r echo = FALSE, fig.cap = "Exempel på stödlinjer som ligger i bakgrunden (t.vä.) och stödlinjer som stjäl fokus från informationen (t.hö.)", fig.width = 8}
 
-p1 <- ggplot(iris) + aes(x = Species) + geom_bar(width = 0.6) +
+p1 <- ggplot(penguins) + aes(x = species) + geom_bar(width = 0.6) +
   labs(y = "Antal", x = "Art")
 
 p2 <- p1 + theme(panel.grid.major.y = element_line(color = "black"),
@@ -67,9 +65,9 @@ grid.arrange(p1, p2, nrow = 1)
 
 Ett bra diagram har också läsbar text oavsett storleken på diagrammet. En bra referens kan vara att förhålla den minsta texten i diagrammet till ungefär samma storlek som brödtexten i rapporten eller presentationen. Försök att alltid tänka på att underlätta för läsaren!
   
-  ```{r echo = FALSE, fig.cap = "Exempel på läsbar text (t.vä.) och på gränsen till för liten text (t.hö.)", fig.width = 8}
+```{r echo = FALSE, fig.cap = "Exempel på läsbar text (t.vä.) och på gränsen till för liten text (t.hö.)", fig.width = 8}
 
-p1 <- ggplot(iris) + aes(x = Species) + geom_bar(width = 0.6) +
+p1 <- ggplot(penguins) + aes(x = species) + geom_bar(width = 0.6) +
   labs(y = "Antal", x = "Art") 
 
 p2 <- p1 + theme(axis.text = element_text(size = 8, color = "black"),
@@ -84,8 +82,8 @@ Källhänvisning bör finnas i alla diagram där informationen är hämtat från
 
 ```{r echo = FALSE, fig.cap = "Exempeldiagram med källhänvisning", fig.width = 4}
 
-ggplot(iris) + aes(x = Species) + geom_bar(width = 0.6) +
-  labs(y = "Antal", x = "Art", caption = "Källa: Fisher, R. A. (1936)")
+ggplot(penguins) + aes(x = species) + geom_bar(width = 0.6) +
+  labs(y = "Antal", x = "Art", caption = "Källa: Gorman, Williams, Fraser (2014)")
 
 ```
 
@@ -99,7 +97,7 @@ Olika programvaror kräver olika mycket bearbetning av datamaterialet innan diag
 
 Som tidigare nämnt om R använder sig programmet av diverse paket som innehåller redan skapade funktioner för att lösa diverse arbetsuppgifter. För visualisering kommer vi använda oss främst av paketet `ggplot2` som bygger på vad som kallas för *grammar of graphics*. (@ggplot2019) Detta är ett försök till att formalisera ett språk för hur man enhetligt bör "skriva" visualiseringar och även SPSS använder sig av grunderna till detta språk. Det första steget för att få ta del av funktionerna är att ladda paketet till din R-session genom:
   
-  ```{r}
+```{r}
 require(ggplot2)
 ```
 
@@ -124,7 +122,7 @@ theme_set(theme_gray())
 
 I `ggplot()` anges vilket datamaterial vi vill använda för visualiseringen:
   
-  ```{r}
+```{r}
 
 ggplot(exempeldata)
 
@@ -132,7 +130,7 @@ ggplot(exempeldata)
 
 Som vi ser skapas inget utifrån detta kommando, vi har bara sagt åt R att använda datamaterialet men inte vad den ska göra med det. Nästa steg är att ange vilka variabler vi vill använda för axlarna i diagrammet. När det kommer till stapeldiagram finns två olika sätt att göra; antingen har vi rådata och låter R räkna ut frekvensen av de olika kategorierna själv eller så skapar vi en egen frekvenstabell och anger `y = frekvens`. Vi kommer först börja med exemplet utifrån rådata:
   
-  ```{r}
+```{r}
 
 ggplot(exempeldata) + aes(x = bil)
 
@@ -156,7 +154,7 @@ ggplot(exempeldata) + aes(x = bil) + geom_bar(aes(y = stat(count/sum(count))))
 
 Med dessa grundkomponenter får vi fram ett diagram, men vi kan väl alla hålla med om att det i detta läge inte ser särskilt snyggt och tydligt ut. Ett snabbt och enkelt sätt att få till lite snyggare diagram är att använda någon utav `ggplot`s teman som finns tillgängliga genom olika `theme()`. Exempelvis är ett stilrent tema att utgå ifrån `theme_bw()` likt:
   
-  ```{r}
+```{r}
 
 ggplot(exempeldata) + aes(x = bil) + geom_bar(aes(y = stat(count/sum(count)))) + theme_bw()
 
@@ -164,7 +162,7 @@ ggplot(exempeldata) + aes(x = bil) + geom_bar(aes(y = stat(count/sum(count)))) +
 
 Det är nu den största funktionaliteten med `ggplot2` kommer in. Vi kan spara instruktionerna vi gett åt R för att skapa diagrammet och senare lägga till fler instruktioner med andra funktioner genom att använda `+` på samma sätt som koderna ovan är skrivna. Vi sparar därför de nuvarande instruktionerna i ett objekt som vi kallar för `p` (vi kan döpa denna till vad som helst) likt:
   
-  ```{r}
+```{r}
 
 p <- ggplot(exempeldata) + aes(x = bil) + geom_bar(aes(y = stat(count/sum(count)))) + theme_bw()
 
@@ -172,7 +170,7 @@ p <- ggplot(exempeldata) + aes(x = bil) + geom_bar(aes(y = stat(count/sum(count)
 
 Nu ligger alla instruktioner för **hur** R ska rita upp diagrammet sparat i `p` men för att R också ska producera diagrammet måste vi också säga det likt:
   
-  ```{r}
+```{r}
 
 p
 
@@ -180,7 +178,7 @@ p
 
 Vi kan nu lägga till ytterligare funktioner exempelvis:
   
-  ```{r}
+```{r}
 
 p + coord_flip()
 
@@ -188,7 +186,7 @@ p + coord_flip()
 
 eller:
   
-  ```{r}
+```{r}
 
 p + scale_y_continuous(labels = scales::percent)
 
@@ -196,7 +194,7 @@ p + scale_y_continuous(labels = scales::percent)
 
 Notera att diagrammet inte roterades i det andra diagrammet när vi ändrade hur skalvärdena på y-axeln ser ut. Detta är för att vi endast sagt åt R att rita diagrammet med vardera tillagda instruktion vid två olika tillfällen utan att ha sparat de någonstans. För att R ska spara dessa instruktioner tillsammans med grundkomponenterna vi angivit innan måste vi spara ovanstående kod till ett objekt:
   
-  ```{r}
+```{r}
 
 p <- p + scale_y_continuous(labels = scales::percent)
 
@@ -207,7 +205,7 @@ p
 ##### Sammanställd data 
 Om vi istället för rådata har sammanställd data exempelvis i form utav en frekvenstabell kan vi ändå skapa samma ovanstående diagram. Vi tänker oss att data om bilarna istället för de `r nrow(exempeldata)` observationerna är presenterad i följande tabell:
   
-  ```{r echo = FALSE}
+```{r echo = FALSE}
 
 exempeltabell <- as.data.frame(table(exempeldata$bil))
 colnames(exempeltabell) <- c("Märke", "Frekvens")
@@ -219,7 +217,7 @@ kable(exempeltabell, format = "html", caption = "Fördelning av bilmärken i urv
 
 Det som är viktigt är att vi fortfarande i R hanterar denna frekvenstabell som en `data.frame`, då `ggplot` kräver formatet för sina visualiseringar. Datamaterialet ser då istället ut som:
   
-  ```{r}
+```{r}
 
 head(exempeltabell)
 
@@ -266,7 +264,7 @@ p
 #### Text 
 Det som saknas just nu i diagrammet är tydligare (och större) text som förklarar de olika delarna av diagrammet för läsaren. De olika etiketterna kan alla anges i samma funktion genom olika argument likt:
   
-  ```{r}
+```{r}
 
 p <- p + labs(x = "Bilmärke", y = "Andel", caption = "Källa: Hietala (2019)")
 
@@ -276,7 +274,7 @@ p
 
 Det vi kan förhålla oss till när vi anger titeln för y-axeln är att den beskriver enheten som används för att mäta axelns skalvärden. Då vi i detta fall har värden mellan $0$ och $1$ bör vi ange *Andel* som titel. Om vi skulle haft absoulta frekvenser skulle en lämplig titel varit *Antal*. Om vi istället för andelar anger skalan i procent likt tidigare diagram kan det diskuteras huruvida det behövs en y-axeltitel eftersom enheten redan är angiven på skalan. Diagrammet skulle då kunna se ut som:
   
-  ```{r}
+```{r}
 
 p + scale_y_continuous(labels = scales::percent) + labs(y = "")
 
@@ -303,7 +301,7 @@ p
 #### Skalvärden 
 Ibland kan de automatiskt genererade axelskalorna medföra svårigheter att utläsa informationen som vi ska presentera. Därför är det sista vi kommer titta på funktioner för att ändra dessa skalor. Vilken funktion vi vill använda och hur man kan ändra utseendet påverkas av vilken sorts variabel som anges på den specifika axeln. Exempelvis kanske vi vill i diagrammet ändra så att den **kontinuerliga** y-axeln endast visar skalvärden var 10:e procent istället för var 5:e som nu sker. Detta gör vi då via:
   
-  ```{r}
+```{r}
 
 p + scale_y_continuous(breaks = seq(from = 0, to = 1, by = .10))
 
@@ -670,7 +668,7 @@ För att vi ska kunna skapa ett linjediagram över flera serier behöver vi impo
 
 Datamaterialet bör alltså se ut som följer:
   
-  ```{r echo = FALSE}
+```{r echo = FALSE}
 
 kable(head(tidsserie_exempel, n = 5), format = "html", caption = "Första observationerna i datamaterialet med en grupperingsvariabel Region") %>%
   kable_styling(position = "center", full_width = FALSE)
@@ -808,11 +806,11 @@ require(GGally)
 
 ```
 
-Datamaterialet som används till detta exempel är ett utav de inbyggda materialen som finns i R, nämligen `iris`. Det innehåller fyra stycken kontinuerliga variabler som beskriver olika mått på blommor och ytterligare en kategorisk variabel som anger vilken art observationen tillhör. Datamaterialet ser ut som följer:
+Datamaterialet som används till detta exempel är ett utav de inbyggda materialen som finns i R, nämligen `penguins`. Det innehåller fyra stycken kontinuerliga variabler som beskriver olika mått på blommor och ytterligare en kategorisk variabel som anger vilken art observationen tillhör. Datamaterialet ser ut som följer:
   
-  ```{r iris, echo = FALSE, eval = TRUE}
+```{r penguins, echo = FALSE, eval = TRUE}
 
-kable(head(iris, n = 5), format = "html", caption = "Första observationerna i Iris-data") %>%
+kable(head(penguins, n = 5), format = "html", caption = "Första observationerna i penguins-data") %>%
   kable_styling(position = "center", full_width = FALSE)
 
 ```
@@ -829,11 +827,11 @@ kable(head(iris, n = 5), format = "html", caption = "Första observationerna i I
 
 Notera att `upper`, `diag`, och `lower` måste ange sina argument i en `list()` där variabeltypen måste anges först. I detta exempel kommer vi behöva skriva `list(continuous = )` då variablerna är kontinuerliga. Gå in i dokumentationen för funktionen och i *Details* står vilka andra diagram som kan visualiseras i de olika områdena.
 
-Nedanstående kod kommer skapa ett diagram innehållande spridningsdiagram i den nedre diagonalen över de fyra kontinuerliga variablerna som ligger på position `1:4` i datamaterialet `iris`. Vi väljer också här att plocka bort skalvärden på axlarna då syftet med dessa diagram är att visa sambandet mellan variabler och inte specifika värden som variablerna eller observationer förhåller sig till. Att vi tar bort skalvärden möjliggör också en större rityta som behövs om vi har ett flertal variabler som ska visualiseras.
+Nedanstående kod kommer skapa ett diagram innehållande spridningsdiagram i den nedre diagonalen över de fyra kontinuerliga variablerna som ligger på position `1:4` i datamaterialet `penguins`. Vi väljer också här att plocka bort skalvärden på axlarna då syftet med dessa diagram är att visa sambandet mellan variabler och inte specifika värden som variablerna eller observationer förhåller sig till. Att vi tar bort skalvärden möjliggör också en större rityta som behövs om vi har ett flertal variabler som ska visualiseras.
 
 ```{r}
 
-p <- ggpairs(data = iris,
+p <- ggpairs(data = penguins,
              columns = 1:4,
              title = "Samband mellan mått på blommor",
              upper = list(continuous = "points"),
@@ -862,14 +860,14 @@ Det kan finnas tillfällen där samband mellan variabler ser olika ut beroende p
 
 ```{r}
 
-ggpairs(data = iris,
+ggpairs(data = penguins,
         columns = 1:4,
         title = "Samband mellan mått på blommor",
         upper = list(continuous = "points"),
         diag = list(continuous = "blankDiag"),
         lower = list(continuous = "blank"),
         axisLabels = "none",
-        mapping = aes(color = Species)
+        mapping = aes(color = species)
 ) + 
   theme_bw() + 
   theme(plot.title = element_text(hjust = 0.5))
