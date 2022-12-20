@@ -11,8 +11,9 @@ testUI <- function(id){
       column(
         width = 6,
         h2("Kod"),
-        aceEditor(ns("code"), mode = "r", height = "200px", value = "a <- 2"),
-        actionButton(ns("eval"), "Kör")
+        aceEditor(ns("code"), mode = "r", height = "200px", value = "2+3"),
+        actionButton(ns("eval"), "Kör"),
+        p("Endast den sista raden kod som genererar en utskrift, visas i 'Utskrift'.")
       ),
       column(
         width = 6,

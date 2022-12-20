@@ -1,11 +1,13 @@
 # Introduktion
-Detta material är skapat för att introducera både programmering i R och statistisk analys, specifikt fokuserat på biologiska data. Inom biologi är det vanligt att man undersöker frågeställningar som kräver en insamling och analys av data.
+Detta material är skapat för att introducera både programmering i R och statistisk analys, specifikt fokuserat på biologiska data. Inom biologi är det vanligt att man undersöker frågeställningar som kräver en insamling och analys av data, vilket i sin tur kräver en god förståelse för både teori och praktiska färdigheter inom statistik.
+
+Det finns många olika sätt att genomföra statistisk dataanalys och för att underlätta arbetet kan vi använda en statistisk programvara. I detta underlag kommer fokus ligga på programmeringsspråket R. Fördelen med att använda ett open-source-programmeringsspråk är flexibiliteten i vad vi kan göra, alltifrån databearbetning och visualisering till djupgående analyser och undersökningar, och möjligheten att skapa något eget. Med hjälp utav det visuella gränssnittet RStudio öppnas ännu fler möjligheter för rapportskrivning och byggandet av applikationer eller hemsidor, allt med användning utav R som grund. Då R är ett programmeringsspråk, finns det en inlärningskurva som ibland kan verka större än andra programvaror och detta material kommer fokusera till stor del att hjälpa till att ta sig över krönet. 
 
 MER OM HUR DET ÄR KOPPLAT TILL BIOLOGI.
 
-```{r out.width="110%", out.height= "800px"}
-knitr::include_url("https://canadice.shinyapps.io/book-shiny-support-functions/#anova")
-```
+<!-- ```{r out.width="110%", out.height= "800px"} -->
+<!-- knitr::include_url("https://canadice.shinyapps.io/book-shiny-support-functions/#anova") -->
+<!-- ``` -->
 
 
 

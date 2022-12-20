@@ -1,3 +1,9 @@
+:root {
+  --LiUOrange: rgb(255,140,0);
+  --LiUOrange0: rgb(255,210,156);
+  --LiUPurple: rgb(137,129,211);
+}
+
 p.caption {
   color: #777;
   margin-top: 10px;
@@ -12,3 +18,38 @@ pre {
 pre code {
   white-space: inherit;
 }
+
+.page-inner {
+  max-width: 1000px;
+}
+
+.bg-success {
+  background-color: #38404F!important;
+  color: #f7f7f7!important;
+  font-weight: bold;
+  border-radius: 5px;
+}
+
+.sourceCode {
+  border-radius: 5px;
+}
+
+.importantbox {
+    background-color: var(--LiUOrange);
+    padding: 10px;
+    border: solid 2px black;
+    border-left: solid 10px black;
+}
+
+.importantbox code {
+    background-color: var(--LiUOrange0)!important;
+}
+
+.importantbox pre {
+    display: inline-table;
+    background-color: var(--LiUOrange0)!important;
+    padding: 0px!important;
+    margin: 0px!important;
+}
+
+
