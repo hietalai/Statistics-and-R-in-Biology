@@ -1,5 +1,4 @@
-
-# Statistisk inferens
+# Inferens i en population
 För att kunna dra slutsatser om den målpopulation som vi önskar att undersöka utifrån den mindre grupp enheter som vi samlat in information om, måste vi utföra någon form av inferens. Detta kapitel kommer innehålla många olika metoder och är främst strukturerad kring hur många populationer vi vill utföra inferensen på och sedan med avseende på vilken parameter.
 
 ## Inferens i en population

@@ -1,0 +1,87 @@
+# Beskrivande statistik
+I resterande del av detta underlag antar vi att vi har samlat in data på något sätt och har sammanställt det i en fil som vi sedan kan läsa in i R med hjälp av till exempel `read.csv2()`. Dessa datamaterial är oftast ganska stora, innehållande flera observationer och variabler, och det kan vara svårt att få en överblick eller hitta den gömda informationen som vi är intresserade av genom att bara titta på siffrorna som vi sammanställt. 
+
+Ett enkelt sätt att bilda sig en uppfattning om ett material är att försöka sammanfatta informationen med hjälp av beskrivande mått eller fördelningar. Beroende på vilken variabeltyp och skala variablerna följer, kommer metoder för att sammanfatta och visualisera variablerna vara olika.
+
+## Parameter och statistika
+Vi gör skillnad på det sanna värdet av det beskrivande måttet som finns i populationen och det uppskattade värdet av måttet som vi får i vårt urval. Det sanna värdet kallar vi för en <span class="terminology">parameter</span> och det skattade värdet för en <span class="terminology">statistika</span>. 
+
+En parameter kommer alltid vara samma värde eftersom det beräknas på hela den population som vi är intresserad av att undersöka. Problemet är att vi inte har möjlighet att samla in information om hela populationen så denna parameter är okänd. 
+En statistika kommer däremot vara olika värden *beroende på vilka enheter som hamnat i stickprovet*. Ett stickprov som påverkas av slumpen medför att även denna statistika påverkas av slumpen (utvalda enheter) men vi kan med hjälp av denna statistika ändå dra slutsatser om populationens parameter genom [statistisk inferens](#inference).
+
+## Lägesmått
+Ett enkelt sätt att sammanfatta en variabels position är med hjälp utav ett <span class="terminology">lägesmått</span>. Lägesmåttet beskriver var på tallinjen det förväntas att variabelns värden placeras kring.
+
+
+## Matematiska funktioner
+Det finns många redan skapade funktioner i R som kan utföra många olika sorters beräkningar. Till exempel finns en mängd matematiska funktioner som kan beräkna beskrivande mått.
+  
+  - `mean()` - beräknar *medelvärdet* av en vektor,
+  - `sd()` - beräknar *standardavvikelsen* av en vektor,
+  - `var()` - beräknar *variansen* av en vektor,
+  - `sum()` - beräknar *summan* av en vektor,
+  - `length()` - beräknar *längden/antalet* av en vektor,
+  - `min()` - anger det *minsta värdet* av en vektor, 
+  - `max()` - anger det *största värdet* av en vektor,
+  - `median()` - beräknar *medianen* av en vektor,
+  - `quantile()` - beräknar angivna *percentiler* av en vektor.
+
+Alla dessa funktioner behöver ett argument som beskriver vilken vektor beräkningen ska utföras på. Denna vektor kan innehålla hur många element som helst, men måste vara numerisk för att beräkningarna ska kunna genomföras. Vi kan använda [hjälpdokumentationen](#help) för att se vilka andra argument som respektive funktion använder sig utav, men vanligtvis räcker det med vektorn. En funktion som kräver flera argument är `quantile()`. Där anger vi med argumentet `probs` vilka percentiler som ska beräknas.
+
+```{r}
+## Skapar en vektor
+a <- c(1,5,4,9,4,7,3,6,8,4,3,2,12,6,9)
+
+## Medelvärdet
+mean(a)
+
+## Median
+median(a)
+
+```
+
+
+Just för beskrivande statistik kan man istället för att enskilt beräkna alla ovanstående mått, använda funktionen `summary()`. Denna funktion anger minsta och största värde, första och tredje kvartilen, samt medelvärde och median.
+
+## Fördelningar 
+Vi kan också vilja sammanfatta material i form av en fördelning, en förteckning över *vilka värden* och *hur ofta* de förekommer i variabeln. Tidigare kapitel har presenterat hur vi kan visualisera fördelningar i olika sorters diagram, stapeldiagram eller histogram, för olika sorters variabler, men vi kan också vilja använda någon av de generella fördelningarna för att beräkna sannolikheter eller andelar för en population.
+
+### Normalfördelningen
+Med R kommer vi kunna beräkna matematiskt (integrera) ytan under kurvan för olika värden istället för att vara begränsad till den standardiserade normalfördelningstabellen. Funktionerna som vi kommer vilja använda här är:
+
+#### Beräkna sannolikheter från givna värden
+Funktionen `pnorm()` används för att beräkna andelar eller sannolikheter för givna utfall som vi är intresserade av. 
+
+```{r}
+
+pnorm(q = 1.96, mean = 0, sd = 1, lower.tail = TRUE)
+
+```
+
+I exemplet ovan anger vi att vi vill beräkna uttrycket $Pr(X \le 1.96)$ där $X \sim N(\mu = 0, \sigma = 1)$. Argumentet `lower.tail` som kan vara antingen `TRUE` eller `FALSE` anger vilket håll uttrycket ska beräknas. 
+
+Om vi istället är intresserad av området till höger om $1.96$, $Pr(X > 1.96)$ behöver vi ändra i funktionen till:
+
+```{r}
+
+pnorm(q = 1.96, mean = 0, sd = 1, lower.tail = FALSE)
+
+```
+
+Här kan vi alltså ange vilken normalfördelning som helst genom att ändra värden på argumenten `mean` och `sd`. Det som vi måste hålla reda på är vilken sida av fördelningen som är av intresse och ange värdet för `lower.tail` utefter. *Det är också med dessa funktioner som p-värden kan räknas ut.*
+
+#### Beräkna värden från givna sannolikheter
+Funktionen `qnorm()` används när vi vill beräkna värden (tabellvärden) utifrån givna sannolikheter.
+
+```{r}
+
+qnorm(p = 0.025, mean = 0, sd = 1, lower.tail = TRUE)
+
+```
+
+I ovan exempel beräknar vi vilket värde ($z$) från den standardiserade normalfördelningen som uppfyller uttrycket $Pr(Z\le z) = 0.025$.
+
+Om vi istället är intresserade av ytor på den högra sidan av fördelningen kan vi likt tidigare ange `lower.tail = FALSE` och då få ett uttryck likt $Pr(Z > z) = 0.025$ istället.
+
+Det är på detta sätt som tabellvärden beräknas fram till hypotesprövningar och intervallskattningar. Sannolikheten som vi är intresserade av blir då den angivna signifikansnivån.
+  

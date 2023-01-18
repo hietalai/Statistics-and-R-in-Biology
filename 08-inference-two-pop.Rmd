@@ -1,5 +1,4 @@
-
-## Inferens i två populationer
+# Jämförelser mellan två populationer
 
 För detta kapitel kommer exemplen använda sig av det inbyggda materialet `PlantGrowth`. Materialet innehåller information om skörden, mätt i den torkade vikten av växten, uppdelad på tre olika grupper, en kontroll och två olika behandlingar. Vi kommer i detta kapitel endast fokusera på de observationer som hör till de olika behandlingarna men kommer titta närmare på alla tre grupper senare. Ett nytt datamaterial innehållande bara de två behandlingarna skapas och döps till `TreatmentPlantGrowth`
 

@@ -1,9 +1,15 @@
 # Introduktion
-Detta material är skapat för att introducera både programmering i R och statistisk analys, specifikt fokuserat på biologiska data. Inom biologi är det vanligt att man undersöker frågeställningar som kräver en insamling och analys av data, vilket i sin tur kräver en god förståelse för både teori och praktiska färdigheter inom statistik.
+Detta material är skapat för att introducera både programmering i R och statistisk analys, specifikt fokuserat på biologiska data. Inom biologi är det vanligt att man undersöker frågeställningar som kräver en insamling och analys av data, vilket i sin tur kräver en god förståelse av både teori och praktiska färdigheter inom statistik.
 
-Det finns många olika sätt att genomföra statistisk dataanalys och för att underlätta arbetet kan vi använda en statistisk programvara. I detta underlag kommer fokus ligga på programmeringsspråket R. Fördelen med att använda ett open-source-programmeringsspråk är flexibiliteten i vad vi kan göra, alltifrån databearbetning och visualisering till djupgående analyser och undersökningar, och möjligheten att skapa något eget. Med hjälp utav det visuella gränssnittet RStudio öppnas ännu fler möjligheter för rapportskrivning och byggandet av applikationer eller hemsidor, allt med användning utav R som grund. Då R är ett programmeringsspråk, finns det en inlärningskurva som ibland kan verka större än andra programvaror och detta material kommer fokusera till stor del att hjälpa till att ta sig över krönet. 
+Det finns många olika sätt att genomföra statistisk dataanalys och för att underlätta arbetet kan vi använda en statistisk programvara. I detta underlag kommer fokus ligga på programmeringsspråket R. Fördelen med att använda ett (open source) programmeringsspråk är flexibiliteten i vad vi kan göra, alltifrån databearbetning och visualisering till mer avancerade analyser och undersökningar, och möjligheten att skapa något eget. Med hjälp utav det visuella gränssnittet RStudio öppnas ännu fler möjligheter för bland annat rapportskrivning och skapandet av applikationer eller hemsidor, allt med R som grund. Till exempel är detta underlag skapad med hjälp av R. 
+Då R är ett programmeringsspråk, finns det en inlärningskurva som ibland kan verka större än andra programvaror och detta material kommer fokusera till stor del att hjälpa till att ta sig över tröskeln och göra er bekväma med att använda språket. 
 
-MER OM HUR DET ÄR KOPPLAT TILL BIOLOGI.
+## Varför behöver vi lära oss statistik?
+Hur många fiskar finns i Sveriges insjöar? Vilken typ av näringsämne(n) är bäst på att förbättra odlingen av vete? Hur påverkar temperaturförändringar mängden nederbörd som faller i Sverige? Hur ser utvecklingen av den biologiska mångfalden ut? 
+
+För att svar på dessa frågor ska vara förankrade i någon form av sanning behöver vi samla in data (information) som kan ligga till grund för svaren. Vi behöver också ha metoder som kan vara till hjälp för att hitta det viktiga ur data och som kan hantera den osäkerhet som naturligt uppstår. Ordet statistik används ofta som en term för siffror man hittar i tabeller på olika ställen, men det är endast en liten del av vad ämnet egentligen omfattar. Alltifrån insamling av data, utforskning av data genom beskrivningar och visualiseringar, analys av data med olika sorters metoder och modeller, till presentation av data i alla dess former, täcks utav termen statistik. 
+
+Detta underlag kommer främst fokusera på att utforska och analysera data som vi redan har samlat in, men det finns mycket att läsa om insamling och presentation av data i andra källor.
 
 <!-- ```{r out.width="110%", out.height= "800px"} -->
 <!-- knitr::include_url("https://canadice.shinyapps.io/book-shiny-support-functions/#anova") -->

@@ -1,5 +1,5 @@
 
-## Jämförelse mellan fler än två grupper
+# Jämförelse mellan fler än två grupper
 EXPERIMENT HÄR.
 
 När vi vill jämföra fler än två grupper behöver vi använda oss utav andra metoder för att detta ska ske korrekt. Dessa metoder kallas för ANOVA som betyder ANalysis Of VAriance och tittar specifikt på skillnader i varianserna inom och mellan grupperna. Om en sådan jämförelse visar på att skillnader finns är det av intresse att identifiera mellan vilka specifika grupper som skillnader råder. Då fler än två grupper ska jämföras fungerar inte de tidigare metoderna utan vi måste nu titta på *multipla jämförelser* för att undersöka detta. Vi kommer även titta på fall där kravet om normalfördelning inte uppfylls och frågan måste besvaras med icke-parametriska metoder.
