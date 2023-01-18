@@ -1,7 +1,8 @@
 :root {
-  --LiUOrange: rgb(255,140,0);
-  --LiUOrange0: rgb(255,210,156);
+  --LiUOrange: #60a0b0;
+  --LiUOrange0: #98c2cd;
   --LiUPurple: rgb(137,129,211);
+  --LiUPurpleL: #a7a1de;
 }
 
 p.caption {
@@ -10,10 +11,12 @@ p.caption {
 }
 p code {
   white-space: inherit;
+  border-radius: 5px;
 }
 pre {
   word-break: normal;
   word-wrap: normal;
+  border-radius: 5px;
 }
 pre code {
   white-space: inherit;
@@ -35,21 +38,69 @@ pre code {
 }
 
 .importantbox {
-    background-color: var(--LiUOrange);
+    background-color: var(--LiUPurple);
     padding: 10px;
     border: solid 2px black;
     border-left: solid 10px black;
+    display: block;
+    position: relative;
+    margin-bottom: 12px;
 }
 
 .importantbox code {
-    background-color: var(--LiUOrange0)!important;
+    background-color: var(--LiUPurpleL)!important;
+}
+
+.importantbox pre:before{
+  letter-spacing: -.2em;
+  content: "\00a0";
+}
+
+.importantbox pre:after{
+  letter-spacing: -.2em;
+  content: "\00a0";
 }
 
 .importantbox pre {
     display: inline-table;
-    background-color: var(--LiUOrange0)!important;
+    background-color: var(--LiUPurpleL)!important;
     padding: 0px!important;
     margin: 0px!important;
 }
 
+.importantbox>div>div {
+  background-color: black;
+  padding-left: 1%;
+  color: var(--LiUPurple);
+  position:absolute;
+  top:0;
+  left:0;
+  width: 100%;
+  font-size: larger;
+  font-weight: 800;
+}
 
+.importantbox>div {
+  padding-top: 25px;
+  color: white;
+}
+
+.terminology {
+  border-radius: 5px;
+  background-color: var(--LiUPurple);
+  color: white;
+  font-size: .9em;
+  margin: 0;
+  padding: 3px;
+  font-weight: bold;
+}
+
+.terminology:before {
+  letter-spacing: -.2em;
+  content: "\00a0";
+}
+
+.terminology:after {
+  letter-spacing: -.2em;
+  content: "\00a0";
+}
