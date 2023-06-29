@@ -1,15 +1,21 @@
 # Introduktion
 Detta material är skapat för att introducera både programmering i R och statistisk analys, specifikt fokuserat på biologiska data. Inom biologi är det vanligt att man undersöker frågeställningar som kräver en insamling och analys av data, vilket i sin tur kräver en god förståelse av både teori och praktiska färdigheter inom statistik.
 
-Det finns många olika sätt att genomföra statistisk dataanalys och för att underlätta arbetet kan vi använda en statistisk programvara. I detta underlag kommer fokus ligga på programmeringsspråket R. Fördelen med att använda ett (open source) programmeringsspråk är flexibiliteten i vad vi kan göra, alltifrån databearbetning och visualisering till mer avancerade analyser och undersökningar, och möjligheten att skapa något eget. Med hjälp utav det visuella gränssnittet RStudio öppnas ännu fler möjligheter för bland annat rapportskrivning och skapandet av applikationer eller hemsidor, allt med R som grund. Till exempel är detta underlag skapad med hjälp av R. 
-Då R är ett programmeringsspråk, finns det en inlärningskurva som ibland kan verka större än andra programvaror och detta material kommer fokusera till stor del att hjälpa till att ta sig över tröskeln och göra er bekväma med att använda språket. 
+Det finns många olika sätt att genomföra statistisk dataanalys och för att underlätta arbetet kan vi använda en statistisk programvara. I detta underlag kommer fokus ligga på programmeringsspråket R. Fördelen med att använda ett (open source) programmeringsspråk är flexibiliteten i vad vi kan göra, alltifrån databearbetning och visualisering till mer avancerade analyser och undersökningar, och möjligheten att skapa något eget. Med hjälp utav det visuella gränssnittet RStudio öppnas ännu fler möjligheter för bland annat rapportskrivning och skapandet av applikationer eller hemsidor, allt med R som grund.\footnote{Till exempel är hela detta underlag skapad i R.}
+
+Då R är ett programmeringsspråk finns det en inlärningskurva som ibland kan verka större och brantare än andra programvaror. Detta material blandar grundläggande programmeringskunskaper och statistisk teori för att kombinera dessa i praktiska exempel och tillämpningar, allt för att hjälpa till att ta sig över tröskeln och göra er bekväma med att använda språket.  
 
 ## Varför behöver vi lära oss statistik?
 Hur många fiskar finns i Sveriges insjöar? Vilken typ av näringsämne(n) är bäst på att förbättra odlingen av vete? Hur påverkar temperaturförändringar mängden nederbörd som faller i Sverige? Hur ser utvecklingen av den biologiska mångfalden ut? 
 
-För att svar på dessa frågor ska vara förankrade i någon form av sanning behöver vi samla in data (information) som kan ligga till grund för svaren. Vi behöver också ha metoder som kan vara till hjälp för att hitta det viktiga ur data och som kan hantera den osäkerhet som naturligt uppstår. Ordet statistik används ofta som en term för siffror man hittar i tabeller på olika ställen, men det är endast en liten del av vad ämnet egentligen omfattar. Alltifrån insamling av data, utforskning av data genom beskrivningar och visualiseringar, analys av data med olika sorters metoder och modeller, till presentation av data i alla dess former, täcks utav termen statistik. 
+För att svaren på dessa frågor ska vara förankrade i någon form av sanning behöver vi samla in data (information). Vi behöver också ha metoder som kan sortera och filtrera ut det viktiga och som kan hantera den osäkerhet som naturligt uppstår. Ordet *statistik* används ofta som en term för en tråkig massa av siffror sammanställda i tabeller, men detta är endast en mikroskopisk del av vad ämnet egentligen omfattar. Statistik täcker alltifrån:
 
-Detta underlag kommer främst fokusera på att utforska och analysera data som vi redan har samlat in, men det finns mycket att läsa om insamling och presentation av data i andra källor.
+- insamling av data, 
+- utforskning av data genom beskrivningar och visualiseringar, 
+- analys av data med olika sorters metoder och modeller, 
+- till presentation av data i alla dess former.
+
+Inom detta underlag kommer vi främst fokusera på data som redan är insamlad och prioritera metoder för att utforska och analysera den information som finns gömd. En viktig del av statistiken är dock att själv kunna samla in eget data för egna ändamål som tyvärr inte inkluderas i denna text. Istället finns till exempel @ruxton2016 som innehåller många metoder för hur experimentella studier kan genomföras eller @wenemark2023 och @wenemark2017 som presenterar metoder för hur man planerar och genomför enkätundersökningar.
 
 <!-- ```{r out.width="110%", out.height= "800px"} -->
 <!-- knitr::include_url("https://canadice.shinyapps.io/book-shiny-support-functions/#anova") -->

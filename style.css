@@ -9,9 +9,11 @@ p.caption {
   color: #777;
   margin-top: 10px;
 }
-p code {
+p code,
+li code {
   white-space: inherit;
   border-radius: 5px;
+  background-color: #d9d9d9!important;
 }
 pre {
   word-break: normal;
@@ -103,4 +105,10 @@ pre code {
 .terminology:after {
   letter-spacing: -.2em;
   content: "\00a0";
+}
+
+.figcaption {
+  font-style: italic;
+  font-size: 0.85em;
+  margin-bottom: 10px;
 }

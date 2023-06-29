@@ -135,6 +135,19 @@ sapply(
 )
 
 
+### GGPLOT THEME
+hietala_theme <- theme_bw() +
+  theme(axis.title.y = element_text(angle = 0, vjust = 0.5, size = 14),
+        axis.title.x = element_text(size = 14),
+        plot.title = element_text(hjust = 0.5),
+        panel.grid.major.x = element_blank(),
+        panel.grid.minor.x = element_blank(),
+        panel.grid.major.y = element_line(color = "gray70"),
+        panel.grid.minor.y = element_line(color = "gray80"),
+        axis.text = element_text(size = 12, color = "black"))
+
+theme_set(hietala_theme)
+
 ##################################################################
 ##                  The UI and Server function                  ##
 ##################################################################
@@ -207,6 +220,11 @@ ui <- function(request){
           "ANOVA",
           tabName = "anova",
           selected = FALSE
+        ),
+        menuItem(
+          "Fördelningar",
+          tabName = "distributions",
+          selected = FALSE
         )
       )
     ),
@@ -228,14 +246,11 @@ ui <- function(request){
         tabItem(
           "anova",
           anovaUI(id = "ANOVA")
-        )#,
-        # tabItem(
-        #   "schedule",
-        #   titlePanel(
-        #     h1("Schedule", align = "center")
-        #   ),
-        #   scheduleUI(id = "schedule")
-        # )
+        ),
+        tabItem(
+          "distributions",
+          probabilityUI(id = "distributions")
+        )
       )
     )
     ##----------------------------------------------------------------
@@ -250,16 +265,8 @@ server <- function(input, output, session) {
   
   loadedModuleTest <- reactiveVal(FALSE)
   loadedModuleANOVA <- reactiveVal(FALSE)
+  loadedModuleDistributions <- reactiveVal(FALSE)
   # loadedModuleStandings <- reactiveVal(FALSE)
-  # loadedModulePlayerStats <- reactiveVal(FALSE)
-  # loadedModulePlayerComparison <- reactiveVal(FALSE)
-  # loadedModulePlayerBuilder <- reactiveVal(FALSE)
-  # loadedModuleTrackerPosition <- reactiveVal(FALSE)
-  # loadedModuleOverviewTeam <- reactiveVal(FALSE)
-  # loadedModulePlayerDatabase <- reactiveVal(FALSE)
-  # loadedModulePlayerRecords <- reactiveVal(FALSE)
-  # loadedModuletrackerTPE <- reactiveVal(FALSE)
-  # loadedModuleIIHF <- reactiveVal(FALSE)
   
   
   ##---------------------------------------------------------------
@@ -280,6 +287,12 @@ server <- function(input, output, session) {
 
       anovaSERVER(id = "ANOVA")
 
+    } else if(input$tabs=="distributions" & !loadedModuleDistributions()){
+      
+      loadedModuleDistributions(TRUE)
+      
+      probabilitySERVER(id = "distributions")
+      
     }
   }, ignoreNULL = TRUE, ignoreInit = TRUE)
   

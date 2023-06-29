@@ -1,57 +1,54 @@
 # Visualisering
-## Varför är visualisering viktigt?
-*"En bild säger mer än tusen ord"* är ett vanligt förekommande ordspråk som innehåller mycket sanning. Speciellt när det kommer till information används visualiseringar i olika former för att på ett effektivt och tydligt sätt förmedla stora mängder data som hade varit svårare att uppfatta som enskilda siffror.
+*"En bild säger mer än tusen ord"* är ett vanligt förekommande ordspråk som innehåller mycket sanning. Speciellt när det kommer till information och data används visualiseringar i olika former för att på ett effektivt och tydligt sätt förmedla stora mängder siffror som hade varit svårare att uppfatta i andra former. Om du ska presentera något banbrytande för dina kollegor eller chefer måste du på något sätt kunna sammanfatta resultatet på ett lättförståeligt och tydligt sätt. Visualiseringar är ett verktyg som ger många möjligheter att komprimera informationen som ska förmedlas.
 
-Visualisering ger en statistiker möjlighet att lära känna sitt datamaterial innan mer djupgående analys påbörjas. Med mycket data är det oftast svårt få grepp om sina variabler och observationer. Frågor som; "vad är sambandet mellan mina variabler?" eller "finns det några felaktigheter i materialet?" blir mycket enklare att besvara med hjälp av visualiseringar.
-
-Om du ska presentera något banbrytande för dina kollegor eller chefer måste du på något sätt kunna sammanfatta resultatet på ett lättförståeligt och tydligt sätt. Visualiseringar är ett verktyg som ger många möjligheter att komprimera informationen som ska förmedlas.
+Visualisering ger också en analytiker möjlighet att lära känna sitt datamaterial innan mer djupgående analys påbörjas. Med mycket data är det oftast svårt få grepp om sina variabler och observationer. Frågor som; "vad är sambandet mellan mina variabler?" eller "finns det några felaktigheter i materialet?" blir mycket enklare att besvara med hjälp av visualiseringar. Ett första steg i vilken undersökning som helst är därför ett explorativt steg med beskrivande mått och lämpliga visualiseringar.
 
 ## Grundläggande begrepp
 Ett diagram innehåller olika delar som kommer refereras i resterande text. Här följer en kortare ordlista:
   
-  - **Diagramyta**: Det område som innehåller all information tillhörande en visualisering
-- **Rityta**: Det område som innehåller det faktiska data som visualiseras
-- **Axel**: Kanterna som begränsar ritytan, ofta benämnt som x- och y-axel för den vågräta ( - ) respektive lodräta ( | ) axeln
-- **Axelförklaring**: En rubrik som beskriver vad den angivna axeln visar för information
-- **Skalvärden**: Steg som anger specifika värden på den angivna axeln
-- **Stödlinjer**: Linjer vilka agerar som en förlängning av axlarnas skalvärden i bakgrunden av ritytan
-- **Titel/rubrik**: En rubrik för diagrammet
-- **Källhänvisning**: En text placerade i någon av de nedre hörnen som anger en källa för det visualiserade datamaterialet om sådan finns
+- <span class="terminology">Diagramyta</span>: Det område som innehåller all information tillhörande en visualisering
+- <span class="terminology">Rityta</span>: Det område som innehåller det faktiska data som visualiseras
+- <span class="terminology">Axel</span>: Kanterna som begränsar ritytan, ofta benämnt som x- och y-axel för den vågräta ( - ) respektive lodräta ( | ) axeln
+- <span class="terminology">Axelförklaring</span>: En rubrik som beskriver vad den angivna axeln visar för information
+- <span class="terminology">Skalvärden</span>: Steg som anger specifika värden på den angivna axeln
+- <span class="terminology">Stödlinjer</span>: Linjer vilka agerar som en förlängning av axlarnas skalvärden i bakgrunden av ritytan
+- <span class="terminology">Titel/rubrik</span>: En rubrik för diagrammet
+- <span class="terminology">Källhänvisning</span>: En text placerade i någon av de nedre hörnen som anger en källa för det visualiserade datamaterialet om sådan finns
 
-## Ett bra diagram
-För att skapa ett bra diagram behöver man tänka på några olika saker.
+## Ett diagram av hög kvalité
+För att skapa ett bra diagram behöver man tänka på några olika saker bland annat vilken typ av variabel som ska visualiseras. En sorts diagram kan mycket enkelt och tydligt visualisera en kvalitativ variabel men visualiserar kvantitativa variabler värdelöst...
 
-Vilken typ av variabel som ska visualiseras påverkar huruvida ett diagram är tydligt eller inte. Samma sorts diagram kan mycket enkelt och tydligt visualisera en kvalitativ variabel men visualiserar kvantitativa variabler värdelöst...
+Ett <span class="terminology">stapeldiagram</span> lämpar sig för att visualisera fördelningen av kvalitativa variabler. Eftersom en kvantitativ variabel omfattar många olika värden kommer frekvenserna aldrig bli nog stora, och antalet värden som variabeln kan anta vara alltför många.
 
 ```{r echo = FALSE, fig.cap = "Exempel på stapeldiagram för en kvalitativ (t.vä.) och kvantitativ (t.hö.) variabel", fig.width = 8}
 
 p1 <- ggplot(penguins) + aes(x = species) + geom_bar(width = 0.6) +
-  labs(y = "Antal", x = "Art")
+  labs(y = "Antal", x = "Art") 
 
 p2 <- ggplot(penguins) + aes(x = bill_length_mm) + geom_bar() +
-  labs(y = "Antal", x = "Näbblängd")
+  labs(y = "Antal", x = "Näbblängd") 
 
 grid.arrange(p1, p2, nrow = 1)
 
 ```
 
-Ritytan innehåller den information som ska förmedlas och bör därför få ta upp majoriteten av platsen i ett diagram. Om man anger för stora rubriker blir det lätt att man inkräktar på ritytan. Detsamma gäller om y-axeln innehåller långa skalvärdesnamn.
+Ritytan innehåller den information som ska förmedlas och bör därför få ta upp majoriteten av platsen i ett diagram. Om man anger för stora rubriker blir det lätt att man inkräktar på ritytan. Detsamma gäller om y-axeln innehåller långa skalvärdesnamn. I följande diagram är ritytan allting inom det rödmarkerade området. 
 
-```{r echo = FALSE, fig.cap = "Exempel på diagram med majoriteten rityta (t.vä.) och för liten rityta (t.hö.)", fig.width = 8}
+```{r echo = FALSE, fig.cap = "Exempel på diagram med bra rityta (t.vä.) och för liten rityta (t.hö.)", fig.width = 8}
 
 p1 <- ggplot(penguins) + aes(x = species) + geom_bar(width = 0.6) +
-  labs(y = "Antal", x = "Art")
+  labs(y = "Antal", x = "Art") + theme(panel.border = element_rect(color = "red"))
 
 p2 <- ggplot(penguins) + aes(x = species) + geom_bar(width = 0.6) +
-  labs(y = "Antalet pingviner av olika arter", x = "Art")
+  labs(y = "Antalet pingviner av olika arter", x = "Art") + theme(panel.border = element_rect(color = "red"))
 
 grid.arrange(p1, p2, nrow = 1)
 
 ```
 
-Stödlinjer bör finnas för att underlätta utläsningen av information långt från respektive axel. Dessa bör dock inte ta över diagrammet utan enbart finnas i bakgrunden. Notera att stödlinjer kan komma att justera beroende på vilket sammanhang diagrammen används till. Beroende på upplösning, ljusstyrka eller andra skärmegenskaper kan ibland ljusa och smala linjer försvinna in i den vita bakgrunden. Då är tjockare och starkare stödlinjer befogat.
+Stödlinjer bör finnas för att underlätta att läsa av information långt från respektive axel. Dessa bör dock inte ta över diagrammet utan enbart finnas i bakgrunden. Notera att stödlinjer kan behöva justeras beroende på vilket sammanhang diagrammen används till. Beroende på upplösning, ljusstyrka eller andra skärmegenskaper kan ibland ljusa och smala linjer försvinna in i den vita bakgrunden och då är tjockare och starkare stödlinjer befogat.
 
-```{r echo = FALSE, fig.cap = "Exempel på stödlinjer som ligger i bakgrunden (t.vä.) och stödlinjer som stjäl fokus från informationen (t.hö.)", fig.width = 8}
+```{r echo = FALSE, fig.cap = "Exempel på stödlinjer som ligger i bakgrunden (t.vä.) och stödlinjer som tar onödig fokus från informationen (t.hö.)", fig.width = 8}
 
 p1 <- ggplot(penguins) + aes(x = species) + geom_bar(width = 0.6) +
   labs(y = "Antal", x = "Art")
@@ -87,84 +84,112 @@ ggplot(penguins) + aes(x = species) + geom_bar(width = 0.6) +
 
 ```
 
+Följande kapitel kommer visa hur vi skapar dessa olika diagram och vilka möjlighetervi har att förändra deras egenskaper.
 
 ## Visualisering av beskrivande statistik
+Ett utav de vanligaste visualiseringarna är att visualisera fördelningen av en enskild variabel. Det ger oss möjligheten att för kvantitativa variabler identifiera både läges- och spridningsmått samtidigt som vi kan identifiera extremvärden.
 
 ### Stapeldiagram 
-Den absolut enklaste formen av visualisering är stapeldiagram. Denna diagramtyp består utav staplar vars höjd kommer från ett värde i datamaterialet, vanligtvis då man har en kvalitativ variabel och dess frekvenser (antalet av de olika arterna i diagrammen från tidigare kapitel), men diagramtypen kan också användas då man har en kvantitativ variabel uppdelad på en eller flera kvalitativa variabler (medellönen uppdelat på olika sektorer). Följande exempel kommer utgå från det första fallet.
+Den absolut enklaste formen av visualisering är stapeldiagram. På x-axeln hittas de enskilda värden som variabeln innehåller och höjden på respektive stapel styrs utav antalet eller andelen observationer som har respektive värde. 
 
-Olika programvaror kräver olika mycket bearbetning av datamaterialet innan diagrammet kan skapas. Vissa kräver att du själv skapar en frekvenstabell och anger att höjden av respektive stapel ska bestämmas av den tillhörande frekvensen, medan andra kan göra dessa beräkningar direkt på rådata.
+```{r exampleBar, echo = FALSE, fig.cap = "Ett stapeldiagram som visar en fördelning av en kvalitativ variabel", fig.width = 4}
 
-Som tidigare nämnt om R använder sig programmet av diverse paket som innehåller redan skapade funktioner för att lösa diverse arbetsuppgifter. För visualisering kommer vi använda oss främst av paketet `ggplot2` som bygger på vad som kallas för *grammar of graphics*. (@ggplot2019) Detta är ett försök till att formalisera ett språk för hur man enhetligt bör "skriva" visualiseringar och även SPSS använder sig av grunderna till detta språk. Det första steget för att få ta del av funktionerna är att ladda paketet till din R-session genom:
+ggplot(penguins) + aes(x = species) + geom_bar(width = 0.6) +
+  labs(y = "Antal", x = "Art")
+
+```
+
+Ett stapeldiagram kan också skapas när en kvantitativ variabel grupperas på en eller flera nivåer av en kvalitativ variabel, men då visualiseras inte längre en fördelning.
+
+```{r echo = FALSE, fig.cap = "Ett stapeldiagram som visar ett aggregerat kvantitativt värde grupperat på en kvalitativ variabel", fig.width = 4}
+
+penguins %>% 
+  group_by(species) %>% 
+  summarize(
+    Medelvikt = mean(body_mass_g)
+  ) %>% 
+  ggplot() + aes(x = species, y = Medelvikt) + geom_bar(stat = "identity", width = 0.6) + 
+  labs(x = "Art")
+
+```
+
+Olika programvaror kräver olika mycket bearbetning av datamaterialet innan diagrammet kan skapas. Vissa kräver att du själv skapar en frekvenstabell och anger att höjden av respektive stapel ska bestämmas av den tillhörande frekvensen, medan andra kan göra dessa beräkningar direkt på rådata. R och paketet `ggplot2` kan skapa diagram baserat på båda formaten.
+
+`ggplot2` är ett paket som formaliserar ett eget språk för hur man enhetligt bör skapa visualiseringar genom något som kallas "grammar of graphics". Det första steget för att få ta del av funktionerna är att ladda paketet till din R-session genom eller om du redan laddat in `tidyverse` kommer även detta paket ha laddats in.
   
 ```{r}
 require(ggplot2)
 ```
 
-Paketets visualiseringar utgår ifrån en `data.frame` vilket innebär att vi behöver ladda in ett datamaterial innan vi kan påbörja visualiseringarna. Detta kan göras med någon utav funktionerna `read.csv()`, `read.csv2()` osv. **Se till att datamaterialet som laddats in ser ut som vi förväntar att det ska göra**, exempelvis är decimaler korrekt angivna, har vi lika många variabler i R som i Excel och liknande. Med koden nedan kan datamaterialet som används som exempel genom hela denna text laddas in i R till objektet som kallas `exempeldata`. Vi kan även se hur materialet ser ut genom att använda `head()` som skriver ut ett antal observationer. Materialet ser ut att innehålla fem variabler, varav två är kvalitativa.
-
-```{r, eval = TRUE}
-
-exempeldata <- read.csv2(file = "datasets/732G45_exempeldata.csv")
-
-head(exempeldata, n = 5)
-
-```
-
+Paketets visualiseringar utgår ifrån en `tibble` som vi antingen skapat själv eller laddat in från en fil från hårddisken. Vi kommer utgå ifrån `penguins` som laddades in i [detta kapitel](#example). Glöm inte att rensa bort de saknade värdena i materialet med hjälp utav `filter()`.
 
 #### Grundkomponenter 
-Vi kan nu börja med att skapa stapeldiagrammet. Vi börjar med de tre grundkomponenterna av ett `ggplot`-diagram; `ggplot()`, `aes()` och `geom()`. Alla diagram måste innehålla dessa tre komponenter i någon form för att vi ska kunna producera något överhuvudtaget, sen kan vi lägga till andra instruktioner för att ändra diagrammet utseende.
+Vi kan nu börja med att skapa figur \@ref(fig:exampleBar). Vi börjar med de tre grundkomponenterna av ett `ggplot`-diagram; `ggplot()`, `aes()` och `geom_x()`. Alla diagram måste innehålla dessa tre komponenter i någon form för att vi ska kunna producera något överhuvudtaget, sen kan vi lägga till andra instruktioner för att ändra diagrammet utseende.
 
 ```{r echo = FALSE}
 theme_set(theme_gray())
 ```
 
-
 I `ggplot()` anges vilket datamaterial vi vill använda för visualiseringen:
   
 ```{r}
 
-ggplot(exempeldata)
+## Anger vilket datamaterial som ska användas i visualiseringen
+ggplot(penguins)
 
 ```
 
-Som vi ser skapas inget utifrån detta kommando, vi har bara sagt åt R att använda datamaterialet men inte vad den ska göra med det. Nästa steg är att ange vilka variabler vi vill använda för axlarna i diagrammet. När det kommer till stapeldiagram finns två olika sätt att göra; antingen har vi rådata och låter R räkna ut frekvensen av de olika kategorierna själv eller så skapar vi en egen frekvenstabell och anger `y = frekvens`. Vi kommer först börja med exemplet utifrån rådata:
+Som vi ser skapas inget utifrån denna kod, vi har bara sagt åt R att använda datamaterialet men inte vad den ska göra med det. 
+
+Fördelen med att använda `ggplot2` är att alla dessa funktioner i bakgrunder skapar en mängd instruktioner som vi kan utöka med hjälp utav `+`. Vi kan också spara ner instruktioner i objekt för att senare slå de samman eller förändra vissa delar av visualiseringen.
+
+Nästa steg är att ange vilka variabler vi vill använda för axlarna i diagrammet. När det kommer till stapeldiagram finns två olika sätt att göra; antingen har vi rådata och låter R räkna ut frekvensen av de olika kategorierna själv eller har vi data med två variabler varav den ena visar höjden på stapeln och den andra visar grupperingen. Vi kommer först börja med exemplet utifrån rådata:
   
 ```{r}
 
-ggplot(exempeldata) + aes(x = bil)
+## Anger vilka variabler som ska användas till axlarna
+ggplot(penguins) + aes(x = species)
 
 ```
 
-Nu ser vi att R ritat ut de olika bilarna som finns i materialet på x-axeln, men vi har fortfarande inte sagt åt R vad vi vill att den ska göra med informationen vi ska visualisera. Den sista grundkomponenten är den som styr vilken diagramtyp vi skapar och i `ggplot2` finns många olika som vi kommer stöta på i denna text. För ett stapeldiagram anger vi `geom_bar()` från engelska termen *bar chart*. 
+I kodexemplet lägger vi alltså till instruktionerna för `aes()` till instruktionerna för `ggplot()` med hjälp av `+`. Nu ser vi att R ritat ut de olika arterna som finns i materialet på x-axeln, men vi har fortfarande inte sagt åt R vad vi vill att den ska göra med informationen. 
+
+Den sista grundkomponenten är den som styr vilken diagramtyp vi skapar och i `ggplot2` finns många olika som kommer till användning för olika ändamål. För ett stapeldiagram anger vi `geom_bar()` från engelska termen *bar chart*. 
 
 ```{r}
 
-ggplot(exempeldata) + aes(x = bil) + geom_bar()
+## Anger vilken sorts geometriskt objekt som ska skapas, ett stapeldiagram
+ggplot(penguins) + aes(x = species) + geom_bar()
 
 ```
 
-För att y-axeln ska visa relativa frekvenser istället för absoluta, kan vi i `geom_bar()` lägga till koden `aes(y = stat(count/sum(count)))`. Diagrammet ändrar sig inte i sin form, staplarna är fortfarande lika höga i relation till varandra, men tolkningar av detta diagram kan nu göras i andelar (procent) istället för antal.
-
-```{r}
-
-ggplot(exempeldata) + aes(x = bil) + geom_bar(aes(y = stat(count/sum(count))))
-
+```{r echo = FALSE}
+htmltools::div(
+  class = "importantbox",
+  htmltools::div(
+  htmltools::div(
+  "Tips!"
+  ),
+  htmltools::HTML("För att y-axeln ska visa relativa frekvenser istället för absoluta, kan vi i <pre>geom_bar()</pre> lägga till argumentet <pre>mapping = aes(y = (count/sum(count)) %>% after_stat())</pre>. Diagrammet ändrar sig inte i sin form, staplarna är fortfarande lika höga i relation till varandra, men tolkningar av detta diagram kan nu göras i andelar (procent) istället för antal.")
+  )
+)
 ```
 
-Med dessa grundkomponenter får vi fram ett diagram, men vi kan väl alla hålla med om att det i detta läge inte ser särskilt snyggt och tydligt ut. Ett snabbt och enkelt sätt att få till lite snyggare diagram är att använda någon utav `ggplot`s teman som finns tillgängliga genom olika `theme()`. Exempelvis är ett stilrent tema att utgå ifrån `theme_bw()` likt:
+Med dessa grundkomponenter får vi fram ett diagram, men vi kan väl alla hålla med om att det i detta läge inte ser särskilt snyggt och tydligt ut. Ett snabbt och enkelt sätt att få till lite snyggare diagram är att använda någon utav `ggplot`s teman som finns tillgängliga genom `theme_X()`. Exempelvis är ett stilrent tema att utgå ifrån `theme_bw()` likt:
   
 ```{r}
 
-ggplot(exempeldata) + aes(x = bil) + geom_bar(aes(y = stat(count/sum(count)))) + theme_bw()
+## Skriver ut visualiseringen med ett standard-tema
+ggplot(penguins) + aes(x = species) + geom_bar() + theme_bw()
 
 ```
 
-Det är nu den största funktionaliteten med `ggplot2` kommer in. Vi kan spara instruktionerna vi gett åt R för att skapa diagrammet och senare lägga till fler instruktioner med andra funktioner genom att använda `+` på samma sätt som koderna ovan är skrivna. Vi sparar därför de nuvarande instruktionerna i ett objekt som vi kallar för `p` (vi kan döpa denna till vad som helst) likt:
+Det är nu den största funktionaliteten med `ggplot2` kommer in. Vi kan spara instruktionerna vi gett åt R för att skapa diagrammet och senare lägga till fler instruktioner genom att använda `+` på samma sätt som koderna ovan är skrivna. Vi sparar därför de nuvarande instruktionerna i ett objekt som vi kallar för `p` (vi kan döpa denna till vad som helst) likt:
   
 ```{r}
 
-p <- ggplot(exempeldata) + aes(x = bil) + geom_bar(aes(y = stat(count/sum(count)))) + theme_bw()
+## Sparar instruktionerna för hur visualiseringen ska skapas
+p <- ggplot(penguins) + aes(x = species) + geom_bar() + theme_bw()
 
 ```
 
@@ -172,62 +197,65 @@ Nu ligger alla instruktioner för **hur** R ska rita upp diagrammet sparat i `p`
   
 ```{r}
 
+## Skriv ut visualiseringen utifrån de sparade instruktionerna
 p
 
 ```
 
-Vi kan nu lägga till ytterligare funktioner exempelvis:
+Vi kan nu lägga till ytterligare instruktioner exempelvis att rotera diagrammet med `coord_flip()`.
   
 ```{r}
 
+## Lägger till instruktioner för att rotera diagrammet p
 p + coord_flip()
 
 ```
 
-eller:
+Eller förändra den kontinuerliga y-axelns slutvärde med `scale_y_continuous()` och argumentet `limits = c(min, max)`.
   
 ```{r}
 
-p + scale_y_continuous(labels = scales::percent)
+## Anger att y-axeln ska gå mellan 0 och 300
+p + scale_y_continuous(limits = c(0, 300))
 
 ```
 
-Notera att diagrammet inte roterades i det andra diagrammet när vi ändrade hur skalvärdena på y-axeln ser ut. Detta är för att vi endast sagt åt R att rita diagrammet med vardera tillagda instruktion vid två olika tillfällen utan att ha sparat de någonstans. För att R ska spara dessa instruktioner tillsammans med grundkomponenterna vi angivit innan måste vi spara ovanstående kod till ett objekt:
+Notera att diagrammet inte roterades efter den andra raden kod när vi ändrade y-axeln Detta är för att vi endast sagt åt R att rita diagrammet med vardera tillagda instruktion vid två olika tillfällen utan att ha sparat dessa någonstans. För att R ska spara dessa instruktioner tillsammans med grundinstruktionerna måste vi spara om instruktionerna till ett nytt (eller skriva över) objekt.
   
 ```{r}
 
-p <- p + scale_y_continuous(labels = scales::percent)
+## Skriver över instruktionerna i p med p + ytterligare instruktioner
+p <- p + scale_y_continuous(limits = c(0, 300))
 
 p
 
 ```
 
 ##### Sammanställd data 
-Om vi istället för rådata har sammanställd data exempelvis i form utav en frekvenstabell kan vi ändå skapa samma ovanstående diagram. Vi tänker oss att data om bilarna istället för de `r nrow(exempeldata)` observationerna är presenterad i följande tabell:
-  
+Om vi istället för rådata har sammanställd eller aggregerad data kan vi ändå skapa ett stapeldiagram. Till exempel skulle vi kunna ha beräknat medelvikten av de tre olika arterna pingviner enligt:
+
+```{r}
+
+## Skapar ett nytt material med aggregerad information om pingvinerna
+aggPenguins <- 
+  penguins %>% 
+  group_by(species) %>% 
+  summarize(
+    meanWeight = mean(body_mass_g)
+  ) 
+
+```
 ```{r echo = FALSE}
 
-exempeltabell <- as.data.frame(table(exempeldata$bil))
-colnames(exempeltabell) <- c("Märke", "Frekvens")
-
-kable(exempeltabell, format = "html", caption = "Fördelning av bilmärken i urvalet") %>%
-  kable_styling(position = "center", full_width = FALSE)
+aggPenguins
 
 ```
 
-Det som är viktigt är att vi fortfarande i R hanterar denna frekvenstabell som en `data.frame`, då `ggplot` kräver formatet för sina visualiseringar. Datamaterialet ser då istället ut som:
-  
-```{r}
-
-head(exempeltabell)
-
-```
-
-För att skapa diagrammet som vi sett tidigare måste vi lägga till några argument i `aes()` och `geom_bar()` likt koden nedan. Argumentet `stat = "identity"` i `geom_bar()` krävs för att R ska räkna värdet på den angivna y-variabeln som höjden på stapeln.
+För att skapa diagrammet som vi sett tidigare måste vi lägga till några argument i `aes()` och `geom_bar()` som speglar den nya strukturen. Vi anger att y-axeln nu kommer från en specifik variabel och att höjden på staplarna ska styras utav det uppmätta värdet från variabeln. Det sista kräver att argumentet `stat = "identity"` anges i `geom_bar()`.
 
 ```{r}
 
-ggplot(exempeltabell) + aes(x = Märke, y = Frekvens) + geom_bar(stat = "identity") + theme_bw()
+ggplot(aggPenguins) + aes(x = species, y = meanWeight) + geom_bar(stat = "identity") + theme_bw()
 
 ```
 
@@ -236,10 +264,10 @@ Om vi vill ändra färgen på olika delar av diagrammet exempelvis staplarna kan
 
 ```{r}
 
-p <- ggplot(exempeldata) + aes(x = bil) + 
+p <- ggplot(penguins) + aes(x = species) + 
   geom_bar(fill = "dark orange",
            color = "black",
-           aes(y = stat(count/sum(count)))) +
+           aes(y = after_stat(count/sum(count)))) +
   theme_bw()
 
 p
@@ -266,13 +294,13 @@ Det som saknas just nu i diagrammet är tydligare (och större) text som förkla
   
 ```{r}
 
-p <- p + labs(x = "Bilmärke", y = "Andel", caption = "Källa: Hietala (2019)")
+p <- p + labs(x = "Art", y = "Andel", caption = "Källa: Gorman, Williams, Fraser (2014)")
 
 p
 
 ```
 
-Det vi kan förhålla oss till när vi anger titeln för y-axeln är att den beskriver enheten som används för att mäta axelns skalvärden. Då vi i detta fall har värden mellan $0$ och $1$ bör vi ange *Andel* som titel. Om vi skulle haft absoulta frekvenser skulle en lämplig titel varit *Antal*. Om vi istället för andelar anger skalan i procent likt tidigare diagram kan det diskuteras huruvida det behövs en y-axeltitel eftersom enheten redan är angiven på skalan. Diagrammet skulle då kunna se ut som:
+Det vi kan förhålla oss till när vi anger titeln för y-axeln är att den beskriver enheten som används för att mäta axelns skalvärden. Då vi i detta fall har värden mellan $0$ och $1$ bör vi ange *Andel* som titel. Om vi skulle haft absoluta frekvenser skulle en lämplig titel varit *Antal*. Om vi istället för andelar anger skalan i procent likt tidigare diagram kan det diskuteras huruvida det behövs en y-axeltitel eftersom enheten redan är angiven på skalan. Diagrammet skulle då kunna se ut som:
   
 ```{r}
 
@@ -282,7 +310,7 @@ p + scale_y_continuous(labels = scales::percent) + labs(y = "")
 
 Vi kan även ändra andra aspekter av textens **utseende** i diagrammet, exempelvis hur stor den är, dess rotation eller position. Detta görs med olika argument i `theme()`. Vi kan ändra utseendet på axeltexter med `axis.title`, skalvärden med `axis.text` och källhänvisningen med `plot.caption`. Alla dessa delar kräver instruktioner från `element_text()`-funktionen och där kan argument som:
   
-  - `angle` styra rotationen, 
+- `angle` styra rotationen, 
 - `hjust` och `vjust` styra placeringen horisontellt respektive vertikalt, 
 - `size` styra textstorleken,
 - `font` styra typsnittet,
@@ -315,7 +343,7 @@ Om vi skulle vilja visa en större del av axeln kan vi ange skalans gränser med
 ```{r}
 
 p + scale_y_continuous(breaks = seq(from = 0, to = 1, by = .10), 
-                       limits = c(0, 0.35))
+                       limits = c(0, 0.40))
 
 ```
 
@@ -324,7 +352,7 @@ Något som dock är snyggt att göra med specifikt stapeldiagram är att ta bort
 ```{r}
 
 p <- p + scale_y_continuous(breaks = seq(from = 0, to = 1, by = .10), 
-                            limits = c(0, 0.25),
+                            limits = c(0, 0.4),
                             expand = c(0,0))
 p
 
@@ -333,14 +361,14 @@ p
 ### Grupperat stapeldiagram 
 Om vi har ett datamaterial bestående av flera kvalitativa variabler kan vi ibland vilja visualisera fördelningen av en variabel **grupperat** på en annan, exempelvis "Hur ser fördelningen av bilmärken ut, uppdelat på civilstånd?". Det kanske finns några intressanta relationer mellan dessa två variabler som vi skulle vilja undersöka vidare, men som tidigare sagt är visualisering alltid det första steget för att lära känna sitt datamaterial.
 
-I vårt exempeldata har vi två kvalitativa variabler, `civilstand` och `bil`. För att visualisera ett grupperat stapeldiagram behöver vi välja en grupperings- och en fördelningsvariabel. Fördelninsgsvariabeln kommer grupperas över varje enskilda kategori från grupperingsvariabeln. 
+I vårt exempeldata har vi två kvalitativa variabler, `art` och `island`. För att visualisera ett grupperat stapeldiagram behöver vi välja en grupperings- och en fördelningsvariabel. Fördelninsgsvariabeln kommer grupperas över varje enskilda kategori från grupperingsvariabeln. 
 
-I R måste vi ange grupperingsvariabeln likt det vi gjort tidigare som `x` och fördelningsvariabeln som `fill` inuti `aes()`. Detta kommer säga åt R att vardera värde på `bil` ska ha olika fyllnadsfärger. `position = "dodge"` bestämmer att staplarna ska ligga bredvid varandra och `position = "stack"` staplar de ovanpå varandra för ett s.k. stackat stapeldiagram. 
+I R måste vi ange grupperingsvariabeln likt det vi gjort tidigare som `x` och fördelningsvariabeln som `fill` inuti `aes()`. Detta kommer säga åt R att vardera värde på `species` ska ha olika fyllnadsfärger. `position = "dodge"` bestämmer att staplarna ska ligga bredvid varandra och `position = "stack"` staplar de ovanpå varandra för ett s.k. stackat stapeldiagram. 
 
 ```{r fig.height = 4}
 
-p <- ggplot(exempeldata) + 
-  aes(x = civilstand, fill = bil) + 
+p <- ggplot(penguins) + 
+  aes(x = island, fill = species) + 
   geom_bar(position = "dodge") + 
   theme_bw()
 
@@ -349,23 +377,23 @@ p
 
 För relativa frekvenser i ett grupperat stapeldiagram kan vi summera de visualiserade staplarna på två olika sätt. 
 
-1. Antingen visar vi relativa frekvenser utifrån hela datamaterialet. Detta diagram kommer se exakt likadan ut som den med absoluta frekvenser men med andelar istället för antal. Vi använder samma kod som för det enkla stapeldiagrammet: `aes(y = stat(count/sum(count)))`.
+1. Antingen visar vi relativa frekvenser utifrån hela datamaterialet. Detta diagram kommer se exakt likadan ut som den med absoluta frekvenser men med andelar istället för antal. Vi använder samma kod som för det enkla stapeldiagrammet: `aes(y = after_stat(count/sum(count)))`.
 
 ```{r fig.show = "hide"}
 
-ggplot(exempeldata) + aes(x = civilstand, fill = bil) + 
-  geom_bar(aes(y = stat(count/sum(count))), 
+ggplot(penguins) + aes(x = island, fill = species) + 
+  geom_bar(aes(y = after_stat(count/sum(count))), 
            position = "dodge") + 
   theme_bw()
 
 ```
 
-2. Alternativet är att visa den relativa fördelningen grupperat på grupperingsvariabeln, alltså att vardera kategoris staplar summerar var för sig till 100 procent. Vi behöver då revidera koden som anger beräkningen till relativa frekvenser till: `aes(y = stat(count/tapply(count, x, sum)[x]))`.
+2. Alternativet är att visa den relativa fördelningen grupperat på grupperingsvariabeln, alltså att vardera kategoris staplar summerar var för sig till 100 procent. Vi behöver då revidera koden som anger beräkningen till relativa frekvenser till: `aes(y = after_stat(count/tapply(count, x, sum)[x]))`.
 
 ```{r fig.show = "hide"}
 
-ggplot(exempeldata) + aes(x = civilstand, fill = bil) + 
-  geom_bar(aes(y = stat(count/tapply(count, x, sum)[x])), 
+ggplot(penguins) + aes(x = island, fill = species) + 
+  geom_bar(aes(y = after_stat(count/tapply(count, x, sum)[x])), 
            position = "dodge") + 
   theme_bw()
 
@@ -373,12 +401,12 @@ ggplot(exempeldata) + aes(x = civilstand, fill = bil) +
 
 ```{r echo = FALSE, fig.width = 8, fig.height = 4, fig.cap= "Grupperat stapeldiagram med enkel summering (t.vä.) och gruppvis summering (t.hö.) till 100 procent"}
 
-p1 <- ggplot(exempeldata) + aes(x = civilstand, fill = bil) + 
-  geom_bar(aes(y = stat(count/sum(count))), position = "dodge") + 
+p1 <- ggplot(penguins) + aes(x = island, fill = species) + 
+  geom_bar(aes(y = after_stat(count/sum(count))), position = "dodge") + 
   theme_bw()
 
-p2 <- ggplot(exempeldata) + aes(x = civilstand, fill = bil) + 
-  geom_bar(aes(y = stat(count/tapply(count, x, sum)[x])), position = "dodge") + 
+p2 <- ggplot(penguins) + aes(x = island, fill = species) + 
+  geom_bar(aes(y = after_stat(count/tapply(count, x, sum)[x])), position = "dodge") + 
   theme_bw()
 
 grid.arrange(p1, p2, nrow = 1)
@@ -392,10 +420,9 @@ Oavsett vilket sätt att summera staplarna som används ser de inte alls tydliga
 
 ```{r fig.height = 4}
 
-p <- ggplot(exempeldata) + 
-  aes(x = civilstand, 
-      fill = bil) + 
-  geom_bar(aes(y = stat(count/sum(count))), 
+p <- ggplot(penguins) + 
+  aes(x = island, fill = species) + 
+  geom_bar(aes(y = after_stat(count/sum(count))), 
            position = "dodge",
            color = "black") + 
   theme_bw() + 
@@ -407,12 +434,12 @@ p <- ggplot(exempeldata) +
         axis.title.y = element_text(angle = 0, vjust = 0.5, size = 11),
         axis.title.x = element_text(size = 11),
         axis.text = element_text(size = 10, color = "black")) +
-  labs(x = "Civilstånd", 
+  labs(x = "Ö", 
        y = "Andel", 
-       caption = "Källa: Hietala (2019)") +
+       caption = "Källa: Gorman, Williams, Fraser (2014)") +
   scale_y_continuous(expand = c(0,0),
-                     breaks = seq(0, 0.20, by = 0.05),
-                     limits = c(0, 0.16))
+                     breaks = seq(0, 0.4, by = 0.05),
+                     limits = c(0, 0.4))
 
 p
 
@@ -427,9 +454,8 @@ För att revidera utseendet på legenden och de använda färgerna används funk
 
 ```{r fig.height = 4}
 
-p <- p + scale_fill_manual(name = "Bilmärke",
-                           values = brewer.pal(n = 8,
-                                               name = "Oranges"))
+p <- p + scale_fill_manual(name = "Art",
+                           values = brewer.pal(n = 3, name = "Oranges"))
 
 p
 
@@ -442,7 +468,7 @@ Likt tidigare diagram i R behöver vi först ange vilket datamaterial samt vilke
 
 ```{r}
 
-p <- ggplot(exempeldata) + aes(alder)
+p <- ggplot(penguins) + aes(body_mass_g)
 
 ```
 
@@ -475,9 +501,8 @@ p <- p + scale_y_continuous(expand = c(0,0), limits = c(0, 20)) +
                      panel.grid.major.y = 
                        element_line(color = "dark gray")) + 
   labs(y = "Antal", 
-       x = "Ålder", 
-       title = "Fördelning av ålder", 
-       caption = "Källa: Hietala (2019)")
+       x = "Kroppsvikt (g)", 
+       caption = "Källa: Gorman, Williams, Fraser (2014)")
 
 p
 
@@ -492,7 +517,7 @@ För att ta bort onödiga skalvärden och axelförklaring för den tomma variabe
 
 ```{r}
 
-p <- ggplot(exempeldata) + aes(x = factor(0), y = alder) +
+p <- ggplot(penguins) + aes(x = factor(0), y = body_mass_g) +
   geom_boxplot(fill = "orange") +
   scale_x_discrete(breaks = NULL)
 
@@ -515,10 +540,9 @@ p <- p + theme_bw() + theme(axis.title.y =
                               element_blank(),
                             panel.grid.major.y = 
                               element_line(color = "dark gray")) + 
-  labs(y = "Ålder", 
+  labs(y = "Kroppsvikt (g)", 
        x = NULL, 
-       title = "Fördelning av ålder", 
-       caption = "Källa: Hietala (2019)")
+       caption = "Källa: Gorman, Williams, Fraser (2014)")
 
 p
 
@@ -532,16 +556,16 @@ knitr::opts_chunk$set(echo = TRUE, fig.height = 4, fig.align = "center", fig.wid
 
 ```
 
-### Spridningsdiagram
+### Spridningsdiagram 
 När ett datamaterial innehåller flera variabler kan det vara intressant att undersöka vilka (om några) variabler har ett samband med varandra. Detta kan göras på olika sätt, men visualisering i ett spridningsdiagram är ett sätt som möjliggör att se många olika typer av samband mellan **två** variabler.
 
 Vi utgår ifrån tidigare datamaterial och fokuserar på de två kvantitativa variablerna `alder` och `lon` i `aes()`. Här bör vi välja variabler till de olika axlarna som medför en logisk tolkning av vilken variabel som förklarar den andra. Den förklarande variabeln, `x`, anser vi förklara responsvariabeln, `y`, och med dessa variabler är det mer logiskt att `alder` förklarar `lon` för en individ. 
 
 För att skapa ett spridningsdiagram används `geom_point()`. Argument som kan vara av intresse i denna funktion är `color`, `shape` eller `size`.
 
-```{r}
+```{r penguins}
 
-p <- ggplot(exempeldata) + aes(x = alder, y = lon) + geom_point()
+p <- ggplot(penguins) + aes(x = bill_length_mm, y = bill_depth_mm) + geom_point()
 
 p
 
@@ -569,10 +593,9 @@ p <-
           element_line(color = "gray"),
         panel.grid.minor.y = 
           element_line(color = "light gray")) + 
-  labs(title = "Sambandet mellan ålder och lön",
-       x = "Ålder",
-       y = "Lön",
-       caption = "Källa: Hietala (2019)")
+  labs(x = "Näbblängd",
+       y = "Näbbredd",
+       caption = "Källa: Gorman, Williams, Fraser (2014)")
 p
 ```
 
@@ -580,30 +603,30 @@ Då vi pratar om samband är det naturligt att gå vidare till en statistisk met
 
 ```{r}
 
-p + geom_smooth(method = lm, se = FALSE)
+p + geom_smooth(formula = y~x,method = lm, se = FALSE)
 
 ```
 
 #### Visualisering av olika datamaterial i samma diagram
 ```{r echo = FALSE}
 
-exempeldata_extrem <- exempeldata %>% 
-  filter(abs(lon - predict(lm(lon ~ alder, data = exempeldata))) < 12000)
+penguins_extrem <- penguins %>% 
+  filter(abs(bill_depth_mm - predict(lm(bill_depth_mm ~ bill_length_mm, data = penguins))) < 12000)
 
-exempeldata_extrem_points <- exempeldata %>% 
-  filter(abs(lon - predict(lm(lon ~ alder, data = exempeldata))) > 12000)
+penguins_extrem_points <- penguins %>% 
+  filter(abs(bill_depth_mm - predict(lm(bill_depth_mm ~ bill_length_mm, data = penguins))) > 12000)
 
 ```
 Om extremvärden skulle finnas i datamaterialet kommer sambandet (och en inritad regressionslinje) riskera att förskjuta det generella samband som finns. Observera att det i praktiken inte är så lätt att bara plocka bort extremvärden från datamaterialet utan en djupare dykning i orsakerna till detta värde. Är extremvärden en felinmatning eller är det ett riktigt värde som är en del av målpopulationen? För att visa hur vi kan använda olika datamaterial i samma diagram kommer vi göra det naïva och plocka bort dessa.
 
 I detta skede av er utbildning rekommenderas att ni identifierar dessa punkter i diagrammet och manuellt tar bort dessa ur data i Excel, sparar en ny fil med nytt namn, och importerar detta nya material till R och sparar det som ett nytt objekt.
 
-Det första vi måste göra för att diagrammet ska bli tydligt är att skapa en grupp (och tillhörande legendrad) för vardera regressionslinje. Detta görs genom att använda `aes(color = "gruppnamn")` inuti `geom_smooth()`. Vi ser nu att en legend lagts till i diagrammet med det angivna namnet på linjen som vi skrivit.
+Det första vi måste göra för att diagrammet ska bli tydligt är att skapa en grupp (och tillhörande legendrad) för vardera regressionslinje. Detta görs genom att använda `aes(color = "gruppnamn")` inuti `geom_smooth(formula = y~x,)`. Vi ser nu att en legend lagts till i diagrammet med det angivna namnet på linjen som vi skrivit.
 
 ```{r}
 
 p <- 
-  p + geom_smooth(aes(color = "med_extrem"), 
+  p + geom_smooth(formula = y~x,aes(color = "med_extrem"), 
                   method = lm, 
                   se = FALSE)
 
@@ -611,12 +634,12 @@ p
 
 ```
 
-För att lägga till den nya regressionslinjen utan extremvärden anges i `geom_smooth()` ett nytt `data`-objekt. Linjen kommer då ritas med samma variabler som angivits innan men utgå från detta materials värden, som saknar de extremvärden som man kan urskilja i materialet.
+För att lägga till den nya regressionslinjen utan extremvärden anges i `geom_smooth(formula = y~x,)` ett nytt `data`-objekt. Linjen kommer då ritas med samma variabler som angivits innan men utgå från detta materials värden, som saknar de extremvärden som man kan urskilja i materialet.
 
 ```{r}
 
 p <- 
-  p + geom_smooth(data = exempeldata_extrem,
+  p + geom_smooth(formula = y~x,data = penguins_extrem,
                   aes(color = "utan_extrem"),
                   method = lm,
                   se = FALSE)
@@ -644,233 +667,233 @@ Det kanske också kan vara intressant att peka ut vilka observationer som plocka
 
 ```{r}
 
-p + geom_point(data = exempeldata_extrem_points,
+p + geom_point(data = penguins_extrem_points,
                shape = "x",
                size = 4)
 
 ```
 
-### Linjediagram 
+<!-- ### Linjediagram  -->
 
-```{r echo = FALSE, eval = TRUE}
+<!-- ```{r echo = FALSE, eval = TRUE} -->
 
-tidsserie_exempel <- read.csv2("datasets/tidsserie.csv", encoding = "UTF-8")
+<!-- tidsserie_exempel <- read.csv2("datasets/tidsserie.csv", encoding = "UTF-8") -->
 
-tidsserie_exempel <- tidsserie_exempel %>% gather(Region, Antal, Hela.landet, Västernorrland, Östergötland)
+<!-- tidsserie_exempel <- tidsserie_exempel %>% gather(Region, Antal, Hela.landet, Västernorrland, Östergötland) -->
 
-tidsserie_exempel$Region <- str_replace_all(tidsserie_exempel$Region, pattern = "\\.", " ")
+<!-- tidsserie_exempel$Region <- str_replace_all(tidsserie_exempel$Region, pattern = "\\.", " ") -->
 
-colnames(tidsserie_exempel)[1] <- "År"
+<!-- colnames(tidsserie_exempel)[1] <- "År" -->
 
-```
+<!-- ``` -->
 
-För att vi ska kunna skapa ett linjediagram över flera serier behöver vi importera data med grupperingskolumner. Även om vi enbart ska visualisera en serie är det bra att få in rutinen att representera data i R på detta sätt. 
+<!-- För att vi ska kunna skapa ett linjediagram över flera serier behöver vi importera data med grupperingskolumner. Även om vi enbart ska visualisera en serie är det bra att få in rutinen att representera data i R på detta sätt.  -->
 
-Datamaterialet bör alltså se ut som följer:
-  
-```{r echo = FALSE}
+<!-- Datamaterialet bör alltså se ut som följer: -->
 
-kable(head(tidsserie_exempel, n = 5), format = "html", caption = "Första observationerna i datamaterialet med en grupperingsvariabel Region") %>%
-  kable_styling(position = "center", full_width = FALSE)
+<!-- ```{r echo = FALSE} -->
 
-```
+<!-- kable(head(tidsserie_exempel, n = 5), format = "html", caption = "Första observationerna i datamaterialet med en grupperingsvariabel Region") %>% -->
+<!--   kable_styling(position = "center", full_width = FALSE) -->
 
-När materialet nu innehåller tre variabler (en som visar tid, en som visar vilken grupp värden och år tillhör, samt mätvärdet för den angivna gruppen och året) kan vi påbörja visualiseringen.
+<!-- ``` -->
 
-Exempeldata innehåller information om antalet anmälda våldsbrott per 100 000 invånare i hela landet, Västernorrland och Östergötland och är hämtat från SCB.
+<!-- När materialet nu innehåller tre variabler (en som visar tid, en som visar vilken grupp värden och år tillhör, samt mätvärdet för den angivna gruppen och året) kan vi påbörja visualiseringen. -->
 
+<!-- Exempeldata innehåller information om antalet anmälda våldsbrott per 100 000 invånare i hela landet, Västernorrland och Östergötland och är hämtat från SCB. -->
 
-#### En tidsserie
-Om endast en serie ska visualiseras kan vi plocka ut en grupp från det tidigare materialet och visualisera endast det. Vi gör detta med `filter()` från `dplyr`-paketet. Kodexemplet gör denna filtrering inuti `ggplot()` men vi skulle lika gärna skapa ett filtrerad data som sparas som ett nytt objekt och använda det senare i `ggplot()`.
 
-```{r}
+<!-- #### En tidsserie -->
+<!-- Om endast en serie ska visualiseras kan vi plocka ut en grupp från det tidigare materialet och visualisera endast det. Vi gör detta med `filter()` från `dplyr`-paketet. Kodexemplet gör denna filtrering inuti `ggplot()` men vi skulle lika gärna skapa ett filtrerad data som sparas som ett nytt objekt och använda det senare i `ggplot()`. -->
 
-## Anger att vi endast vill ha en del av data i diagrammet
-p <- 
-  ggplot(
-    filter(.data = tidsserie_exempel, Region == "Hela landet")
-  )
+<!-- ```{r} -->
 
-```
+<!-- ## Anger att vi endast vill ha en del av data i diagrammet -->
+<!-- p <-  -->
+<!--   ggplot( -->
+<!--     filter(.data = tidsserie_exempel, Region == "Hela landet") -->
+<!--   ) -->
 
-När vi nu sagt att endast en del av materialet ska visualiseras kan vi som tidigare ange `aes()` där vi nu måste ange både `x` och `y`. På x-axeln vill vi ha tiden, alltså `År` i vårt exempelmaterial, och y-axeln ska innehålla mätvärden, i detta fall variabeln `Antal`. 
+<!-- ``` -->
 
-För att skapa ett linjediagram används `geom_line()`. I den funktionen finns argument såsom `color`, `linetype`, `size` och liknande som kan användas för att ändra utseendet av diagrammet. Ibland kan linjen bli väldigt smal och svår att se men då kommer argumentet `size` väl till pass.
+<!-- När vi nu sagt att endast en del av materialet ska visualiseras kan vi som tidigare ange `aes()` där vi nu måste ange både `x` och `y`. På x-axeln vill vi ha tiden, alltså `År` i vårt exempelmaterial, och y-axeln ska innehålla mätvärden, i detta fall variabeln `Antal`.  -->
 
-```{r}
+<!-- För att skapa ett linjediagram används `geom_line()`. I den funktionen finns argument såsom `color`, `linetype`, `size` och liknande som kan användas för att ändra utseendet av diagrammet. Ibland kan linjen bli väldigt smal och svår att se men då kommer argumentet `size` väl till pass. -->
 
-p <- 
-  p + aes(x = År, y = Antal) + 
-  geom_line(color = "dark orange", size = 1) 
+<!-- ```{r} -->
 
-p
+<!-- p <-  -->
+<!--   p + aes(x = År, y = Antal) +  -->
+<!--   geom_line(color = "dark orange", size = 1)  -->
 
-```
+<!-- p -->
 
-Som tidigare ändrar vi det visuella och lägger till ytterligare förtydligande texter med liknande koder som innan. Till linjediagram vill vi ofta kunna se både lod- och vågräta avstånd vilket innebär att stödlinjer bör finnas åt båda hållen. Det kan dock vara av intresse att använda och ändra på `panel.grid.minor`-linjerna till en svagare färg för att göra skillnad på de olika stödlinjerna. I exemplet nedan används en mörkare grå färg för `panel.grid.major`.
+<!-- ``` -->
 
-Något som också introducerats i nedanstående kod är `plot.subtitle` i `theme()` som styr egenskaper av undertiteln som i detta diagram kan vara bra för att förtydliga vilken region som materialet visar. Undertitelns text läggs till i `labs()` och `subtitle`-argumentet.
+<!-- Som tidigare ändrar vi det visuella och lägger till ytterligare förtydligande texter med liknande koder som innan. Till linjediagram vill vi ofta kunna se både lod- och vågräta avstånd vilket innebär att stödlinjer bör finnas åt båda hållen. Det kan dock vara av intresse att använda och ändra på `panel.grid.minor`-linjerna till en svagare färg för att göra skillnad på de olika stödlinjerna. I exemplet nedan används en mörkare grå färg för `panel.grid.major`. -->
 
-```{r}
+<!-- Något som också introducerats i nedanstående kod är `plot.subtitle` i `theme()` som styr egenskaper av undertiteln som i detta diagram kan vara bra för att förtydliga vilken region som materialet visar. Undertitelns text läggs till i `labs()` och `subtitle`-argumentet. -->
 
-p <- 
-  p + theme_bw() + theme(axis.title.y = 
-                           element_text(angle = 0, 
-                                        hjust = 1, 
-                                        vjust = 0.5), 
-                         plot.title = 
-                           element_text(hjust = 0.5),
-                         plot.subtitle = 
-                           element_text(hjust = 0.5),
-                         panel.grid.major.x = 
-                           element_line(color = "dark gray"),
-                         panel.grid.minor.x = 
-                           element_line(color = "gray"),
-                         panel.grid.major.y = 
-                           element_line(color = "dark gray"),
-                         panel.grid.minor.y = 
-                           element_line(color = "gray")) + 
-  labs(y = "Antal", 
-       x = "År", 
-       title = "Antal anmälda våldsbrott per 100 000 invånare", 
-       subtitle = "Hela landet",
-       caption = "Källa: SCB (2012)")
+<!-- ```{r} -->
 
-p 
+<!-- p <-  -->
+<!--   p + theme_bw() + theme(axis.title.y =  -->
+<!--                            element_text(angle = 0,  -->
+<!--                                         hjust = 1,  -->
+<!--                                         vjust = 0.5),  -->
+<!--                          plot.title =  -->
+<!--                            element_text(hjust = 0.5), -->
+<!--                          plot.subtitle =  -->
+<!--                            element_text(hjust = 0.5), -->
+<!--                          panel.grid.major.x =  -->
+<!--                            element_line(color = "dark gray"), -->
+<!--                          panel.grid.minor.x =  -->
+<!--                            element_line(color = "gray"), -->
+<!--                          panel.grid.major.y =  -->
+<!--                            element_line(color = "dark gray"), -->
+<!--                          panel.grid.minor.y =  -->
+<!--                            element_line(color = "gray")) +  -->
+<!--   labs(y = "Antal",  -->
+<!--        x = "År",  -->
+<!--        title = "Antal anmälda våldsbrott per 100 000 invånare",  -->
+<!--        subtitle = "Hela landet", -->
+<!--        caption = "Källa: SCB (2012)") -->
 
-```
+<!-- p  -->
 
-#### Flera tidsserier
+<!-- ``` -->
 
-För att visualisera flera tidsserier i ett diagram kräver `ggplot2` att datamaterialet ska vara formaterad med en grupperingsvariabel. För att R ska göra skillnad på dessa olika grupper måste `group` och/eller `color` argumentet i `aes` innehålla den grupperingsvariabel som finns i data.
+<!-- #### Flera tidsserier -->
 
+<!-- För att visualisera flera tidsserier i ett diagram kräver `ggplot2` att datamaterialet ska vara formaterad med en grupperingsvariabel. För att R ska göra skillnad på dessa olika grupper måste `group` och/eller `color` argumentet i `aes` innehålla den grupperingsvariabel som finns i data. -->
 
-```{r}
 
-p <- ggplot(tidsserie_exempel) + 
-  aes(x = År, 
-      y = Antal, 
-      color = Region, 
-      group = Region) + 
-  geom_line(size = 1)  
+<!-- ```{r} -->
 
-p
+<!-- p <- ggplot(tidsserie_exempel) +  -->
+<!--   aes(x = År,  -->
+<!--       y = Antal,  -->
+<!--       color = Region,  -->
+<!--       group = Region) +  -->
+<!--   geom_line(size = 1)   -->
 
-```
+<!-- p -->
 
-Som tidigare kan vi nu ändra om flera aspekter av diagrammet men nu måste vi också ändra den legend som skapas från grupperna i `aes()`. När vi nu vill ändra linjefärger är det funktionen `scale_color_manual()` som ska användas, specifikt argumentet `values`. 
+<!-- ``` -->
 
-Problemet som vi kommer märka är att det är svårt att skapa en vektor med färger som är tydliga nog för olika situationer. Kodexemplet nedan försöker använda delar av `brewer.pal(palette = "Oranges")` tillsammans med en svart grundfärg för att bibehålla en färgstil. 
+<!-- Som tidigare kan vi nu ändra om flera aspekter av diagrammet men nu måste vi också ändra den legend som skapas från grupperna i `aes()`. När vi nu vill ändra linjefärger är det funktionen `scale_color_manual()` som ska användas, specifikt argumentet `values`.  -->
 
-`brewer.pal()`-funktionen försöker plocka färger från den angivna paletten som skiljer sig från varandra men att ange `n = 3` för de tre regionerna ger en alltför ljus färg som den första. Indexeringen `[-1]` plockar bort den första ljusa färgen och vi lägger istället till svart först i `values`-vektorn.
+<!-- Problemet som vi kommer märka är att det är svårt att skapa en vektor med färger som är tydliga nog för olika situationer. Kodexemplet nedan försöker använda delar av `brewer.pal(palette = "Oranges")` tillsammans med en svart grundfärg för att bibehålla en färgstil.  -->
 
-```{r}
+<!-- `brewer.pal()`-funktionen försöker plocka färger från den angivna paletten som skiljer sig från varandra men att ange `n = 3` för de tre regionerna ger en alltför ljus färg som den första. Indexeringen `[-1]` plockar bort den första ljusa färgen och vi lägger istället till svart först i `values`-vektorn. -->
 
-p <- 
-  p + scale_color_manual(values = 
-                           c("black", brewer.pal(n = 3, "Oranges")[-1])) +
-  theme_bw() + theme(axis.title.y = 
-                       element_text(angle = 0,
-                                    hjust = 1, 
-                                    vjust = 0.5),
-                     plot.title = 
-                       element_text(hjust = 0.5),
-                     plot.subtitle = 
-                       element_text(hjust = 0.5),
-                     panel.grid.major.x = 
-                       element_line(color = "dark gray"),
-                     panel.grid.minor.x = 
-                       element_line(color = "gray"),
-                     panel.grid.major.y = 
-                       element_line(color = "dark gray"),
-                     panel.grid.minor.y = 
-                       element_line(color = "gray")) + 
-  labs(y = "Antal", 
-       x = "År", 
-       title = "Antal anmälda våldsbrott per 100 000 invånare", 
-       subtitle = "Jämförelse av riket och två län",
-       caption = "Källa: SCB (2012)")
+<!-- ```{r} -->
 
-p 
+<!-- p <-  -->
+<!--   p + scale_color_manual(values =  -->
+<!--                            c("black", brewer.pal(n = 3, "Oranges")[-1])) + -->
+<!--   theme_bw() + theme(axis.title.y =  -->
+<!--                        element_text(angle = 0, -->
+<!--                                     hjust = 1,  -->
+<!--                                     vjust = 0.5), -->
+<!--                      plot.title =  -->
+<!--                        element_text(hjust = 0.5), -->
+<!--                      plot.subtitle =  -->
+<!--                        element_text(hjust = 0.5), -->
+<!--                      panel.grid.major.x =  -->
+<!--                        element_line(color = "dark gray"), -->
+<!--                      panel.grid.minor.x =  -->
+<!--                        element_line(color = "gray"), -->
+<!--                      panel.grid.major.y =  -->
+<!--                        element_line(color = "dark gray"), -->
+<!--                      panel.grid.minor.y =  -->
+<!--                        element_line(color = "gray")) +  -->
+<!--   labs(y = "Antal",  -->
+<!--        x = "År",  -->
+<!--        title = "Antal anmälda våldsbrott per 100 000 invånare",  -->
+<!--        subtitle = "Jämförelse av riket och två län", -->
+<!--        caption = "Källa: SCB (2012)") -->
 
-```
+<!-- p  -->
 
+<!-- ``` -->
 
-### Punktdiagramsmatris
 
-För att skapa en punktdiagramsmatris (spridningsdiagramsmatris) i R behöver vi använda ytterligare ett paket, nämligen `GGally`. I detta paket finns funktionen `ggpairs()` som är (av författarna) skapat som som en samling `ggplot2`-instruktioner som möjliggör skapandet av flera spridningsdiagram inuti ett och samma diagram. Kom ihåg att ladda in detta nya paket i R innan vi fortsätter.
+<!-- ### Punktdiagramsmatris -->
 
-```{r, eval = FALSE}
+<!-- För att skapa en punktdiagramsmatris (spridningsdiagramsmatris) i R behöver vi använda ytterligare ett paket, nämligen `GGally`. I detta paket finns funktionen `ggpairs()` som är (av författarna) skapat som som en samling `ggplot2`-instruktioner som möjliggör skapandet av flera spridningsdiagram inuti ett och samma diagram. Kom ihåg att ladda in detta nya paket i R innan vi fortsätter. -->
 
-require(GGally)
+<!-- ```{r, eval = FALSE} -->
 
-```
+<!-- require(GGally) -->
 
-Datamaterialet som används till detta exempel är ett utav de inbyggda materialen som finns i R, nämligen `penguins`. Det innehåller fyra stycken kontinuerliga variabler som beskriver olika mått på blommor och ytterligare en kategorisk variabel som anger vilken art observationen tillhör. Datamaterialet ser ut som följer:
-  
-```{r penguins, echo = FALSE, eval = TRUE}
+<!-- ``` -->
 
-kable(head(penguins, n = 5), format = "html", caption = "Första observationerna i penguins-data") %>%
-  kable_styling(position = "center", full_width = FALSE)
+<!-- Datamaterialet som används till detta exempel är ett utav de inbyggda materialen som finns i R, nämligen `penguins`. Det innehåller fyra stycken kontinuerliga variabler som beskriver olika mått på blommor och ytterligare en kategorisk variabel som anger vilken art observationen tillhör. Datamaterialet ser ut som följer: -->
 
-```
+<!-- ```{r penguins, echo = FALSE, eval = TRUE} -->
 
-`ggpairs()` kräver vissa argument för att kunna skapa ett diagram;
+<!-- kable(head(penguins, n = 5), format = "html", caption = "Första observationerna i penguins-data") %>% -->
+<!--   kable_styling(position = "center", full_width = FALSE) -->
 
-- `data`, anger vilket datamaterial som vi vill visualisera,
-- `columns`, anger vilka kolumner ur datamaterialet som ska visualiseras,
-- `title`, anger en titelrubrik för diagrammet,
-- `upper`, anger vad vi vill att den *övre diagonalen* ska visa för information,
-- `diag`, anger vad vi vill att *diagonalen* ska visa för information,
-- `lower`, anger vad vi vill att den *nedre diagonalen* ska visa för information,
-- `axisLabels`, anger inställningar för skalvärden i diagrammet.
+<!-- ``` -->
 
-Notera att `upper`, `diag`, och `lower` måste ange sina argument i en `list()` där variabeltypen måste anges först. I detta exempel kommer vi behöva skriva `list(continuous = )` då variablerna är kontinuerliga. Gå in i dokumentationen för funktionen och i *Details* står vilka andra diagram som kan visualiseras i de olika områdena.
+<!-- `ggpairs()` kräver vissa argument för att kunna skapa ett diagram; -->
 
-Nedanstående kod kommer skapa ett diagram innehållande spridningsdiagram i den nedre diagonalen över de fyra kontinuerliga variablerna som ligger på position `1:4` i datamaterialet `penguins`. Vi väljer också här att plocka bort skalvärden på axlarna då syftet med dessa diagram är att visa sambandet mellan variabler och inte specifika värden som variablerna eller observationer förhåller sig till. Att vi tar bort skalvärden möjliggör också en större rityta som behövs om vi har ett flertal variabler som ska visualiseras.
+<!-- - `data`, anger vilket datamaterial som vi vill visualisera, -->
+<!-- - `columns`, anger vilka kolumner ur datamaterialet som ska visualiseras, -->
+<!-- - `title`, anger en titelrubrik för diagrammet, -->
+<!-- - `upper`, anger vad vi vill att den *övre diagonalen* ska visa för information, -->
+<!-- - `diag`, anger vad vi vill att *diagonalen* ska visa för information, -->
+<!-- - `lower`, anger vad vi vill att den *nedre diagonalen* ska visa för information, -->
+<!-- - `axisLabels`, anger inställningar för skalvärden i diagrammet. -->
 
-```{r}
+<!-- Notera att `upper`, `diag`, och `lower` måste ange sina argument i en `list()` där variabeltypen måste anges först. I detta exempel kommer vi behöva skriva `list(continuous = )` då variablerna är kontinuerliga. Gå in i dokumentationen för funktionen och i *Details* står vilka andra diagram som kan visualiseras i de olika områdena. -->
 
-p <- ggpairs(data = penguins,
-             columns = 1:4,
-             title = "Samband mellan mått på blommor",
-             upper = list(continuous = "points"),
-             diag = list(continuous = "blankDiag"),
-             lower = list(continuous = "blank"),
-             axisLabels = "none"
-) 
+<!-- Nedanstående kod kommer skapa ett diagram innehållande spridningsdiagram i den nedre diagonalen över de fyra kontinuerliga variablerna som ligger på position `1:4` i datamaterialet `penguins`. Vi väljer också här att plocka bort skalvärden på axlarna då syftet med dessa diagram är att visa sambandet mellan variabler och inte specifika värden som variablerna eller observationer förhåller sig till. Att vi tar bort skalvärden möjliggör också en större rityta som behövs om vi har ett flertal variabler som ska visualiseras. -->
 
-p
+<!-- ```{r} -->
 
-```
+<!-- p <- ggpairs(data = penguins, -->
+<!--              columns = 1:4, -->
+<!--              title = "Samband mellan mått på blommor", -->
+<!--              upper = list(continuous = "points"), -->
+<!--              diag = list(continuous = "blankDiag"), -->
+<!--              lower = list(continuous = "blank"), -->
+<!--              axisLabels = "none" -->
+<!-- )  -->
 
-Som tur är finns det möjlighet att ändra vissa delar av diagrammet för att förtydliga vissa delar.
+<!-- p -->
 
-```{r}
+<!-- ``` -->
 
-p <- p + theme_bw() + 
-  theme(plot.title = element_text(hjust = 0.5))
+<!-- Som tur är finns det möjlighet att ändra vissa delar av diagrammet för att förtydliga vissa delar. -->
 
-p
+<!-- ```{r} -->
 
-```
+<!-- p <- p + theme_bw() +  -->
+<!--   theme(plot.title = element_text(hjust = 0.5)) -->
 
-#### Färgläggning av observationer beroende på klass
-Det kan finnas tillfällen där samband mellan variabler ser olika ut beroende på en kategorisk variabel som inkluderas i datamaterialet. Detta *kan* också inkluderas i dessa diagram, men risken är att det blir för mycket information som trycks ihop på en för liten yta. Tyvärr finns inte ett enkelt sätt att ändra dessa färger eller skapa en legend som tydligt beskriver vilken färg som hör till vilken kategori...
+<!-- p -->
 
-```{r}
+<!-- ``` -->
 
-ggpairs(data = penguins,
-        columns = 1:4,
-        title = "Samband mellan mått på blommor",
-        upper = list(continuous = "points"),
-        diag = list(continuous = "blankDiag"),
-        lower = list(continuous = "blank"),
-        axisLabels = "none",
-        mapping = aes(color = species)
-) + 
-  theme_bw() + 
-  theme(plot.title = element_text(hjust = 0.5))
+<!-- #### Färgläggning av observationer beroende på klass -->
+<!-- Det kan finnas tillfällen där samband mellan variabler ser olika ut beroende på en kategorisk variabel som inkluderas i datamaterialet. Detta *kan* också inkluderas i dessa diagram, men risken är att det blir för mycket information som trycks ihop på en för liten yta. Tyvärr finns inte ett enkelt sätt att ändra dessa färger eller skapa en legend som tydligt beskriver vilken färg som hör till vilken kategori... -->
 
+<!-- ```{r} -->
 
-```
+<!-- ggpairs(data = penguins, -->
+<!--         columns = 1:4, -->
+<!--         title = "Samband mellan mått på blommor", -->
+<!--         upper = list(continuous = "points"), -->
+<!--         diag = list(continuous = "blankDiag"), -->
+<!--         lower = list(continuous = "blank"), -->
+<!--         axisLabels = "none", -->
+<!--         mapping = aes(color = species) -->
+<!-- ) +  -->
+<!--   theme_bw() +  -->
+<!--   theme(plot.title = element_text(hjust = 0.5)) -->
+
+
+<!-- ``` -->

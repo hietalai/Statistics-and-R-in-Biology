@@ -1,0 +1,171 @@
+# Tidyverse
+En stor del utav statistisk analys består utav att bearbeta datamaterial som samlats in till ett format som lämpar sig för de olika metoder. Ett datamaterial som man själv samlar in (<span class="terminology">primärdata</span>) eller datamaterial som hämtas från någon annan källa (<span class="terminology">sekundärdata</span>) är inte alltid strukturerat på det sätt som vi önskar. `tidyverse` är en samling paket i R som baseras på ett liknande sätt att programmera i dess syntax och grammatik. 
+
+Inom statistik önskas data följa formatet: "en rad är en observation", "en kolumn är en variabel" och "en cell är ett värde", så att vi med lätthet kan hantera datamaterialet på ett flertal olika sätt. Detta kan vi kalla för <span class="terminology">rådata</span> eller <span class="terminology">tidy data</span>. [Exempeldatat](#example) från föregående kapitel visar på data på just detta format. Varje rad är en uppmätt pingvin, och varje kolumn är mätvärden för varje variabel. Exempel på en struktur som inte följer denna praxis är frekvenstabeller där varje rad visar flera observationer som har samma variabelvärde. 
+
+Vi kan installera de paketen som ingår i `tidyverse` genom att installera paketet med samma namn och ladda in det i arbetsminnet med `require()` eller `library()`.
+
+```{r eval = FALSE}
+
+install.packages("tidyverse")
+
+require(tidyverse)
+
+```
+```{r include=FALSE}
+require(tidyverse)
+```
+
+I detta kapitel kommer vi gå igenom de olika paketen som behandlar datastrukturer och olika variablertyper medan senare kapitel kommer fortsätta med paket för visualisering (`ggplot2`) och mer avancerad kodning (`purrr`).
+
+## Läsa in filer med `readr` {#readr}
+R innehåller många [inbyggda funktioner](#readData) för hur man kan läsa in filer av olika format från hårddisken. Vi har tidigare tittat på `read.csv2()` som är en grundfunktion i R, men `readr` har liknande funktioner utöver flera andra specialfall som utgår från vissa standardformat för filer. 
+
+Det är starkt rekommenderat att läsa in text-filer i R, inte Excelfiler då Excel kan innehålla specialformat som R inte kan läsa in korrekt. Vi kan från Excel spara om en .xlsx fil till en .txt-, .tsv- eller .csv-fil.
+
+```{r eval=FALSE}
+## Läser in en textfil där kolumner separeras med en (eller flera) mellanslag (.txt)
+read_table(file = "sökväg")
+
+## Läser in en textfil där kolumner separeras med tab (.tsv)
+read_tsv(file = "sökväg")
+
+## Läser in en textfil där kolumner separeras med , (read_csv) eller ; (read_csv2)
+read_csv(file = "sökväg")
+read_csv2(file = "sökväg")
+
+```
+
+Resultatet av dessa funktioner blir en formatterad <span class="terminology">tibble</span>.
+
+**Se till att datamaterialet som laddats in ser ut som vi förväntar att det ska göra**, exempelvis är decimaler korrekt angivna, har vi lika många variabler i R som i originalfilen och liknande.
+
+## `tibble` {#tibble}
+I [tidigare kapitel](#data-frame) presenterades datastrukturen `data frame` som ett sätt för oss att i R spara information i ett standard format. En tibble är en utveckling av denna datastruktur som rensat bort egenskaper som inte längre används och lägger till egenskaper som ofta vill användas vid behandling av data. 
+
+Likt en data frame, innehåller en tibble en samling lika långa kolumner och dessa kolumner kan vara av olika objekttyper. Till exempel kan vi blanda listor och vektorer så länge de innehåller lika många element. 
+
+```{r echo = FALSE}
+
+htmltools::div(
+  class = "importantbox",
+  htmltools::div(
+  htmltools::div(
+  "Viktigt!"
+  ),
+  htmltools::HTML("En <pre>tibble</pre> konverterar inte textvektorer till faktorer per automatik. Det vill säga om ett datamaterial som läses in via <pre>read_csv2()</pre> innehåller text, kommer denna variabel vara ett character-objekt, inte ett Factor-objekt.")
+  )
+)
+
+```
+
+Vi kan skapa en tibble från grunden genom att ange vilka objekt vi vill inkludera och vad de ska heta:
+
+```{r}
+a <- c(1, 2, 3)
+b <- c(4, 5, 6)
+c <- c("a", "b", "c")
+
+## Skapar en tibble utifrån angivna vektorer
+tibble(
+  Var1 = a,
+  Var2 = b,
+  Var3 = c
+)
+
+```
+
+Om vi har en matris eller något annat objekt som ser ut som en tibble men inte är det, kan vi konvertera den till en tibble med hjälp av `as_tibble()`.
+
+```{r}
+
+## Tar objektet a (en vektor) och gör om den till en tibble med en kolumn
+a %>% 
+  as_tibble()
+
+```
+
+## `tidyr` {#tidyr}
+Om data inte är på det format som vi önskar eller om någon statistisk metod behöver ett material som har ett annat format än tidy-data. Detta paket kommer vi inte titta på just nu i detalj men följande Cheat Sheets innehåller exempel på olika bearbetningar som vi kan vara intresserade av att genomföra med data.
+
+```{r echo=FALSE}
+
+htmltools::HTML("<a href='https://github.com/rstudio/cheatsheets/blob/master/tidyr.pdf' class='external-link' target='blank'><img src='https://raw.githubusercontent.com/rstudio/cheatsheets/master/pngs/thumbnails/tidyr-thumbs.png'></a>")
+
+```
+
+## Programmerings"rör"
+Det är vanligt att vi vill genomföra flera operationer på ett och samma objekt, speciellt när vi har att göra med databearbetning. Att nästla funktioner i varandra blir lätt väldigt krångligt att båda skriva och läsa av. Om argument ska läggas till i de olika funktionerna är det svårt att läsa av exakt vilken funktion de tillhör, och det blir i princip bara programmering med parenteser. Alternativt kan objektet sparas om vid varje steg men det skapas många onödiga objekt som man måste hålla koll på när det egentligen bara är det sista steget som är relevant.
+
+```{r eval = FALSE}
+
+## Fyra nästlade funktioner som ska appliceras på ett objekt med olika argument
+funktion4(funktion3(funktion2(funktion1(objekt), argument2 = X)), argument4 = Y)
+
+## Fyra funktioner som sparas vid varje steg
+A <- funktion1(objekt)
+
+B <- funktion2(A, argument2 = X)
+
+C <- funktion3(B)
+
+D <- funktion4(C, argument4 = Y)
+
+```
+Istället kan vi använda en <span class="terminology">pipe</span> operator för att skapa sekvenser av funktioner. Från paketet `dplyr` används operatorn `%>%` för detta. Denna operator läses som att resultatet innan `%>%` skickas vidare till det första argumentet i funktionen efter `%>%`.
+
+```{r eval = FALSE}
+
+objekt %>% 
+  funktion1() %>% 
+  funktion2(argument2 = X) %>% 
+  funktion3() %>% 
+  funktion4(argument4 = Y)
+
+```
+
+Funktioner som inte behöver fler än ett argument skrivs bara som funktionen med tomma parenteser. Funktioner som har ytterligare argument anger bara dessa nya. 
+
+Det kan finnas funktioner vars argument vi vill lägga in resultatet från en tidigare funktion **inte** är det första argumentet. Som tur är kan vi lösa detta genom att använda `.` som symbolen för det tidigare resultatet och ange det vid argumentet som är aktuellt.
+
+```{r eval=FALSE}
+
+## Objektet (.) läggs här in som värde för det andra argumentet i funktionen
+objekt %>% 
+  funktion5(argument1 = X, argument2 = .)
+
+```
+
+I resterande kodexempel kommer denna pipe operator användas frekvent för att underlätta läsningen av koden.
+
+## Databearbetning med `dplyr`
+
+
+Datamaterialet behöver rensas från saknade värden för dessa kommer ställa till problem. I denna kod används `filter()` från paketet `dplyr` där datamaterialet `penguins` rensas från observationer där `sex` är `NA`, Rs sätt att ange saknade värden (not available). Mer om databearbetning kommer visas i kapitel \@ref(tidyverse).
+
+```{r eval = FALSE}
+install.packages("dplyr")
+require(dplyr)
+
+## Filtrerar bort observationer som saknar information
+penguins <- filter(penguins, !is.na(sex))
+
+```
+
+
+select
+filter
+
+rename
+relocate
+arrange
+
+mutate
+transmute
+
+group_by
+summarize
+
+## Hantering av text med `stringr` och `forcats`
+
+

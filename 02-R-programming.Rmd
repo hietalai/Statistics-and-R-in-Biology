@@ -1,8 +1,10 @@
 # Grunder i R
-## Introduktion
-R är ett så kallat open-source programmeringsspråk. Open-source betyder att programmet är gratis att ladda ner och använda, samt att vem som helst har möjlighet att skapa egna, skräddarsydda metoder eller analyser som enkelt kan delas med omvärlden. R har varit tillgängligt för vem som helst att ladda ner och använda under mer än 20 års tid vilket innebär att många har utvecklat och bidragit till språket. 
+R är ett så kallat open-source programmeringsspråk. Open-source betyder att programmet är gratis att ladda ner och använda, samt att vem som helst har möjlighet att skapa egna, skräddarsydda metoder eller analyser som enkelt kan delas med omvärlden. R har använts av statistiker och analytiker i mer än 20 års tid och många bidrag har byggt upp ett starkt och flexibelt verktyg som kan anpassas för många ändamål.
 
-R kännetecknas av sina `paket` med `funktioner` som vi kan använda för att genomföra operationer. Vi kan se på funktionerna som olika verktyg ämnade att lösa specifika problem, till exempel om vi vill slå in en spik i en bräda kan vi använda en hammare, och paketen som olika verktygslådor fokuserade på att genomföra en viss form utav arbete. Eftersom R är ett s.k. open-source program, kan vem som helst skapa funktioner och paket för allmänheten och ibland finns det ett behov av att ladda ner nya paket (köpa in nya verktygslådor) för att genomföra en viss sorts analys. När vi installerar R för första gången får vi tillgång till en stor mängd olika paket, men vi har möjligheten att utöka dessa väldigt enkelt. 
+## Introduktion
+R kännetecknas av sina <span class="terminology">paket</span> med <span class="terminology">funktioner</span> som vi kan använda för att genomföra olika <span class="terminology">operationer</span>. Vi kan se på funktionerna som olika verktyg ämnade att lösa specifika problem, till exempel om vi vill slå in en spik i en bräda kan vi använda en hammare, och paketen som olika verktygslådor fokuserade på att genomföra en viss form utav arbete. När vi installerar R för första gången får vi tillgång till en stor mängd olika paket, men vi har möjligheten att utöka dessa väldigt enkelt. Vem som helst skapa funktioner och paket för allmänheten och ibland finns det ett behov av att ladda ner nya paket (motsv. köpa in nya verktygslådor) för att genomföra en viss sorts analys. 
+
+Det finns flertalet gränssnitt som hjälper till att programmera med R, men vi rekommenderar att använda RStudio. Detta visuella gränssnitt medför att vi inte behöver programmera med en kommandotolk. För att installera R och RStudio kan du följa instruktionerna [här](https://posit.co/download/rstudio-desktop/). Detta underlag är skapad med `r R.version.string`. 
 
 ```{r echo = FALSE}
 htmltools::div(
@@ -11,38 +13,34 @@ htmltools::div(
   htmltools::div(
     "Viktigt!"
   ),
-"När vi programmerar i R, sparas objekt som vi skapar i datorns arbetsminne (RAM-minne). Arbetsminnet kan vi säga motsvarar ett korttidsminne, vilket innebär att vi har ett mindre utrymme att arbeta med och information endast är där temporärt. Under en ", htmltools::pre("session"), "(från när vi startar R tills vi stänger ner det) kan vi spara objekt som kan användas senare men dessa objekt kommer rensas när vi stänger ner programmet. Nästa gång vi startar upp programmet kommer vi inte kunna se de objekt som vi skapat i en tidigare session. Om vi vill använda objekt mellan sessioner kan vi spara ner information till datorns hårddisk, eller dess långtidsminne, på några olika sätt."
+"När vi programmerar i R, sparas objekt som vi skapar i datorns arbetsminne (RAM-minne). Arbetsminnet kan vi säga motsvarar ett korttidsminne, vilket innebär att vi har ett mindre utrymme att arbeta med än datorns hårddisk och information finns endast där temporärt. När vi startar upp R börjar vi en ", htmltools::pre("session"), " som avslutas när vi stänger ner programmet. Vi kan spara objekt för att använda de senare i samma session, men dessa rensas när vi stänger ner programmet. Om vi vill använda objekt mellan sessioner kan vi spara ner information till datorns hårddisk, eller dess långtidsminne, på några olika sätt."
 )
 )
 
 ```
 
-Det finns flertalet gränssnitt som hjälper till att programmera i R, men vi rekommenderar att använda RStudio. Detta visuella gränssnitt medför att vi inte behöver programmera med en kommandotolk. För att installera R och RStudio kan du följa instruktionerna [här](https://posit.co/download/rstudio-desktop/). Detta underlag är skapad med `r R.version.string`. 
-
 ### Starta RStudio
-När vi startar RStudio för första gången, delas programmet in i tre olika fönster. Vi rekommenderar att alltid börja med att öppna eller skapa ett dokument där kod sparas (även kallad ett `R Script`), genom **File** -> **New file** -> **R Script** eller kortkommandot *Ctrl*/*Command* + *Shift* + *N*. När detta dokument öppnas, delas RStudio in i fyra olika fönster. Ett R Script har ändelsen `.R` men är i grunden en textfil och kan öppnas i alla enkla texthanterare, t.ex. Notepad, om vi vill redigera koden utanför R eller RStudio. 
+När vi startar RStudio för första gången, delas programmet in i tre olika fönster. Vi rekommenderar att alltid börja med att öppna eller skapa ett dokument där kod sparas (även kallad ett `R Script` eller <span class="terminology">skript</span>) genom **File** -> **New file** -> **R Script** (eller kortkommandot *Ctrl* el. *Command* + *Shift* + *N*). När detta skript öppnas delas RStudio in i fyra olika fönster. Ett skript har ändelsen `.R` men är i grunden en textfil och kan öppnas i alla enkla texthanterare, t.ex. Notepad, om vi vill redigera koden utanför R eller RStudio. 
 
 #### Kort genomgång av RStudio
-När ett R Script skapats innehåller nu det övre vänstra fönstret denna fil. Här kan vi skriva kod som sedan sparas om vi sparar dokumentet. Det rekommenderas starkt att alltid skriva kod i ett dokument för att ha möjligheten att återanvända och redigera koden på ett lätt sätt genom att öppna filen.
+När ett skript skapats innehåller nu det övre vänstra fönstret denna fil. Här kan vi skriva kod som kan sparas ned och användas igen nästa gång vi öppnar programmet. Skriptet kan också skickas mellan datorer och är ett bra sätt att kunna dela med sig utav vad det är man jobbar med. Det rekommenderas starkt att alltid skriva kod i ett skript för att ha möjligheten att återanvända och redigera koden på ett lätt sätt.
 
-Det nedre vänstra fönstret innehåller en `konsol`. Här visas all kod som vi kör och tillhörande utskrifter och vi kan också skriva kod direkt i konsollen. Skillnaden är att vi inte sparar denna kod någonstans och det är mycket svårare att återanvända och redigera kod i detta fönster.
+Det nedre vänstra fönstret innehåller en <span class="terminology">konsol</span>. Här visas all kod som vi kör och tillhörande utskrifter och vi kan också skriva kod direkt i konsollen. Det som skiljer användandet av konsollen med ett skript är att all kod som vi skriver i konsollen inte sparas någonstans och kommer försvinna nästa gång vi startar upp programmet. Det är också svårt att redigera kod, till exempel om man gjort något stavfel eller måste revidera kod som man skrivit för länge sedan.
 
-I det nedre högra fönstret kan vi se filer från datorn, visualiseringar som skapas med kod, få en översikt av de paket som vi har tillgängliga, samt få hjälp om olika funktioner i deras dokumentation. Paket i R har inbyggda hjälpfiler som kan hjälpa oss att förstå vad en funktion kan göra, vad som krävs för att använda funktionen, och vad funktionen producerar för resultat. 
+I det nedre högra fönstret kan vi se olika flikar som visar filer från datorn, skapade visualiseringar, en översikt av de paket som vi har tillgängliga, samt få hjälp om olika funktioner i hjälpdokumentationen. Paket i R har inbyggda hjälpfiler som kan underlätta förståelsen av vad en funktion gör, hur den arbetar, vad den behöver för att köras med mera. Det rekommenderas att alltid börja med att titta i dokumentationen för en funktion om man är osäker på vad det är den gör.
 
-Det övre högra fönstret innehåller en översikt av alla objekt som vi skapar under en session och som R har i korttidsminnet. Objekten som vi ser i RStudios `Environment` kan vi klicka på för att antingen få mer detaljer om objektet eller exempelvis öppna datamaterial.
+Det övre högra fönstret innehåller en översikt av alla objekt som vi skapar under en session och som R lagrar i korttidsminnet. Objekten som vi ser i RStudios <span class="terminology">Environment</span>-flik kan vi klicka på för att antingen få mer detaljer om objektet, exempelvis hur stort ett visst objekt är eller om den innehåller fler delobjekt.
 
-Dessa fönster kommer vi återkomma till senare i underlaget.
+Vi kommer återkomma till dessa olika fönster senare i underlaget. 
 
-## Grundläggande programmering i R {#basicR}
-R är ett kraftfullt språk som kan genomföra väldigt komplexa och avancerade beräkningar. Innan vi kommer dit måste vi första börja med grunderna i R och en utav de vanligaste användningsområdena för R är att använda språket som en vanlig miniräknare.
-
+### R kod i underlaget
 I detta underlag kommer kodexempel (ljus bakgrund) visas som du kan kopiera till din egna dator. En knapp finns överst i det högra hörnet som kopierar allt innehåll i kodblocket. Från exemplena visas också utskrifter (mörk bakgrund) från koden som vi i RStudio ser i konsollen.
 ```{r}
 # Exempelkod som kan kopieras med en knapp i det övra högra hörnet.
 ```
 
 ```{r echo=FALSE}
-print("Utskrift från koder.")
+cat("Utskrift från koder.")
 ```
 
 På vissa ställen i underlaget kommer ett interaktivt kodfönster visas där du kan testa att köra kod utan att ha tillgång till R och RStudio. Vi rekommenderar dig att sakta börja med att bekanta dig med RStudio och dess gränssnitt men om du vill testa kod direkt kan denna applikation användas.
@@ -51,7 +49,12 @@ På vissa ställen i underlaget kommer ett interaktivt kodfönster visas där du
 knitr::include_url("https://canadice.shinyapps.io/book-shiny-support-functions/#test", height = "400px")
 ```
 
-### Enkel kodning
+## Grundläggande programmering i R {#basicR}
+R är ett kraftfullt språk som kan genomföra väldigt komplexa och avancerade beräkningar. Innan vi kommer dit måste vi första börja med grunderna i R och en utav de vanligaste användningsområdena för R är att använda språket som en vanlig miniräknare. R kommer läsa varje rad kod som en enskild operation och vi kan `köra` kod på flera olika sätt. 
+
+Vi kan antingen använda knappen uppe till höger av skriptet som heter Run eller använda kortkommandot *Ctrl* el. *Command* + *Enter* för att köra enstaka rader kod. R kan också köra flera rader kod samtidigt om vi markerar flera rader och klickar på Run eller använder kortkommandot.
+
+### R som miniräknare
 Till att börja med kan vi använda matematiska operatorer såsom `+`, `-`, `*`, och `/`.
 
 ```{r, eval = TRUE}
@@ -69,23 +72,41 @@ Till att börja med kan vi använda matematiska operatorer såsom `+`, `-`, `*`,
 
 ```
 
-#### Kommentarer i koden {-}
-I ovanstående kodexempel ser vi också något speciellt. Om du kopierar all text från ett block, kommer R endast köra den andra raden. En rad som börjar med `#` kommer R läsa av som en kommentar och inte R-kod som ska köras. Detta medför att vi kan kommentera kod som vi skriver vilket har många fördelar. 
+R kommer genomföra dessa operationer mellan siffrorna och skriva ut svaret i konsollen. De vanliga räknereglerna för matematiska operatorer gäller här vilket innebär att t.ex. kommer:
+```{r}
 
-Dels kan vi i anslutning till specifika bitar kod själva beskriva vad koden gör och vad för resultat som vi förväntar oss att få. Det är väldigt lätt att man i ett stort R Script tappar bort sig själv, eller när man öppnar scriptet vid nästa session har glömt bort vad det är koden gör för något. Med kommentarer kan vi lättare komma ihåg vad de olika delarna gör, men framförallt också ge scriptet till någon annan som med kommentarerna kan följa vad det är som händer. **Försök att få in en rutin att kommentera kod som du skriver redan från början!**
+## Räkneregler
+1 + 2 * 3
+
+```
+
+generera ett annorlunda svar än:
+
+```{r}
+
+## Räkneregler forts.
+(1 + 2) * 3
+
+```
+
+#### Kommentarer i koden {-}
+I ovanstående kodexempel ser vi också något speciellt. Om du kopierar all text från ett utav blocken och kör den på egen hand, kommer R endast skriva ut resultat från raden som inte innehåller `#`. En rad som börjar med `#` kommer R istället läsa som en kommentar. Detta medför att vi kan kommentera kod som vi skriver vilket har många fördelar. 
+
+Dels kan vi i anslutning till specifika bitar kod själva beskriva vad koden gör och vad för resultat som vi förväntar oss att få. Det är väldigt lätt att man i ett stort skript tappar bort sig själv, eller när man öppnar skriptet vid nästa session har glömt bort vad det är koden gör. Med kommentarer kan vi lättare komma ihåg vad de olika delarna gör, men framförallt om vi skickar koden till någon annan kan vi skicka med tillhörande instruktioner så att det blir lättare att följa vad det är som händer. **Försök att få in en rutin att kommentera kod som du skriver redan från början!**
 
 ### Objekt och dess typer {#objectTypes}
-I tidigare exempel kommer svaret på beräkningarna endast skrivas ut i konsollen, men om vi hade varit intresserade av att spara ner informationen behöver vi säga till R att göra det. Vi kan spara resultat av en operation till ett `objekt` med hjälp av `<-` eller `=`. När vi vill tilldela ett värde till ett objekt är det praxis att använda `<-` och vi kan skriva detta som en kombination av symbole, `<` och `-`. Vi kan läsa det som ''ett värde tilldelas till ett objekt i pilens riktning''.
+I tidigare exempel kommer svaret på beräkningarna endast skrivas ut i konsollen, men om vi hade varit intresserade av att spara ner informationen och använda den senare behöver vi specifikt säga till R att göra det. 
 
-Vi kan döpa objekt relativt fritt men vi måste förhålla oss till ett par begränsningar:
+Vi kan spara resultat av en operation till ett <span class="terminology">objekt</span> med hjälp av `<-`. När vi vill ge ett objekt ett värde är det praxis att använda `<-` och vi kan skriva detta som en kombination av symbolerna, `<` och `-`. Vi kan läsa det som ''*ett värde ges till objektet i pilens riktning*''.
 
-- ett objektnamn kan **inte** börja med en siffa, `9tal <- 9`
-- ett objektnamn kan **inte** innehålla mellanslag, `ett tal <- 2`
+Objekt kan heta nästintill vadsomhelst men vi måste förhålla oss till ett par begränsningar:
 
-Istället kan vi använda siffror och andra symboler *inuti* namnet, `tal9`, och använda symboler likt `_` istället för mellanslag, `ett_tal`. 
+- ett objektnamn kan **inte** börja med en siffa, ex. `9tal <- 9` är inte tillåtet.
+- ett objektnamn kan **inte** innehålla mellanslag, ex. `ett tal <- 2` är inte tillåtet. ^[Det finns ett sätt att tillåta detta som vi kommer till i kapitel \@ref(tidyverse).]
 
-Det sistnämnda bör vi dock undvika och istället använda ett system kallad **camelCase**. Detta sätt att namnge objekt medför att vi tar bort alla mellanslag, slår ihop orden, och använder stor bokstav för att urskilja enskilda delar, `ettTal`. 
+Istället kan vi använda siffror och andra symboler *inuti* namnet, ex. `tal9`. Istället för mellanslag för att separera ord kan vi använda ett system kallad <span class="terminology">camelCase</span>. Detta sätt att namnge objekt medför att vi tar bort alla mellanslag, slår ihop orden, och använder stor bokstav för att urskilja enskilda delar, ex. `ettTal`. 
 
+Vi kan spara några matematiska operationer för att använda de senare.
 
 ```{r}
 ## Summan av 2 + 3 tilldelas till ett objekt, döpt till a
@@ -97,30 +118,39 @@ a <- 2 + 3
 
 Vi kan nu använda `a` i senare delar av vår kod och R kommer veta att objektet innehåller summan av `2 + 3`.
 
+```{r}
+
+## a (5) + 3
+a + 3
+
+## a (5) / 5
+a / 5
+
+```
 
 #### Typer
-Det förekommer olika typer av objekt. En fördel med R är att vi i majoriteten av fallen inte behöver säga till R vilken typ ett objekt är, R kan läsa av kontexten relativt bra. Till exempel kommer objektet `a` ur exemplet ovan vara numeriskt (mer specifikt typen `numeric`). Vi kan kontrollera detta genom funktionen `class()`.
+R kan utföra olika operationer beroende på vilken typ av objekt som vi har sparat. En fördel jämfört med andra programmeringsspråk är att vi, i majoriteten av fallen, inte behöver säga till R vilken typ ett objekt är, R kan läsa av kontexten relativt bra. Till exempel kommer objektet `a` vara numeriskt (mer specifikt typen <span class="terminology">numeric</span>) och vi kan kontrollera detta genom funktionen `class()`.
 ```{r}
 class(a)
 ```
 
 Utöver numeriska typer finns även:
 
-- textsträng (`character`): `"hej"`, `"Anna"`,
-- logisk (`logical`): `TRUE` eller `FALSE`,
+- textsträng (<span class="terminology">character</span>): ex. `"hej"`, `"Anna"`,
+- logisk (<span class="terminology">logical</span>): ex. `TRUE` eller `FALSE`,
 
-samt två specialfall av siffertyper:
+samt två specialfall av siffror:
 
-- heltal (`integer`), ett specialfall av numeriskt när det bara förekommer heltal: `2L` där `L` anger till R att objektet ska vara av typen `integer`,
-- komplex (`complex`) innehållande komplexa tal
+- heltal (<span class="terminology">integer</span>), ett specialfall av numeriskt när det bara förekommer heltal: `2L` där `L` anger till R att objektet ska vara av typen `integer`,
+- komplex (<span class="terminology">complex</span>) innehållande komplexa tal
 
-Vanligtvis räcker det med att använda `numeric`, `character` och `logical`-typer.
+Vanligtvis räcker det med att använda `numeric`, `character` och `logical`-typer. I praktiken använder sig R utav ytterligare ett specialfall för textsträngar, <span class="terminology">Factor</span>. Ett `Factor`-objekt är en blandning av en siffra och text där R lagrar en siffra men har ett lexikon där varje siffra egentligen representerar en textsträng. 
 
 ```{r}
 ## Siffror anges bara som de är
 valfrittNummer <- 3
 
-## För att man ska ange text måste de omfattas av " " för att R ska läsa de som text
+## För att man ska ange text måste de omges av " " (citattecken) för att R ska läsa de som text
 valfriText <- "Hello world!"
 
 ## Om något är sant 
@@ -145,19 +175,33 @@ htmltools::div(
   "Lägg märke till att om vi genomför någon matematisk beräkning på ett sparat objekt, till exempel ", 
   htmltools::code("a + 3") %>% htmltools::pre(), 
   " så kommer objektet a fortfarande ha samma värde som när vi skapade det. Vi ser enbart resultatet av beräkningen i
-  konsollen och måste tilldela värdet på nytt om vi vill spara det. R uppdaterar inte ett objekt såvida vi inte ''skriver över'' det."
+  konsollen och måste tilldela värdet på nytt om vi vill spara det. R uppdaterar inte värdet på ett objekt såvida vi inte ''skriver över'' det."
 )
 )
 
 ```
 
+### Felsökning
+Vad händer om vi försöker genomföra en matematisk operation på två objekt som inte båda är numeriska?
+
+```{r, error = TRUE}
+
+## Ett numeriskt objekt - text
+valfrittNummer - valfriText
+
+```
+
+Vi får nu inte ut något värde i konsollen utan får istället ett <span class="terminology">felmeddelande</span>. Felmeddelanden och felsökning är en stor del av programmering och kommer vara mycket frustrerande till en början. R ger oss dock (ofta) en indikation på vad som har gått fel och efter ett tag kommer du börja känna igen vanligt förekommande fel och hur man ska lösa dem. 
+
+I detta fall säger R att vi har en ''*non-numeric argument to binary operator*'' vilket kanske inte är jättetydligt vad det egentligen betyder, men den första delen av meddelandet är viktigt. Vi har ett icke-numeriskt objekt i en operation som kräver numeriska värden. Detta vet vi ju eftersom `valfriText` är en textsträng och vi kan då lätt lösa felet genom att ange ett annat numeriskt objekt istället.
+
 ### Datastrukturer
-Vi kan också ange flera värden på lite olika sätt i R. Dessa kan innehålla information av samma typ, men vissa strukturer tillåter en blandning av typer med vissa begränsningar. Datastrukturer är som namnet antyder ett sätt för oss att strukturera information för att lättare kunna läsa och använda det. 
+I de tidigare exemplen har ett objekt endast haft ett värde, men vi kan tillåta att ett objekt har en samling med värden istället. Detta kallar vi för <span class="terminology">datastrukturer</span> då vi på olika sätt strukturerar data. Vanligen kräver en datastruktur att värdena är av samma typ, men vissa strukturer tillåter en blandning av typer.
 
 #### Vektorer
-Låt oss säga att vi har en massa kläder som ligger kaotiskt utspritt i ett rum. För att strukturera dessa kan vi exempelvis ta alla sockar och lägga dem i en låda. Lådan innehåller därmed en grupp av liknande saker, som i R motsvarar en `vektor`. 
+Låt oss säga att vi har en massa kläder som ligger kaotiskt utspritt i ett rum. För att strukturera dessa kan vi exempelvis ta alla sockar och lägga dem i en låda. Lådan innehåller därmed en grupp av liknande objekt, som i R motsvarar en <span class="terminology">vektor</span>. 
 
-En vektor måste innehålla värden av samma typ, siffror, text, eller logiska värden. För att skapa en vektor använder vi funktionen `c()`, där varje `element` som vi vill lägga till i vektorn separeras med ett kommatecken.
+En vektor måste innehålla värden av samma typ, siffror, text, eller logiska värden. För att skapa en vektor använder vi funktionen `c()`, där varje delobjekt kallas för <span class="terminology">element</span>. Vi separarar elementen i funktionen med ett kommatecken.
 
 ```{r}
 ## En vektor med numeriska värden
@@ -174,7 +218,7 @@ B
 ord
 ```
 
-Vektor `A` och `B` har fyra element och vektor `ord` har tre element, alla av samma typ. Om vi vill titta specifikt på ett element kan vi använda **indexering**. En vektor har bara en `dimension` vilket innebär att indexfunktionen `[]` endast behöver ett värde. 
+Vektor `A` och `B` har fyra element och vektor `ord` har tre element, alla av samma typ. Om vi vill titta på ett element kan vi <span class="terminology">indexera</span> vektorn. Indexering innebär att vi säger till R att plocka ut angivna element ur objektets <span class="terminology">dimensionser</span>. En vektor har bara en dimension vilket innebär att indexfunktionen `[]` endast behöver ett värde. 
 
 ```{r, echo = FALSE}
 htmltools::div(
@@ -196,9 +240,18 @@ A[4]
 ord[2]
 ```
 
+Vi kan också plocka ut flera element genom att i indexeringen ange en vektor med numeriska index.
+
+```{r}
+
+## Plockar ut det andra och fjärde elementet ur vektorn B
+B[c(2, 4)]
+
+```
+
 
 #### Matriser
-Låt oss anta att vi har två vektorer med lika många element. Vi kan slå ihop dessa till en `matris` genom `matrix()`. En matris måste också innehålla värden av samma typ, vi kan alltså inte kombinera en numerisk vektor med en textvektor.
+Låt oss anta att vi har två vektorer med lika många element. Vi kan slå ihop dessa till en <span class="terminology">matris</span> genom funktionen `matrix()`. En matris måste, likt vektorer, innehålla värden av samma typ, vi kan alltså inte kombinera en numerisk vektor och en textvektor oavsett om de har lika många element.
 
 ```{r}
 ## En matris med värdena från vektor A och B där vi anger att vi har 2 kolumner
@@ -208,25 +261,23 @@ matris <- matrix(c(A,B), ncol = 2)
 matris
 ```
 
-Vi ser nu i marginalerna (raderna och kolumnerna) att R använder två värden i indexet för detta objekt och det är för att en matris har två dimensioner. Vi kan med hjälp av detta index både plocka ut enskilda element eller enskilda rader/kolumner där ordningen på indexvärdet spelar roll då R använder sig utav `[rad,kolumn]`.
+Vi ser nu i marginalerna (raderna och kolumnerna) att R använder två dimensioner för att peka på ett element. Indexeringen behöver nu två värden `[radindex, kolumnindex]` för att plocka ut enskilda element. Ordningen av dessa värden spelar roll eftersom R först letar efter en specifik rad (före ,) och sedan en specifik kolumn (efter ,). Om inget värde anges som rad- eller kolumnindex förutsätter R att vi vill se alla index från den dimensionen. 
 
 ```{r}
-## Plockar ut den andra kolumnen ur matris
+## Plockar ut den andra kolumnen ur matris, vektor B
 matris[,2]
 
-## Plockar ut elementet från den andra raden och första kolumnen
+## Plockar ut elementet från den andra raden och första kolumnen, värdet 5
 matris[2,1]
 
-## Plockar ut elementet från den första raden och andra kolumnen
+## Plockar ut elementet från den första raden och andra kolumnen, värdet 1
 matris[1,2]
 ```
 
-#### Lista
-Att bara lägga alla strumpor i en låda, t-shirts i en annan låda, byxor i en tredje låda osv. skulle medföra att vi har lite mindre kaos i rummet, men lådorna riskerar bli ostrukturerade om de blir för många. Vi kan samla ihop dessa lådor i en byrålåda istället för att öka strukturen ytterligare.
+#### Listor och data frames {#data-frame}
+Det är ibland begränsande att kräva samma typ av objekt i en vektor eller matris, men som tur är finns det en datastruktur som faktiskt tillåter oss att kombinera objekt av olika typ. Denna struktur kallas för en <span class="terminology">lista</span> och vi kan se en lista lite som en byrålåda. I en byrålåda kan vi samla ihop lådor av olika storlek och form och detsamma kan vi göra i en lista. Vi kan kombinera vektorer av olika typer med matriser eller enskilda värden i en och samma lista, vi kan till och med lägga in en lista inuti en annan lista. 
 
-<!-- BILDER PÅ EN STRUKTURERAD BYRÅLÅDA (DATA FRAME) OCH EN FLEXIBEL BYRÅLÅDA (LIST) -->
-
-Ett flexibelt sätt att organisera alla vektorer är en `lista`. Listans element kan vara av olika typer eller längd, och du kan till och med ha en lista inuti en lista. Följande exempel är en lista med fyra olika objekt. 
+Följande exempel är en lista med fyra olika objekt. 
 
 ```{r}
 
@@ -249,119 +300,99 @@ lista[[4]][2,1]
 
 ```
 
-#### Data frame
-Ett specialfall av en lista är en `data frame` och denna struktur använder vi frekvent inom statistiken. En data frame innehåller vektorer av samma längd men de olika vektorerna kan vara av olika typ. Vi kan säga att det är en blanding av en matris och en lista. Vanligtvis döper vi de kolumner (vektorer) som vi lägger till när vi skapar en data frame (`NAMN = OBJEKT`), men om vi av någon anledning inte gör det kommer kolumnerna få standardnamn såsom `X1` och `X2`.
+Flexibiliteten i en lista gör det däremot väldigt svårt att arbeta med den, mer specifikt att en lista kan innehålla objekt av olika storlekar. En mer strukturerad datastruktur som tillåter olika typer av objekt är en <span class="terminology">data frame</span>. Likt en matris innehåller en data frame vektorer av samma längd och likt en lista tillåter en data frame att vektorerna är av olika typ, vi kombinerar alltså strukturen från en matris med flexibiliteten från en lista. Ytterligare en fördel med en data frame är att kolumnerna (vektorerna) kan ha namn för att lättare urskilja vad objektet innehåller. 
+
+<!-- BILDER PÅ EN STRUKTURERAD BYRÅLÅDA (DATA FRAME) OCH EN FLEXIBEL BYRÅLÅDA (LIST) -->
 
 ```{r}
-## Skapar en data frame med hjälp av funktionen data.frame()
+## Skapar en data frame med hjälp av funktionen data.frame() och döper de två kolumnerna till Var1 och Var2
 data.frame(Var1 = A, Var2 = B)
 ```
 
-När vi samlar in data inom statistik brukar vi ställa upp informationen med samma struktur som en data frame, där varje rad är en observerad enhet och varje kolumn är en variabel som vi gör mätningar på. Varje enskilda cell blir då enhetens uppmätta värde på den angivna variabeln, till exempel halten kväveoxid i Vänern. Detta kallar vi ofta för `rådata`-format.
+När vi samlar in data inom statistik brukar vi ställa upp informationen med samma struktur som en data frame, där varje rad är en observerad enhet och varje kolumn är en variabel som vi gör mätningar på. Varje enskilda cell blir då enhetens uppmätta värde på den angivna variabeln, till exempel halten kväveoxid i Vänern. Detta kallar vi ofta för <span class="terminology">rådata</span>-format.
 
 ```{r}
-data.frame(
-  namn = c("Anna", "Oscar", "Jakob", "Noor"),
-  längd = c(158, 164, 180, 174),
-  utbildning = c("Biologi", "Biologi", "Matematik", "Statistik")
-)
-```
-
-Vi kan utifrån denna data frame till exempel läsa att den första studenten Anna är 158 cm lång och studerar Biologi.
-
-## Olika former av stöd
-Det kommer bli väldigt jobbigt om vi alltid måste skapa data för hand eller beräkna summor som `a + b + c + ...`. Användandet av en programvara ska underlätta de statistiska beräkningarna och i den andan följer här några kapitel om hur Rs olika funktioner kan hjälpa till.
-
-### Arbetsmappar
-När vi arbetar med R kommer vi ofta vilja ladda in datamaterial, spara ner utskrifter eller diagram, eller på annat sätt interagera med hårddisken på datorn. För att underlätta detta kan vi ange en `arbetsmapp` (*working directory*). En arbetsmapp är ett sätt för oss att snabbt och enkelt ge information till R att den ska arbeta med information från en specifik del av datorns hårddisk. Till exempel kan vi ha filer med data inuti denna mapp som R enkelt kan importera, och om vi sparar vårt R Script, kommer det sparas i denna mapp om vi inte säger något annat. 
-
-För att hitta sökvägen till mappen på din dator som du vill ange som Rs arbetsmapp, kan du öppna upp mappen i ditt operativssystems filhanterare. Du kan följa lämplig instruktion för just ditt operativsystem:
-
-- [instruktioner för Windows](https://www.top-password.com/blog/tag/how-to-find-file-path-windows-10/){target="_blank"} 
-- [instruktioner för Mac](http://osxdaily.com/2013/06/19/copy-file-folder-path-mac-os-x/){target="_blank"}
-- [instruktioner för Linux](https://www.systranbox.com/how-to-copy-file-path-in-linux/){target="_blank"}
-
-Kopiera denna sökväg och använd sedan funktionen `setwd()` för att R ska spara mappen i arbetsminnet. **Notera att alla `\` måste bytas ut med antingen `\\` eller `/` för att R ska kunna läsa av sökvägen korrekt.** Exempelvis kan det se ut så här:
-
-```{r, eval = FALSE}
-## Anger en arbetsmapp på datorn med alla filer som ska användas 
-setwd("C:/Users/MIN ANVÄNDARE/MAPPENS NAMN")
-
-```
-
-### Paket
-När vi startar RStudio kommer vissa paket redan vara laddade, motsvarande att vi plockat fram verktygslådan till vår arbetsbänk, men vi kan ibland vara intresserade av funktioner vars paket inte blivit laddade. Om du inte har verktygslådan bredvid dig kommer det bli svårt att använda något av verktygen. 
-
-Vi kan ladda upp ett paket till arbetsminnet med hjälp av `library()` eller `require()`, där namnet på paketet anges inuti parenteserna. 
-
-```{r, eval = FALSE}
-## Laddar paketet dplyr och dess tillhörande funktioner
-require(dplyr)
-
-```
-
-Om du har en ny installation av R på datorn måste du ibland installera paketen först, det vill säga ladda ner paketets information från internet. Som tur är finns det en funktion för detta också, nämligen `install.packages()`. Skillnaden här är att namnet på paketet måste anges inom citationstecken `"PAKET"` istället för bara namnet som vi gjorde i `require()`. Om du en gång redan installerat paketet till din version av R behöver du inte installera paketetet för varje ny session utan kan direkt ladda genom `library()` eller `require()`.
-
-```{r, eval = FALSE}
-## Om paketen inte finns på datorn måste de installeras. KÖRS ENDAST EN GÅNG!
-install.packages("ggplot2")
-install.packages("RColorBrewer")
-
-## Laddar paketen innehållande de funktioner som vi vill använda
-require(ggplot2)
-require(RColorBrewer)
-
-```
-
-### Funktion
-Termen `funktion` har använts frekvent tidigare och kan behöva förtydligas. En funktion är en operation, oftast flera rader kod, som inte visas direkt i ett script. Vi kan använda redan inbyggda funktioner från olika paket eller skapa en egen funktion. Vi kommer i detta underlag fokusera på att använda redan skapade funktioner. 
-För att använda en funktion behöver vi veta namnet på funktionen och eventuella `argument` som funktionen behöver. Argumentens värden anges med `=` till skillnad från "vanlig" kodning där `<-` anges för att tilldela värden.
-
-`funktion(argument1 = värde1, argument2 = värde2)`
-
-En funktion börjar med en `(` och slutar men en `)`. Detta betyder att man kan skriva en funktion på både en eller flera rader för att exempelvis lättare kunna läsa av argumenten som användas. Notera att R dock måste ha någon form utav indikation att funktionen fortsätter, t.ex. ett `,` för att ange att flera argument tillkommer eller ett `+` för att koppla ihop flera funktioner, likt som kommer presenteras nedan för `ggplot2`-paketet. 
-
-```{r}
-## Skapar en vektor 
-
-vektor <- 
-  c(
-    2,
-    3,
-    4,
-    5,
-    6
+## Skapar data
+student <- 
+  data.frame(
+    namn = c("Anna", "Oscar", "Jakob", "Noor"),
+    längd = c(158, 164, 180, 174),
+    utbildning = c("Biologi", "Biologi", "Matematik", "Statistik")
   )
+
+## Skriver ut data
+student
 ```
 
-Detta kodexempel är formaterat annorlunda än tidigare men R läser av den likväl. Vi använder att R automatiskt fortsätter läsa nästa rad om den inte anser att raden fått en avslutning. 
+Vi kan i objektet `student` till exempel läsa att den första studenten Anna är 158 cm lång och studerar Biologi. Om vi är intresserade av en specifik variabel ur denna data frame kan vi återigen indexera med hjälp av `[]` men det vanligaste är att istället använda `$`.
 
-- `<-` behöver ett värde att tilldela men eftersom det inte anges något värde fortsätter R leta vid nästa rad. 
-- Funktionen `c` får inget avslutande `)` så R fortsätter leta vid nästa rad. 
-- Varje `,` separerar element i vektorn, men eftersom det inte anges något ytterligare värde fortsätter R leta vid nästa rad. 
-- Det är först när inget ytterligare element läggs till, inget `,` vid näst sista raden, och funktionen stängs med `)` som R är nöjd och inte letar vidare på efterföljande rader.
+```{r}
+## Indexerar variabeln "utbildning" ur data frame "student"
+student$utbildning
 
-### Ladda in material
-För att kunna arbeta med datamaterial som du samlat in från någon annanstans används någon av `read.___()`-funktionerna. Det vanligaste sättet att göra det är genom att skapa en kommaseparerad fil (`csv`) via exempelvis Excel och sedan importera den till R via `read.csv2()`. **Se till att kolumn- och decimalseparatorn anges enligt det format som filen har med `sep = `, och `dec = `.** Ett tips är att öppna *.csv*-filen i **Notepad++** eller annan enkel ordbehandlare för att se vilka symboler som används.
+## Gör samma indexering med hjälp av [], där "utbildning" är den tredje kolumnen
+student[,3]
 
-```{r, eval = FALSE}
-
-## Laddar in datamaterial
-bil <- read.csv2("data_om_bilar.csv", dec = ".")
-elev <- read.csv2("data_om_elever.csv", dec = ".")
+## Gör återigen samma men använder namnet på variabeln
+student[, "utbildning"]
 
 ```
 
-### Hjälpdokumentation {#help}
-Att alltid komma ihåg vad R kan göra, vilka funktioner som finns, vilka argument som de behöver med mera, är omöjligt. Som tur är finns många resurser att hjälpa oss, inte minst den interna dokumentationen. 
+För att plocka ut enskilda rader (observationer) eller celler kan vi indexera med `[radindex, kolumnindex]` likt en matris.
 
-Genom att använda `?` och ett funktionsnamn letar R upp den tillhörande hjälpdokumentationen för funktionen som innehåller en detaljerad beskrivning av funktionens syfte, hur man använder den, vilka argument som finns och vad respektive styr, mer djupgående detaljer om funktionen och dess resultat, vad som funktionen skapar (dess resultat), ytterligare referenser, och allra sist exempel när funktionen används som man kan ta inspiration från.
+## Sammanfattning
+Nu har vi fått en genomgång av grunderna i R, hur man kodar enkla matematiska operationer, vilka typer av objekt som R kan arbeta med, och hur vi sparar information till arbetsminnet på olika sätt som kan användas senare i samma session. Vi kommer i nästkommande kapitel gå igenom olika hjälpmedel som R och RStudio erbjuder så att vi inte alltid behöver koda allting från grunden. 
 
-```{r, eval = FALSE}
-?c
+
+### Övningar
+Med hjälp av R på din egna dator eller kodfönstret nedan, försök att lösa följande uppgifter. Efter varje uppgift får du en utskrift som visar hur resultatet ska se ut från din kod.
+
+```{r echo = FALSE, out.width="110%"}
+knitr::include_url("https://canadice.shinyapps.io/book-shiny-support-functions/#test", height = "400px")
 ```
 
-Det finns även mycket resurser på internet (detta underlag kan ses som en sådan resurs) som kan hjälpa till att förstå vad och hur man ska programmera.
+a) Spara en numerisk vektor med alla värden från 1 till och med 6 i ökande ordning.
+
+```{r echo = FALSE}
+
+a <- 1:6
+
+a
+
+```
+
+b) Spara en textvektor med sex element där den första, tredje och fjärde elementet är Hund och resterande är Katt.
+
+```{r echo = FALSE}
+
+text <- c("Hund", "Katt", "Hund", "Hund", "Katt", "Katt")
+
+text
+
+```
+
+c) Skapa en data frame med två kolumner. Den första kolumnen ska heta "ID" och innehålla vektorn från a) och den andra kolumnen ska heta "Art" och innehålla vektorn från b).
+
+```{r echo = FALSE}
+
+data <- 
+  data.frame(
+    ID = a,
+    Art = text
+  )
+
+data  
+
+```
+
+d) Plocka ut den fjärde observationen.
+
+```{r echo = FALSE}
+
+data[4,]
+
+```
+
 
 
 

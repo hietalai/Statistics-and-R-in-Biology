@@ -1,1 +1,197 @@
-# Regressionanalys
+# Regressionsanalys
+Vi kan anse variansanalys vara ett specialfall av en mycket mer flexibel metodik, <span class="terminology">regressionsanalys</span>. Regression avser att undersöka sambandet mellan en <span class="terminology">responsvariabel</span> ($y$) och en eller flera <span class="terminology">förklarande</span> variabler ($x$). Den enklaste formen av regressionsmodell är den linjära modellen där vi antar att sambandet mellan en förklarande variabel och responsvariabeln är konstant ökande eller minskande, men regressionsmodeller kan också anpassas för icke-linjära samband.
+
+## Enkel linjär regression
+Låt oss börja med den enkla linjära modellen när vi har en förklarande och en responsvariabel. Från matematiken kan vi uttrycka den räta linjens ekvation med $y = kx + m$ och det är samma struktur på regressionsmodellen inom statistiken, dock med några andra beteckningar.
+
+Skärningspunkten med y-axeln ($m$) kallar vi numera för <span class="terminology">interceptet</span> och lutningen ($k$) heter fortfarande samma sak men mäter numera sambandet som den förklarande variabeln har med responsvariabeln. Inom regression har vi en sann modell för populationen där vi också tar hänsyn till de avvikelser som finns mellan varje enskilda observation och den räta linjen. I kapitel \@ref(fig:penguins) visualiserades ett samband mellan två stycken kontinuerliga variabler likt:
+
+```{r, echo = FALSE, fig.cap= "Spridningsdiagram som visar sambandet mellan näbbens längd och bredd på pingviner."}
+
+ggplot(penguins) + aes(x = bill_length_mm, y = bill_depth_mm) + geom_point() +
+  theme_bw() + geom_smooth(formula = y ~ x, method = lm, se = FALSE) + 
+  labs(x = "Näbblängd", y = "Näbbredd") +
+  geom_segment(aes(x = 58.0, y = 20.88547 - 0.08502*58 + 0.1, xend = 58, yend = 17.7), color = "red", linetype = 2, linewidth = 1)
+  
+
+```
+
+Som vi kan se i diagrammet kommer den anpassade linjen inte träffa exakt varje enskilda punkt och avståndet från regressionslinjen till respektive punkt, den rödstreckade linjen, kallas för modellens fel. Den sanna regressionsmodellen i populationen ser ut som följer:
+
+\begin{align*}
+  Y_i = \alpha + \beta \cdot X_i + \varepsilon_i
+\end{align*}
+där $\alpha$ är modellens intercept, $\beta$ är modellens lutning som beskriver sambandet mellan $X$ och $Y$, och $\varepsilon_i$ är modellens felterm, det vill säga avståndet mellan observation $i$ och punkten på regressionslinjen vid samma värde på $X$. $i$ är ett index som indikerar på observationen.
+
+I praktiken kommer vi aldrig få kunskap om den sanna modellen då information som samlas in ofta är ett urval från populationen. Vi måste istället skatta modellen:
+\begin{align*}
+  \hat{Y} = a + b \cdot X_i
+\end{align*}
+
+Feltermen inkluderas nu inte i modellens uttryck, men vi kan skatta felet i modellen med hjälp utav dess <span class="terminology">residualer</span>.
+\begin{align*}
+  e_i = Y_i - \hat{Y}_i
+\end{align*}
+
+Med hjälp utav dessa residualer kan vi sedan undersöka hur bra modellen är på att anpassa datamaterialet och kontrollera modellens antaganden.
+
+### Skatta en regressionsmodell i R
+Om vi vill skatta en regressionsmodell i R används `lm()`. Denna funktion skattar en **l**injär **m**odell och kan användas för alla "enkla" linjära modeller som vi vill skatta. Funktionen kräver två stycken argument; `formula` anger vilken modell som ska skattas med angivna variabler och `data` anger vilket datamaterial som variablerna finns i. 
+
+```{r}
+
+## Anpassar en enkel linjär regression
+modell <- 
+  lm(
+    formula = bill_depth_mm ~ bill_length_mm,
+    data = penguins
+  )
+
+```
+
+Resultatet från funktionen är ett objekt som innehåller många olika delar som vi kan nå med andra relevanta funktioner. De två viktigaste funktionerna som innehåller majoriteten av resultaten som vi är intresserade utav är `summary()` och `anova()`. 
+
+```{r}
+
+summary(modell)
+
+```
+
+Utksriften från denna funktion ger en översikt av skattningarna för parametrarna i modellen och en sammanfattande modellutvärdering. Utskriften kan delas in i fyra huvudsakliga delar:
+
+- `Call` visar funktionen som använts för att producera utskriften,
+- `Residuals` visar beskrivande statistik för de skattade residualerna från modellen,
+- `Coefficients` innehåller en tabell med <span class="terminology">regressionskoefficienter</span> (skattade parametrar), deras medelfel, och tillhörande t-test för parametrarnas signifikans,
+- De sista tre raderna visar sammanfattande mått för modellen. 
+
+Vi kan också beräkna en ANOVA-tabell för regression men i detta läge kan vi använda funktionen `anova()` för att plocka ut denna information från den redan skattade regressionsmodellen.
+
+```{r}
+
+anova(modell)
+
+```
+
+Denna tabell innehåller de olika källorna av variation som modellen innehåller, den förklarande variabeln och felet. Vi får också ett tillhörande F-test för modellens totala anpassning i denna utskrift till skillnad från den tidigare koefficient-tabellen.
+
+## Multipel linjär regression
+Om vi har ett datamaterial med flera potentiella förklarande variabler kan vi skatta en multipel linjär regressionsmodell där alla variablerna inkluderas samtidigt. Detta medför att vi får en modell som, på gott och ont, tar hänsyn till eventuella påverkan mellan de olika förklarande variablerna och ger möjligheten att lägga till mer komplexa samband, till exempel interaktioner. 
+
+Formellt ser den generella regressionsmodellen ut som:
+\begin{align*}
+  Y_j = \alpha + \beta_1 \cdot X_{1, j} + \beta_2 \cdot X_{2, j} + \hdots + \beta_m \cdot X_{m, j} + \varepsilon_j
+\end{align*}
+där index $j$ nu är observationsindex och $m$ anger hur många förklarande variabler som inkluderas i modellen.
+
+Till exempel skulle vi vara intresserade av att lägga till ytterligare en variabel i vår modell över pingvinerna, `flipper_length_mm`.
+
+```{r flipper, echo = FALSE, fig.cap = "Spridningsdiagram som visar på sambandet mellan fenlängd och näbbredd"}
+
+ggplot(penguins) + aes(x = flipper_length_mm, y = bill_depth_mm) + geom_point() +
+  theme_bw() + labs(x = "Fenlängd", y = "Näbbredd")
+
+
+```
+
+Den utökade modellen anges i `formula` med ett `+` mellan de olika förklarande variablerna som ska inkluderas.
+
+```{r}
+
+modell <- 
+  lm(
+    formula = bill_depth_mm ~ bill_length_mm + flipper_length_mm,
+    data = penguins
+  )
+
+summary(modell)
+
+anova(modell)
+
+```
+
+Om vi jämför de två olika utskrifterna från de två modellerna ser vi att <span class="terminology">förklaringsgraden</span> (`Multiple R-squared`) gått från ca 5 procent i den enkla linjära modellen till ca 37 procent i den multipla linjära modellen. Detta innebär att andelen av variation i responsvariabeln som modellen förklarar har ökat markant med tillägget av en ytterligare variabel. 
+
+Vi ser också att ANOVA-tabellen fått en annan struktur med den nya variabeln. Vi får en rad per förklarande variabel **men** tolkningen av dessa F-test är inte samma som t-testen i koefficienttabellen. Vi kan alltså inte använda enskilda F-test från ANOVA-tabellen för att undersöka huruvida en enskild parameter är signifikant, utan vi måste fortfarande använda t-testen för denna frågeställning. För att undersöka hela modellens signifikans kommer inte heller ANOVA-tabellen innehålla den information vi behöver då F-testen är uppdelade. Istället kan vi titta på den sista raden från `summary()` som innehåller testvariabeln (`F-statistic`) och tillhörande p-värdet (`p-value`) för F-testet.
+
+## Kategoriska variabler
+En regressionsmodell är inte begränsad till enbart kontinuerliga förklarande variabler. Som tidigare nämnt är variansanalys ett specialfall av regression där vi har kategoriska faktorer/variabler men om vi också inkluderar kontinuerliga faktorer/variabler inom den metodiken kommer vi i praktiken genomföra en regressionsanalys. Vi kan för enkelhetens skull utöka den multipla linjära regressionsmodellen med kategoriska variabler som dock måste genomgå en förändring för att kunna skattas korrekt i modellen.
+
+En kategorisk variabel kan transformeras till <span class="terminology">indikatorvariabler</span> som indikerar på de olika kategorierna i den ursprungliga variabeln. Antalet indikatorvariabler som skapas styrs utav antalet kategorier och antar värdet 1 eller 0. Mer exakt skapas en färre indikatorvariabel än kategorier då om alla indikatorvariabler är 0 pekar kombinationen av värden på den kategori som "saknas".
+
+Till exempel skulle variabeln `species` som innehåller de tre pingvinarterna transformeras till indikatorvariabler enligt följande struktur:
+\begin{align*}
+    X_3 &= 
+\begin{cases}
+    1   ,& \text{om pingvinen är art Chinstrap}\\
+    0   ,& \text{annars}
+\end{cases} \\
+    X_4 &= 
+\begin{cases}
+    1   ,& \text{om pingvinen är art Gentoo}\\
+    0   ,& \text{annars}
+\end{cases} 
+\end{align*}
+
+Detta kan R göra automatiskt i modellanpassningen givet att variabeln i datamaterialet är en `factor`.
+
+```{r}
+
+modell <- 
+  lm(
+    formula = bill_depth_mm ~ bill_length_mm + flipper_length_mm + species,
+    data = penguins
+  )
+
+summary(modell)
+
+anova(modell)
+
+```
+
+I utskriften får vi nu ytterligare två regressionskoefficienter som kopplas till respektive indikatorvariabel. Tolkningen av dessa koefficienter görs i jämförelse med <span class="terminology">referenskategorin</span>, alltså den kategori som saknas. I detta fall blir tolkningarna i jämförelse med arten `Adelie`.
+
+## Interaktioner
+Den sista enkla utökningen vi skulle kunna lägga till i vår linjära regressionsmodell för att anpassa responsvariabeln bättre är interaktioner, alltså ett sätt att modellera synergier mellan olika variabler. Rent matematiskt blir en interaktion en "ny" variabel där de grundvariabler som inkluderas i modellen multipliceras med varandra. 
+
+Ett tydligt exempel på en potentiell interaktion kan ses i figur \@ref(fig:flipper). Tolkningen av punktsvärmen i sin helhet antyder att sambandet mellan de två variablerna är negativt, och detta visas också i koefficienten från den första modell som skattades med fenlängd som en förklarande variabel. Detta samband verkar inte vara logiskt så det verkar vara något skumt som finns gömt i datat.
+
+Punkterna ligger i två stycken grupperingar och sambandet inom varje grupp ser istället positivt ut. Vi kan visualisera vad som händer om art också inkluderas i diagrammet som en grupperingsvariabel.
+
+```{r simpsons, fig.cap="Spridningsdiagram över fenlängd och näbbredd grupperat på art."}
+
+ggplot(penguins) + 
+  aes(x = flipper_length_mm, y = bill_depth_mm, color = species, group = species) + 
+  geom_point() +
+  theme_bw() + 
+  labs(x = "Fenlängd", y = "Näbbredd") +
+  scale_color_manual(
+    "Art",
+    values =  c("darkorange","purple","cyan4")
+  )
+
+```
+
+Inom vardera art verkar de två variablerna istället ha ett positivt samband. Detta fenomen kallas för <span class="terminology">Simpson's paradox</span>. Vi bör alltså inkludera interaktionen mellan art och fenlängd (och även interaktionen mellan art och näbblängd) i modellen. 
+
+Ett enkelt sätt att skapa interaktioner mellan variabler i en formel är att använda `*` istället för `+`. I detta fall vill vi endast ha interaktionen mellan de två kontinuerliga variablerna och den kvalitativa variabeln `species` så vi kan använda `()` för att, likt inom vanlig algebra, skapa ett förenklat uttryck.\footnote{ Utvecklingen av parentesen skulle bli näbblängd`*`art + fenlängd`*`art.}
+
+```{r}
+
+modell <- 
+  lm(
+    formula = bill_depth_mm ~ (bill_length_mm + flipper_length_mm) * species,
+    data = penguins
+  )
+
+summary(modell)
+
+```
+
+Interaktionerna inkluderas nu på de sista raderna i utskriften enligt formatet `variabel1:variabel2`.
+
+
+
+
+
+
+

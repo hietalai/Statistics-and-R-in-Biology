@@ -5,9 +5,9 @@ account: canadice
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 7691668
-bundleId: 6550780
+bundleId: 6965823
 url: https://canadice.shinyapps.io/book-shiny-support-functions/
-when: 1669295881.64175
-lastSyncTime: 1669295881.64176
+when: 1678969277.48904
+lastSyncTime: 1678969277.48904
 asMultiple: FALSE
 asStatic: FALSE

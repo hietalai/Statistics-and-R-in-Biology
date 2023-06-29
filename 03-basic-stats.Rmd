@@ -1,0 +1,117 @@
+# Grundläggande statistiska begrepp
+För att kunna tillämpa statistisk teori i R behöver vi nu fokusera på just den teorin. Vi kommer i detta kapitel titta närmare på vanliga begrepp och definitioner. Efterföljande kapitel i detta material kommer blanda statistisk teori och direkt tillämpning i R.
+
+## Population, stickprov och datainsamling
+I en undersökning finns det en grupp utav enheter som vi har ett intresse av att dra slutsatser om. Det skulle kunna vara "fiskar i Sverige", "barn mellan 5 till 15 år", "studenter vid LiU" eller "köp vid IKEA". Denna grupp av enheter kallar vi för en <span class="terminology">population</span>. Att samla in information från varje enhet i populationen kommer i många fall vara omöjligt, om än väldigt dyrt, vilket innebär att vi i praktiken faktiskt inte har möjlighet att dra slutsatser baserat på all information som finns i populationen.
+
+Istället måste vi förlita oss på en mindre mängd enheter som utgör en del utav populationen. Denna mindre mängd enheter kan väljas ut på många olika sätt men vi kallar mängden för ett <span class="terminology">stickprov</span> eller <span class="terminology">urval</span>. De enheter som väljs ut ur populationen kommer påverka vilka värden som vi samlar in men eftersom vi vill dra slutsatser om hela populationen är det viktigt att stickprovet är <span class="terminology">representativt</span>. Att dra slutsatser om storleken på alla fiskar i Sverige baserat på 200 fiskar som undersöktes i Vättern kommer förmodligen inte stämma överens med verkligheten. Det finns en <span class="terminology">bias</span> i urvalet som ger en skev bild av sanningen.
+
+Det vanligaste sättet att dra ett urval är genom ett <span class="terminology">obundet slumpmässigt urval</span> (OSU). Denna metod kräver att det finns en förteckning (en lista eller register) över enheterna i populationen och att varje enhet har samma sannolikhet att bli utvald. Eftersom sannolikheten att bli utvald är samma för vardera enhet kommer denna metod medföra att enheterna är <span class="terminology">oberoende</span>. Detta är en viktig egenskap som vi kommer återkomma till senare.
+
+Kravet på en förteckning av alla enheter i populationen går inte alltid att uppfylla i en undersökning. Att ha en förteckning över alla fiskar i Sverige är förmodligen inget lätt uppdrag. Ibland behöver vi använda andra sorters urvalsmetoder som till exempel med fiskarna; sannolikheten att en fisk i Vättern skulle bli utvald i stickprovet är större än 0 medan sannolikheten för en fisk i ett annat vattendrag att bli utvald är 0. Detta är alltså inget OSU och är inte heller representativt. För att lösa problematiken med representativbarheten kan vi använda mer avancerade urvalsmetoder som tar hänsyn till problematiken som uppstår, mer om dessa metoder kommer tas upp i senare kapitel.
+
+<!-- LÄGG TILL EN REFERENS TILL KAPITEL OM URVAL -->
+
+## Variabler
+När vi valt ut vilka enheter som vi ska samla information från behöver vi också sammanställa dessa mätningar på ett strukturerat sätt. Vi anser att mätningar av samma sak, till exempel fiskens art, dess vikt och längd, är olika <span class="terminology">variabler</span>. Dessa varierar beroende på vilken enhet som observeras och vi kallar därför alla mätningar som görs på en enhet för en <span class="terminology">observation</span>. 
+
+Variabler kan vara av olika typ och följa olika skalor. Dessa egenskaper hjälper till att beskriva vad för typ utav information vi kan förvänta oss se i dessa mätningar och styr hur vi kan analysera variablerna senare. Variabeltyperna liknar till viss del objekttyper i R som vi pratat om i [tidigare kapitel](#objectTypes).
+
+### Variabeltyp
+Vi delar upp variabeltyper i två huvudsakliga grupper; <span class="terminology">kvalitativa</span> och <span class="terminology">kvantitativa</span> variabler. Variabeltypen styr vad variabeln mäter för typ utav information och vad vi kan använda för metoder för att sammanfatta, visualisera och analysera nden.
+
+- Kvalitativa variabler är kategorier, till exempel arten av en fisk,  och värdena representeras av text. Detta motsvarar ett `character`-objekt i R.
+- Kvantitativa variabler mäter numeriska värden, till exempel längden eller vikten av en fisk. Detta motsvarar ett `numeric`-objekt i R.
+
+Ibland kan en kvalitativ variabel mätas med siffror, till exempel en femgradig skala på hur stressad du känner dig, men i de allra flesta fallen är siffrorna endast en <span class="terminology">kodning</span> som egentligen beskriver en kvalitativ variabel, ingen stress till mycket stressad.
+
+En viss egenskap som vi vill mätas kan oftast göras på olika sätt. Om vi samlar in data på egen hand kan vi styra hur vi mäter en viss egenskap, till exempel skulle storleken på en fisk kunna mätas som en kvalitativ variabel (en liten, medelstor eller stor fisk) eller en kvantitativ variabel (vikten angiven i gram) beroende på vad vi vill ha för typ av information. Om möjligheten finns är det praxis att samla in kvantitativ information eftersom vi kan konvertera numeriska mätningar till kategorier i efterhand men vi har ingen möjlighet att konvertera kategorier till exakta numeriska värden.^[Vi kan säga att en fisk som väger 65 g (kvantitativ) är en liten fisk (kvalitativ), men vi kan inte säga hur mycket en liten fisk (kvalitativ) egentligen väger i gram (kvantitativ).]
+
+Om vi **inte** samlar in data på egen hand behöver vi först undersöka materialet till den grad att vi tydligt identifierar vilken typ av variabel som vi ska arbeta med.
+
+### Variabelskala
+Den andra egenskapen som en variabel har är dess skala. Om variabeltypen beskriver vad för typ av information som mäts beskriver variabelskalan hur värden förhåller sig till varandra. Även denna egenskap styr hur vi kan hantera variablerna i senare delar av undersökningen.
+
+Kvalitativa variabler kan delas in i två olika skalor <span class="terminology">nominal</span>- och <span class="terminology">ordinal</span>skala. Båda dessa skalor omfattar kategorier (som ibland kan anges med siffror) men det finns en viktig skillnad mellan dem: 
+
+- Nominalskala betyder att kategorierna inte går att rangordna på något sätt, att vi inte kan säga att en kategori är större, bättre, eller mer än en annan kategori. Variabeln fiskart följer en sådan skala, vi mäter vilken art en fisk tillhör med en kategor (artens namn), och vi kan inte rangordna art på något sätt.^[Vi kanske kan tycka att vi kan rangordna art utefter dess storlek, sällsynthet, m.m. men då rangordnar vi ju faktiskt efter en annan variabel inte endast art.] 
+
+- Ordinalskala betyder att kategorierna kan rangordnas. Vi kan exempelvis säga för variabeln `storlek` at "liten" är mindre än "medel" *men vi kan inte säga exakt hur mycket mindre*. Skillnaden mellan två intilliggande kategorier i ordningen är inte lika stor för alla kategorier. 
+
+Kvantitativa variabler följer huvudsakligen två andra variabelskalor, men det kan förekomma fall där en kvantitativ variabel följer en ordinalskala. Detta kan ske ifall mätningen görs i intervall (0-4, 5-9, 10-19, osv.) och medför att vi kan säga att ett intervall är större än det andra men vi kan inte beräkna exakta skillnader då intervallen är olika stora. De två numeriska variabelskalorna är <span class="terminology">intervall</span>- eller <span class="terminology">kvot</span>skala. Båda skalorna kan beräkna exakta differenser mellan värden, och skillnaden mellan alla två intilliggande värden är lika stora, men det finns en skillnad mellan dem. 
+
+- Intervallskala har ingen tydlig nollpunkt, vilket innebär att vi inte kan beräkna kvoter mellan två värden. Till exempel kan vi med variabeln temperatur mätt i $^\circ$C säga att 20$^\circ$C är 10 grader varmare än 10$^\circ$C men vi kan **inte** säga att det är dubbelt så varmt. 0$^\circ$C är egentligen inte 0 i en fysisk betydelse och relationer mellan övriga värden blir då godtyckliga.
+
+- Kvotskalan har en tydlig nollpunkt, vilket möjliggör beräkningar av kvoter. Längd och vikt är exempel på variabler som följer denna skala då det finns en tydlig nollpunkt som verkligen betyder 0. Vi kan säga att 200g är dubbelt så tungt som 100g.
+
+Även variabelns skala är något som vi kan styra om vi samlar in data på egen hand eller något som vi måste definera tydligt i början av en undersökning så att vi vet hur vi kan analysera variabeln i ett senare skede. 
+
+## Exempeldata {#example}
+Återkommande i detta underlag kommer beräkningar i R visas som tillämpar den statistiska teorin. För att visa dessa exempel behöver vi ett datamaterial att undersöka.
+
+```{r echo = FALSE, fig.cap = "Bild skapad av `@allison_horst`"}
+include_graphics("https://allisonhorst.github.io/palmerpenguins/reference/figures/lter_penguins.png")
+
+```
+
+```{r echo = FALSE}
+
+require(palmerpenguins)
+
+data(penguins)
+
+penguins <- filter(penguins, !is.na(sex))
+
+```
+
+Ett forskarteam vid Antarktis har under 2007-2009 samlat in information om `r nrow(penguins)` pingviner vid tre öar runtomkring [Palmer Research Station](https://pal.lternet.edu/). Datamaterialet finns inuti paketet `palmerpenguins` som kan installeras och laddas med hjälp av följande kod. Datamaterialet laddas in från paketet med hjälp av funktionen `data()` och heter `penguins`.
+
+```{r, eval = FALSE}
+install.packages("palmerpenguins")
+
+require(palmerpenguins)
+
+data(penguins)
+
+```
+
+Datamaterialet kommer nu synas i arbetsminnet och om vi öppnar materialet ser vi att varje rad tillhör en pingvin och varje kolumn är mätningar på vissa variabler för just denna pingvin. Detta är ett exempel på rådataformat som vi ofta önskar att arbeta med i statistik. En överblick av materialet ges i följande tabell.^[Datamaterialet följer inte camelCase praxis utan använder istället `_` för att separera ord. Vi kommer senare i underlaget titta på hur vi kan byta namn på variablerna.]
+
+```{r echo = FALSE}
+
+sample_n(penguins, size = 5) %>% 
+  kable(caption = "Urval av observationer från datamaterialet.") %>% 
+  kable_styling("striped")
+
+```
+Datamaterialet innehåller `r ncol(penguins)` variabler som vi nu måste undersöka vilken typ och skala de följer. Med hjälp av funktionen `str()` kan vi få information om vad R anser att dessa variabler är för typ.
+
+```{r}
+str(penguins)
+```
+
+Denna utskrift innehåller mycket information, men vi får en översikt av alla variabler i objektet med deras namn till vänster, en per rad. Till höger efter `:` får vi information om hur R har klassificerat varje variabel, det vill säga vilken typ av objekt som variabeln har sparats som. Det är dock inte alltid så att R läser av en variabel på ett korrekt sätt och det som inte visas i utskriften är vilken skala variablerna följer. Eftersom det är någon annan som samlat in informationen måste vi nu fundera på vilken typ och skala som är rimlig för respektive variabel, och det resonemanget kan ske på följande sätt:
+
+- `species`: Art av pingvin mäts som en **kvalitativ** variabel och vi kan inte säga att en art är "bättre" eller "större" än någon annan. Vi kan alltså inte rangordna kategorierna och denna variabel följer då en **nominalskala**. 
+- `island`: Vilken ö pingvinen har befunnit sig på vid mättidpunkten är också en **kvalitativ** variabel som inte går att rangordna. Därav följer även denna variabel en **nominalskala**.
+- `bill_length_mm`: En **kvantitativ** variabel som mäter längden på näbben i millimeter (mm). Längd är en typisk variabel som följer en **kvotskala** eftersom det finns en tydlig nollpunkt.
+- `bill_depth_mm`: Se ovan.
+- `flipper_length_mm`: Ytterligare en variabel som mäter en längd, nu längden av pingvinens fena. Samma resonemang som näbbens olika längder kan föras.
+- `body_mass_g`: Vikt av pingvinen mätt i gram. Även vikt har en tydlig nollpunkt och variabeln anses vara **kvantitativ** och följa en **kvotskala**.
+- `sex`: Pingvinens biologiska kön vilket är en **kvalitativ** variabel som inte går att rangordna, **nominalskala**.
+- `year`: Denna variabel är lite svårare att bedöma då den mäter året då pingvinen är mätt som en numerisk variabel (heltal så R har sparat det som en `int`), men variabeln i sig behöver inte bedömas vara kvantitativ i denna kontext. Vi går inte in vidare på detta utan för enkelhetens skull kan vi säga att eftersom det går att beräkna differenser mellan åren, (det är 1 år mellan 2007 och 2008) men ingen tydlig nollpunkt finns på skalan, så kan vi anse denna variabel vara en **kvantitativ** variabel som följer en **intervallskala**.^[Alternativet hade varit att anse variabeln följa en ordinalskala då "kategorierna" kan rangordnas.]
+
+Näbbens längd och djup är lite svår att förstå vad som egentligen har uppmätts, men följande illustration ger en bild av vad mätningarna egentligen betyder.
+```{r echo = FALSE, fig.cap = "Bild skapad av `@allison_horst`"}
+include_graphics("https://allisonhorst.github.io/palmerpenguins/reference/figures/culmen_depth.png")
+
+```
+
+Nu när vi har sammanställt information om vilka variabler som datamaterialet innehåller, vilken typ och vilken skala de följer, kan vi gå vidare med djupare analys.
+
+
+
+
+
+
+

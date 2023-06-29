@@ -10,21 +10,77 @@ En parameter kommer alltid vara samma värde eftersom det beräknas på hela den
 En statistika kommer däremot vara olika värden *beroende på vilka enheter som hamnat i stickprovet*. Ett stickprov som påverkas av slumpen medför att även denna statistika påverkas av slumpen (utvalda enheter) men vi kan med hjälp av denna statistika ändå dra slutsatser om populationens parameter genom [statistisk inferens](#inference).
 
 ## Lägesmått
-Ett enkelt sätt att sammanfatta en variabels position är med hjälp utav ett <span class="terminology">lägesmått</span>. Lägesmåttet beskriver var på tallinjen det förväntas att variabelns värden placeras kring.
+Ett enkelt sätt att sammanfatta en variabels position är med hjälp utav ett <span class="terminology">lägesmått</span>. Lägesmåttet beskriver var på tallinjen det förväntas att variabelns värden placeras kring och kan ge information om magnitud (storleken) på värdena.
+
+### Medelvärde
+Det vanligaste lägesmåttet är <span class="terminology">medelvärdet</span> som beräknar det genomsnittliga värdet av en **kvantitativ** variabel. Medelvärdet i ett stickprov beräknas enligt: 
+
+\begin{align*}
+  \bar{x} = \frac{\sum_{i = 1}^n{x_i}}{n}
+\end{align*}
+
+Vi ser att denna formel använder sig utav två komponenter, summan av alla enskilda värden på variabeln ($x_i$) i täljaren, och antalet mätvärden ($n$) i nämnaren. I R kan vi genomföra beräkningen i dessa två steg med hjälp av funktionerna `sum()` och `length()`, men för flera av de beskrivande måtten finns redan en funktion som genomför hela beräkningen åt oss, i detta fall `mean()`.^[Om vi inte hade rensat `penguins` från saknade värden hade vi behövt använda argumentet `na.rm = TRUE` för att dessa skulle rensas från beräkningen: `mean(penguins$body_mass_g, na.rm = TRUE)`. `na.rm` står för "remove NA".]
+
+```{r}
+
+## Beräknar medelvärdet av pingvinernas kroppsvikt
+penguins$body_mass_g %>% 
+  mean()
+
+```
+Vi kan tolka detta värde som att den genomsnittliga vikten av pingvinerna i stickprovet är `r mean(penguins$body_mass_g)` gram. Men speglar detta värde variabeln på ett bra sätt? I nästkommande kapitel kommer vi titta på visualiseringar av data som ett komplement till dessa beskrivande mått som kan hjälpa till att identifiera fall när ett medelvärde inte ger en rättvis bild av lägesmåttet.
+
+### Median
+Ett tillfälle där medelvärdet inte visar en rättvis bild av verkligheten är ifall det förekommer <span class="terminology">extremvärden</span> i data. Ett extremvärde beskriver en observation vars värde på variabeln ligger långt ifrån den övriga massan. Medelvärdet kommer dras mot detta värde och riskerar då att ge en skev bild av verkligheten. Visualiseringar av data hjälper till att identifiera extremvärden.
+
+<span class="terminology">Medianen</span> är ett alternativt lägesmått som är robust mot extremvärden, det vill säga måttet påverkas inte av att det förekommer extremvärden eller ej. Medianen beskriver den mittersta observationen om datamaterialet är rangordnat i storleksordning, vilket innebär att extremt låga eller höga värden inte kommer påverka vilken observation som anses som den mittersta.
+
+Matematiskt kan medianen beräknas enligt:
+
+\begin{align*}
+  x_{position} = x_{\frac{n + 1}{2}}
+\end{align*}
+
+där $x$ är storleksordnat från minsta till det största värdet. 
+
+```{r echo = FALSE}
+htmltools::div(
+  class = "importantbox",
+  htmltools::div(
+  htmltools::div(
+  "Viktigt!"
+  ),
+  htmltools::HTML("Om variabeln består utav ett jämnt antal observationer kommer medianens position hamna mitt emellan två stycken observerade värden, och medianen blir då medelvärdet av dessa två observationer.")
+  )
+)
+```
+
+I R kan vi återigen antingen genomföra detta stegvis genom att sortera variabeln, beräkna ut det mittersta värdet och sedan indexera den/de värden som är relevant **eller** använda en inbyggd funktion som gör allt detta i ett svep, `median()`.
+
+```{r}
+
+## Beräknar medianen av pingvinernas kroppsvikt
+penguins$body_mass_g %>% 
+  median()
+
+```
+
+## Spridningsmått
+Ett <span class="terminology">spridningsmått</span> beskriver spridningen 
 
 
-## Matematiska funktioner
-Det finns många redan skapade funktioner i R som kan utföra många olika sorters beräkningar. Till exempel finns en mängd matematiska funktioner som kan beräkna beskrivande mått.
-  
-  - `mean()` - beräknar *medelvärdet* av en vektor,
-  - `sd()` - beräknar *standardavvikelsen* av en vektor,
-  - `var()` - beräknar *variansen* av en vektor,
+sd()
+var()
+quantile()
+
+## Andra beskrivande mått
+
+
+## Andra matematiska funktioner
   - `sum()` - beräknar *summan* av en vektor,
   - `length()` - beräknar *längden/antalet* av en vektor,
   - `min()` - anger det *minsta värdet* av en vektor, 
   - `max()` - anger det *största värdet* av en vektor,
-  - `median()` - beräknar *medianen* av en vektor,
-  - `quantile()` - beräknar angivna *percentiler* av en vektor.
 
 Alla dessa funktioner behöver ett argument som beskriver vilken vektor beräkningen ska utföras på. Denna vektor kan innehålla hur många element som helst, men måste vara numerisk för att beräkningarna ska kunna genomföras. Vi kan använda [hjälpdokumentationen](#help) för att se vilka andra argument som respektive funktion använder sig utav, men vanligtvis räcker det med vektorn. En funktion som kräver flera argument är `quantile()`. Där anger vi med argumentet `probs` vilka percentiler som ska beräknas.
 
@@ -47,7 +103,7 @@ Just för beskrivande statistik kan man istället för att enskilt beräkna alla
 Vi kan också vilja sammanfatta material i form av en fördelning, en förteckning över *vilka värden* och *hur ofta* de förekommer i variabeln. Tidigare kapitel har presenterat hur vi kan visualisera fördelningar i olika sorters diagram, stapeldiagram eller histogram, för olika sorters variabler, men vi kan också vilja använda någon av de generella fördelningarna för att beräkna sannolikheter eller andelar för en population.
 
 ### Normalfördelningen
-Med R kommer vi kunna beräkna matematiskt (integrera) ytan under kurvan för olika värden istället för att vara begränsad till den standardiserade normalfördelningstabellen. Funktionerna som vi kommer vilja använda här är:
+Med R kommer vi kunna beräkna matematiskt (integrera) ytan under kurvan för olika värden istället för att vara begränsad till en standardiserad normalfördelningstabell. Funktionerna som vi kommer vilja använda beror på vad för typ utav uträkning som ska genomföras. 
 
 #### Beräkna sannolikheter från givna värden
 Funktionen `pnorm()` används för att beräkna andelar eller sannolikheter för givna utfall som vi är intresserade av. 
@@ -84,4 +140,11 @@ I ovan exempel beräknar vi vilket värde ($z$) från den standardiserade normal
 Om vi istället är intresserade av ytor på den högra sidan av fördelningen kan vi likt tidigare ange `lower.tail = FALSE` och då få ett uttryck likt $Pr(Z > z) = 0.025$ istället.
 
 Det är på detta sätt som tabellvärden beräknas fram till hypotesprövningar och intervallskattningar. Sannolikheten som vi är intresserade av blir då den angivna signifikansnivån.
+
+### Andra fördelningar
+Liknande funktioner kan användas för andra fördelningar såsom t-, binomial-, eller $\chi^2$-fördelningen. I denna interaktiva sida kan du se visa hur olika sannolikheter beräknas ut utifrån olika fördelningar genom att ändra i inställningarna i vänsterspalten. Ett matematiskt uttryck för sannolikheten, tillhörande R-kod, samt en visualisering visas beroende på vilka inställningar som används. Testa runt och beräkna värden eller andelar från de olika fördelningarna.
+
+```{r echo = FALSE, out.width="110%", out.height="800px"}
+knitr::include_url("https://canadice.shinyapps.io/book-shiny-support-functions/#distributions")
+```
   

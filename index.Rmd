@@ -4,7 +4,7 @@ author: "Isak Hietala"
 date: "`r Sys.Date()`"
 site: bookdown::bookdown_site
 documentclass: book
-bibliography: [book.bib, packages.bib]
+bibliography: book.bib
 css: "style.css"
 # url: your book url like https://bookdown.org/yihui/bookdown
 # cover-image: path to the social sharing image like images/cover.jpg
@@ -28,6 +28,7 @@ require(tidyr)
 require(stringr)
 require(xtable)
 require(GGally)
+require(knitr)
 require(kableExtra)
 require(shiny)
 require(palmerpenguins)
